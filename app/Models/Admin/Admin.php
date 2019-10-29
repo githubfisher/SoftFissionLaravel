@@ -1,63 +1,61 @@
 <?php
-namespace App\Http\Controllers\Api\Admin;
 
-use Auth;
-use App\Models\Admin\Admin;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Hash;
+namespace App\Models\Admin;
 
-class AuthController extends Controller
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class Admin extends Authenticatable implements JWTSubject
 {
+    use Notifiable;
+
+    protected $table = 'admin';
+
     /**
-     * @param Request $request
+     * The attributes that are mass assignable.
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @var array
      */
-    public function register(Request $request)
+    protected $fillable = [
+        'name', 'email', 'password', 'mobile', 'openid', 'nickname', 'headimgurl',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
     {
-        $this->validate($request, [
-            'mobile'           => 'mobile',
-            'password'         => 'required|min:6|max:20',
-        ]);
-
-        $user = Admin::create([
-            'mobile'   => $request->get('mobile'),
-            'email'    => $request->get('email'),
-            'username' => $request->get('username'),
-            'password' => Hash::make($request->get('password')),
-        ]);
-        $token = Auth::login($user);
-
-        return response()->json(compact('token'));
+        return $this->getKey();
     }
 
     /**
-     * @param Request $request
+     * Return a key value array, containing any custom claims to be added to the JWT.
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @return array
      */
-    public function login(Request $request)
+    public function getJWTCustomClaims()
     {
-        $this->validate($request, [
-            'mobile'   => 'required|mobile|exists:admin',
-            'password' => 'required|string|min:6|max:20',
-        ]);
-
-        $credentials = $request->only(['mobile', 'password']);
-
-        return (($token = Auth::attempt($credentials))
-            ? response()->json(['token' => $token], 201)
-            : response()->json(['error' => '账号或密码错误'], 401));
-    }
-
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
-    {
-        return response()->json(Auth::user());
+        return [];
     }
 }
