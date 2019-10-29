@@ -14,20 +14,7 @@
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', [
     'namespace'  => 'App\Http\Controllers\Api',
-    'middleware' => [
-        'cors',
-        'api.throttle',
-    ],
-    'limit'   => 60,
-    'expires' => 1,
 ], function (\Dingo\Api\Routing\Router $api) {
-    /**
-     * 统一处理OPTIONS请求, 不需要再为每个路由配置options路由了
-     */
-    $api->options('/{all:[a-zA-Z0-9-\/_]+}', function () {
-        // 空路由, 具体处理由跨域中间件cors完成
-    });
-
     /**
      * 无需认证的接口
      */
