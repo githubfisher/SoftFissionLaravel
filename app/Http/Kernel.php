@@ -1,10 +1,6 @@
 <?php
 namespace App\Http;
 
-use App\Http\Middleware\OpsAuthGuard;
-use App\Http\Middleware\RefreshToken;
-use App\Http\Middleware\AdminAuthGuard;
-use App\Http\Middleware\CorsMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -65,10 +61,10 @@ class Kernel extends HttpKernel
         'signed'           => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle'         => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified'         => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'cors'             => CorsMiddleware::class,
-        'admin'            => AdminAuthGuard::class,
-        'ops'              => OpsAuthGuard::class,
-        'refresh'          => RefreshToken::class,
+        'cors'             => \App\Http\Middleware\CorsMiddleware::class,
+        'admin'            => \App\Http\Middleware\AdminAuthGuard::class,
+        'ops'              => \App\Http\Middleware\OpsAuthGuard::class,
+        'refresh'          => \App\Http\Middleware\RefreshToken::class,
     ];
 
     /**
