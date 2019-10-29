@@ -68,7 +68,7 @@ class Kernel extends HttpKernel
         'cors'             => CorsMiddleware::class,
         'admin'            => AdminAuthGuard::class,
         'ops'              => OpsAuthGuard::class,
-        'refresh.token'    => RefreshToken::class,
+        'refresh'          => RefreshToken::class,
     ];
 
     /**
