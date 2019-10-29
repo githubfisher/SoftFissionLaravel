@@ -16,10 +16,10 @@ class CreateOpsTable extends Migration
         Schema::create('ops', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('pid')->default(0);
-            $table->string('name', 64);
-            $table->char('mobile', 11)->unique();
+            $table->string('name', 64)->default('');
+            $table->char('mobile', 11)->unique()->default('');
             $table->timestamp('mobile_verified_at')->nullable();
-            $table->string('email', 32)->unique();
+            $table->string('email', 32)->unique()->default('');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 64)->default('');
             $table->string('openid', 32)->default('');
