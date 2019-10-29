@@ -9,11 +9,17 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
- */
+*/
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', [
     'namespace'  => 'App\Http\Controllers\Api',
+    'middleware' => [
+        'cors',
+        'api.throttle',
+    ],
+    'limit'   => 60,
+    'expires' => 1,
 ], function (\Dingo\Api\Routing\Router $api) {
     /**
      * 统一处理OPTIONS请求, 不需要再为每个路由配置options路由了
