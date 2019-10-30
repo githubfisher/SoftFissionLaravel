@@ -35,7 +35,7 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'mobile'           => 'mobile',
-            'password'         => 'required|min:6|max:20',
+            'password'         => 'required|string|min:6|max:20',
         ]);
 
         $user = User::create([

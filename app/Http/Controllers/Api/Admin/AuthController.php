@@ -19,7 +19,7 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'mobile'           => 'mobile',
-            'password'         => 'required|min:6|max:20',
+            'password'         => 'required|string|min:6|max:20',
         ]);
 
         $user = Admin::create([
@@ -42,7 +42,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $this->validate($request, [
-            'mobile'   => 'required|mobile|exists:admin',
+            'mobile'   => 'required|mobile',
             'password' => 'required|string|min:6|max:20',
         ]);
 
