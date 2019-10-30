@@ -14,7 +14,14 @@
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', [
     'namespace'  => 'App\Http\Controllers\Api',
+    'middleware' => [
+        'cors',
+        'api.throttle',
+    ],
+    'limit'   => 60,
+    'expires' => 1,
 ], function (\Dingo\Api\Routing\Router $api) {
+
     /**
      * 无需认证的接口
      */
