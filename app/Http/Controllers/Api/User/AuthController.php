@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Api\User;
 use Auth;
 use Hash;
 use App\Models\User\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\LoginRequest;
 use Dingo\Blueprint\Annotation\Response;
 use Dingo\Blueprint\Annotation\Method\Get;
+use App\Http\Requests\User\RegisterRequest;
 use Dingo\Blueprint\Annotation\Method\Post;
 
 /**
@@ -26,18 +27,12 @@ class AuthController extends Controller
      *  @Response(200, body={"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZlwvdXNlclwvbWUiLCJpYXQiOjE1NzE5NzI5NTksImV4cCI6MTU3MTk3MzA4OCwibmJmIjoxNTcxOTczMDI4LCJqdGkiOiJwY2R2cktDbzg5VzFCSXJGIiwic3ViIjoxfQ.29Zsj7M7Eng6H27K7Hg_lwtgxqdk__EA03r0rg3ythQ"}),
      * })
      *
-     * @param Request $request
+     * @param RegisterRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
      */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $this->validate($request, [
-            'mobile'           => 'mobile',
-            'password'         => 'required|string|min:6|max:20',
-        ]);
-
         $user = User::create([
             'mobile'   => $request->get('mobile'),
             'email'    => $request->get('email', ''),
@@ -59,17 +54,12 @@ class AuthController extends Controller
      *  @Response(401, body={"message": "账号或密码错误"})
      * })
      *
-     * @param Request $request
+     * @param LoginRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $this->validate($request, [
-            'mobile'   => 'required|mobile',
-            'password' => 'required|string|min:6|max:20',
-        ]);
 
         $credentials = $request->only(['mobile', 'password']);
 
