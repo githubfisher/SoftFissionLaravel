@@ -4,33 +4,37 @@ namespace App\Http\Controllers\Api\User;
 use Auth;
 use Hash;
 use App\Models\User\User;
+use App\Http\Repositories\Sms;
+use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\LoginRequest;
-use Dingo\Blueprint\Annotation\Response;
-use Dingo\Blueprint\Annotation\Method\Get;
 use App\Http\Requests\User\RegisterRequest;
-use Dingo\Blueprint\Annotation\Method\Post;
 
 class AuthController extends Controller
 {
     /**
      * 用户注册
-     *
      * @param RegisterRequest $request
+     * @param Sms             $sms
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request, Sms $sms)
     {
-        $user = User::create([
-            'mobile'   => $request->get('mobile'),
-            'email'    => $request->get('email', ''),
-            'name'     => $request->get('name', ''),
-            'password' => Hash::make($request->get('password')),
-        ]);
-        $token = Auth::login($user);
+        $mobile = $request->get('mobile');
+        if ($sms->check($mobile, $request->get('code'))) {
+            $user = User::create([
+                'mobile'   => $request->get('mobile'),
+                'email'    => $request->get('email', ''),
+                'name'     => $request->get('name', ''),
+                'password' => Hash::make($request->get('password')),
+            ]);
+            $token = Auth::login($user);
 
-        return response()->json(compact('token'));
+            return $this->suc(compact('token'));
+        }
+
+        return $this->err(FeedBack::SMS_CODE_SEND_FAIL);
     }
 
     /**
@@ -45,8 +49,8 @@ class AuthController extends Controller
         $credentials = $request->only(['mobile', 'password']);
 
         return (($token = Auth::attempt($credentials))
-            ? response()->json(['token' => $token], 201)
-            : response()->json(['error' => '账号或密码错误'], 401));
+            ? $this->suc(['token' => $token], 201)
+            : $this->err(['message' => '账号或密码错误'], 401));
     }
 
     /**
@@ -56,7 +60,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(Auth::user());
+        return $this->suc(Auth::user());
     }
 
     /**
@@ -68,6 +72,6 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return response()->json(['message' => 'success'], 200);
+        return $this->suc(['message' => 'success'], 200);
     }
 }
