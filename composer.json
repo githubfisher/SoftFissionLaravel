@@ -12,11 +12,12 @@
         "barryvdh/laravel-cors": "^0.11.4",
         "dingo/api": "^2.4.0-rc2",
         "fideloper/proxy": "^4.0",
+        "gregwar/captcha": "1.*",
+        "ibrand/laravel-sms": "~1.0",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^1.0",
         "overtrue/easy-sms": "^1.1",
-        "tymon/jwt-auth": "^1.0.0-rc.5",
-        "gregwar/captcha": "1.*"
+        "tymon/jwt-auth": "^1.0.0-rc.5"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
