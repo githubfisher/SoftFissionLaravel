@@ -40,6 +40,12 @@ $api->version('v1', [
         $api->post('register', 'Ops\AuthController@register');
     });
 
+    $api->group(['prefix' => '/auth'], function (\Dingo\Api\Routing\Router $api) {
+        $api->get('captcha', 'Auth\CaptchaController@getCode');
+        $api->post('sms-code', 'Auth\SmsCodeController@getCode');
+        $api->post('e-code', 'Auth\EmailCodeController@getCode');
+    });
+
     /**
      * 需认证但不需要刷新token的接口
      */
