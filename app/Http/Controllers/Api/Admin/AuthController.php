@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Http\Utilities\Constant;
 use Auth;
 use Hash;
 use App\Models\Admin\Admin;
@@ -21,7 +22,7 @@ class AuthController extends Controller
     public function register(RegisterRequest $request, Sms $sms)
     {
         $mobile = $request->get('mobile');
-        if ($sms->check($mobile, $request->get('code'))) {
+        if ($sms->check($mobile, $request->get('code'), Constant::SMS_CODE_SCENE_REGISTER)) {
             $user  = Admin::create([
                 'mobile'   => $request->get('mobile'),
                 'email'    => $request->get('email', ''),
