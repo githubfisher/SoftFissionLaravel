@@ -9,7 +9,7 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', [
@@ -42,8 +42,8 @@ $api->version('v1', [
 
     $api->group(['prefix' => '/auth'], function (\Dingo\Api\Routing\Router $api) {
         $api->get('captcha', 'Auth\CaptchaController@getCode');
-        $api->post('sms-code', 'Auth\SmsCodeController@getCode');
-        $api->post('e-code', 'Auth\EmailCodeController@getCode');
+        $api->get('sms-code', ['middleware' => 'api.throttle', 'limit' => 1, 'expires' => 2, 'uses' => 'Auth\SmsCodeController@getCode']);
+        $api->get('e-code', 'Auth\EmailCodeController@getCode');
     });
 
     /**
