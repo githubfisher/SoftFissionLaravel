@@ -10,6 +10,7 @@ use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Ops\LoginRequest;
 use App\Http\Requests\Ops\RegisterRequest;
+use App\Http\Requests\Ops\LoginBySmsCodeRequest;
 
 class AuthController extends Controller
 {
@@ -49,6 +50,26 @@ class AuthController extends Controller
         return (($token = Auth::attempt($credentials))
             ? $this->suc(['token' => $token], 201)
             : $this->err(['error' => '账号或密码错误'], 401));
+    }
+
+    /**
+     * 登录: 手机号+验证码
+     * @param LoginBySmsCodeRequest $request
+     * @param Sms                   $sms
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function loginBySmsCode(LoginBySmsCodeRequest $request, Sms $sms)
+    {
+        $mobile = $request->get('mobile');
+        if ($sms->check($mobile, $request->get('code'), Constant::SMS_CODE_SCENE_LOGIN)) {
+            $user  = Ops::where('mobile', $mobile)->find(1);
+            $token = Auth::login($user);
+
+            return $this->suc(compact('token'));
+        }
+
+        return $this->err(FeedBack::SMS_CODE_INCORRECT);
     }
 
     /**
