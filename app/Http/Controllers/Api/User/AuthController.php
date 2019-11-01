@@ -5,6 +5,7 @@ use Auth;
 use Hash;
 use App\Models\User\User;
 use App\Http\Repositories\Sms;
+use App\Http\Utilities\Constant;
 use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\LoginRequest;
@@ -23,7 +24,7 @@ class AuthController extends Controller
     public function register(RegisterRequest $request, Sms $sms)
     {
         $mobile = $request->get('mobile');
-        if ($sms->check($mobile, $request->get('code'))) {
+        if ($sms->check($mobile, $request->get('code'), Constant::SMS_CODE_SCENE_REGISTER)) {
             $user = User::create([
                 'mobile'   => $request->get('mobile'),
                 'email'    => $request->get('email', ''),
@@ -68,7 +69,7 @@ class AuthController extends Controller
     public function loginBySmsCode(LoginBySmsCodeRequest $request, Sms $sms)
     {
         $mobile = $request->get('mobile');
-        if ($sms->check($mobile, $request->get('code'))) {
+        if ($sms->check($mobile, $request->get('code'), Constant::SMS_CODE_SCENE_LOGIN)) {
             $user  = User::where('mobile', $mobile)->find(1);
             $token = Auth::login($user);
 
