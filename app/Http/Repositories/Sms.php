@@ -65,7 +65,7 @@ class Sms
             $key  = sprintf(Constant::AUTH_SMS_CODE, $mobile);
             Log::debug(__FUNCTION__ . ' key: ' . $key . ' code:' . $code . ' res:' . json_encode($res));
             Redis::set($key, $code);
-            Redis::expire($key, Constant::CACHE_TTL_TWO_MINUTE);
+            Redis::expire($key, Constant::CACHE_TTL_MINUTE);
 
             return true;
         } catch (\Overtrue\EasySms\Exceptions\NoGatewayAvailableException $e) {

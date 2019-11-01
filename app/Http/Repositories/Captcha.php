@@ -23,7 +23,7 @@ class Captcha
         }
         $code = $this->captcha->getPhrase();
         Redis::set($key, $code);
-        Redis::expire($key, Constant::CACHE_TTL_FIVE_MINUTE);
+        Redis::expire($key, Constant::CACHE_TTL_MINUTE);
         Log::debug(__FUNCTION__ . ' key:' . $key . ' captcha:' . $code);
 
         return [$key, $this->captcha->get()];
