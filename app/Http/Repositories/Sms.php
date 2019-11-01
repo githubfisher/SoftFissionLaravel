@@ -45,27 +45,28 @@ class Sms
         return $this->sms->send($mobile, $params);
     }
 
-    public function hasSent($mobile)
+    public function hasSent($mobile, $scene)
     {
-        if (Redis::exists(sprintf(Constant::AUTH_SMS_CODE, $mobile))) {
+        if (Redis::exists(sprintf(Constant::AUTH_SMS_SEND, $scene, $mobile))) {
             return true;
         }
 
         return false;
     }
 
-    public function sendCode($mobile, $length = 4)
+    public function sendCode($mobile, $scene, $length = 4)
     {
         try {
-            $code = randCode($length);
-            $res  = $this->send($mobile, [
-                'template' => 224794,
+            $code   = randCode($length);
+            $config = config('sms');
+            $res    = $this->send($mobile, [
+                'template' => $config[$scene]['template_id'],
                 'data'     => [$code],
             ]);
-            $key  = sprintf(Constant::AUTH_SMS_CODE, $mobile);
+            $key  = sprintf(Constant::AUTH_SMS_SEND, $scene, $mobile);
             Log::debug(__FUNCTION__ . ' key: ' . $key . ' code:' . $code . ' res:' . json_encode($res));
             Redis::set($key, $code);
-            Redis::expire($key, Constant::CACHE_TTL_MINUTE);
+            Redis::expire($key, $config[$scene]['cache_ttl']);
 
             return true;
         } catch (\Overtrue\EasySms\Exceptions\NoGatewayAvailableException $e) {
