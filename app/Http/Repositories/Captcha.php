@@ -32,6 +32,7 @@ class Captcha
     public function check($code, $key)
     {
         $saved = Redis::hGet($key, 'code');
+        Log::debug(__FUNCTION__ . ' key: ' . $key . ' code:' . $code . ' saved:' . $saved);
         if ($saved === $code) {
             return true;
         }
