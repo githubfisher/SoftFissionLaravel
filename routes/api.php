@@ -32,11 +32,13 @@ $api->version('v1', [
     $api->group(['prefix' => '/admin/auth', 'middleware' => 'admin', 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
         $api->post('login', 'Admin\AuthController@login');
         $api->post('register', 'Admin\AuthController@register');
+        $api->post('login-by-sms-code', 'Admin\AuthController@loginBySmsCode');
     });
 
     $api->group(['prefix' => '/ops/auth', 'middleware' => 'ops', 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
         $api->post('login', 'Ops\AuthController@login');
         $api->post('register', 'Ops\AuthController@register');
+        $api->post('login-by-sms-code', 'Ops\AuthController@loginBySmsCode');
     });
 
     $api->group(['prefix' => '/auth'], function (\Dingo\Api\Routing\Router $api) {
