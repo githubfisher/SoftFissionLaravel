@@ -60,13 +60,13 @@ class Sms
             $code   = randCode($length);
             $config = config('sms');
             $res    = $this->send($mobile, [
-                'template' => $config[$scene]['template_id'],
+                'template' => $config['scene'][$scene]['template_id'],
                 'data'     => [$code],
             ]);
-            $key  = sprintf(Constant::AUTH_SMS_SEND, $scene, $mobile);
+            $key = sprintf(Constant::AUTH_SMS_SEND, $scene, $mobile);
             Log::debug(__FUNCTION__ . ' key: ' . $key . ' code:' . $code . ' res:' . json_encode($res));
             Redis::set($key, $code);
-            Redis::expire($key, $config[$scene]['cache_ttl']);
+            Redis::expire($key, $config['scene'][$scene]['cache_ttl']);
 
             return true;
         } catch (\Overtrue\EasySms\Exceptions\NoGatewayAvailableException $e) {
