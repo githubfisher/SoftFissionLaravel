@@ -26,6 +26,7 @@ class CaptchaCheckRequest extends FormRequest
             'key'     => 'required|string',
             'captcha' => 'required|string|min:4|max:6',
             'mobile'  => 'required|string|mobile',
+            'scene'   => 'required|string|in:register,login,change,auth',
         ];
     }
 }
