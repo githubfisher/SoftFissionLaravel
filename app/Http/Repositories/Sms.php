@@ -5,7 +5,6 @@ use Log;
 use Overtrue\EasySms\EasySms;
 use App\Http\Utilities\Constant;
 use Illuminate\Support\Facades\Redis;
-use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
 
 class Sms
 {
@@ -31,9 +30,9 @@ class Sms
                     'file' => '/tmp/easy-sms.log',
                 ],
                 'qcloud' => [
-                    'sdk_app_id' => '1400048706',
+                    'sdk_app_id'  => '1400048706',
                     'app_key'     => 'cfa16bee4b941d8e1bfbaac98eeaaa49',
-                    'sign_name'  => '小黄人科技',
+                    'sign_name'   => '小黄人科技',
                 ],
             ],
         ];
@@ -69,7 +68,7 @@ class Sms
             Redis::expire($key, Constant::CACHE_TTL_TWO_MINUTE);
 
             return true;
-        } catch (NoGatewayAvailableException $e) {
+        } catch (\Overtrue\EasySms\Exceptions\NoGatewayAvailableException $e) {
             Log::error(__FUNCTION__ . ' ' . json_encode($e->results));
         }
 
@@ -80,6 +79,7 @@ class Sms
     {
         $key   = sprintf(Constant::AUTH_SMS_CODE, $mobile);
         $saved = Redis::get($key);
+        Log::debug(__FUNCTION__ . ' key: ' . $key . ' code:' . $code . ' saved:' . $saved);
         if ($saved === $code) {
             return true;
         }
