@@ -18,8 +18,8 @@ $api->version('v1', [
         'cors',
         'api.throttle',
     ],
-    'limit'   => 60,
     'expires' => 1,
+    'limit'   => 60,
 ], function (\Dingo\Api\Routing\Router $api) {
 
     /**
@@ -42,8 +42,7 @@ $api->version('v1', [
 
     $api->group(['prefix' => '/auth'], function (\Dingo\Api\Routing\Router $api) {
         $api->get('captcha', 'Auth\CaptchaController@getCode');
-        $api->get('sms-code', ['middleware' => 'api.throttle', 'limit' => 1, 'expires' => 2, 'uses' => 'Auth\SmsCodeController@getCode']);
-        $api->get('e-code', 'Auth\EmailCodeController@getCode');
+        $api->get('sms-code', 'Auth\SmsCodeController@getCode');
     });
 
     /**
