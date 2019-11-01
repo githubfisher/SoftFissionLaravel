@@ -13,8 +13,9 @@ class SmsCodeController extends Controller
     {
         if ($captcha->check($request->input('captcha'), $request->input('key'))) {
             $mobile = $request->input('mobile');
-            if ( ! $sms->hasSent($mobile)) {
-                $res = $sms->sendCode($mobile);
+            $scene  = $request->input('scene');
+            if ( ! $sms->hasSent($mobile, $scene)) {
+                $res = $sms->sendCode($mobile, $scene);
 
                 return $res ? $this->suc() : $this->err(FeedBack::SMS_CODE_SEND_FAIL);
             }
