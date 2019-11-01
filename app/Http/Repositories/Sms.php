@@ -76,9 +76,9 @@ class Sms
         return false;
     }
 
-    public function check($mobile, $code)
+    public function check($mobile, $code, $scene)
     {
-        $key   = sprintf(Constant::AUTH_SMS_CODE, $mobile);
+        $key   = sprintf(Constant::AUTH_SMS_SEND, $scene, $mobile);
         $saved = Redis::get($key);
         Log::debug(__FUNCTION__ . ' key: ' . $key . ' code:' . $code . ' saved:' . $saved);
         if ($saved === $code) {
