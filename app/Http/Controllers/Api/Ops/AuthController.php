@@ -4,53 +4,62 @@ namespace App\Http\Controllers\Api\Ops;
 use Auth;
 use Hash;
 use App\Models\Ops\Ops;
-use Illuminate\Http\Request;
+use App\Http\Repositories\Sms;
+use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Ops\LoginRequest;
+use App\Http\Requests\Ops\RegisterRequest;
 
 class AuthController extends Controller
 {
     /**
-     * @param Request $request
+     * @param RegisterRequest $request
+     * @param Sms             $sms
      *
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
      */
-    public function register(Request $request)
+    public function register(RegisterRequest $request, Sms $sms)
     {
-        $this->validate($request, [
-            'mobile'           => 'mobile',
-            'password'         => 'required|string|min:6|max:20',
-        ]);
+        $mobile = $request->get('mobile');
+        if ($sms->check($mobile, $request->get('code'))) {
+            $user  = Ops::create([
+                'mobile'   => $request->get('mobile'),
+                'email'    => $request->get('email', ''),
+                'name'     => $request->get('name', ''),
+                'password' => Hash::make($request->get('password')),
+            ]);
+            $token = Auth::login($user);
 
-        $user = Ops::create([
-            'mobile'   => $request->get('mobile'),
-            'email'    => $request->get('email', ''),
-            'name'     => $request->get('name', ''),
-            'password' => Hash::make($request->get('password')),
-        ]);
-        $token = Auth::login($user);
+            return $this->suc(compact('token'));
+        }
 
-        return response()->json(compact('token'));
+        return $this->err(FeedBack::SMS_CODE_INCORRECT);
     }
 
     /**
-     * @param Request $request
+     * @param LoginRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $this->validate($request, [
-            'mobile'   => 'required|mobile',
-            'password' => 'required|string|min:6|max:20',
-        ]);
-
         $credentials = $request->only(['mobile', 'password']);
 
         return (($token = Auth::attempt($credentials))
-            ? response()->json(['token' => $token], 201)
-            : response()->json(['error' => '账号或密码错误'], 401));
+            ? $this->suc(['token' => $token], 201)
+            : $this->err(['error' => '账号或密码错误'], 401));
+    }
+
+    /**
+     * 用户登出
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        Auth::logout();
+
+        return $this->suc(['message' => 'success'], 200);
     }
 
     /**
@@ -58,6 +67,6 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(Auth::user());
+        return $this->suc(Auth::user());
     }
 }
