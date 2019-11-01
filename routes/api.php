@@ -26,6 +26,7 @@ $api->version('v1', [
     $api->group(['prefix' => '/user/auth', 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
         $api->post('login', 'User\AuthController@login');
         $api->post('register', 'User\AuthController@register');
+        $api->post('login-by-sms-code', 'User\AuthController@loginBySmsCode');
     });
 
     $api->group(['prefix' => '/admin/auth', 'middleware' => 'admin', 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
