@@ -3,7 +3,6 @@ namespace App\Http\Repositories;
 
 use Log;
 use Illuminate\Support\Str;
-use App\Http\Utilities\Constant;
 use Illuminate\Support\Facades\Redis;
 use App\Http\Services\Captcha as Capa;
 
@@ -18,12 +17,13 @@ class Captcha
 
     public function get($key = '')
     {
-        if (empty($key) || Redis::hIncrby($key, 'times', 1) > 3) {
+        $config = config('captcha');
+        if (empty($key) || Redis::hIncrby($key, 'times', 1) > $config['key_max_times']) {
             $key = (string) Str::uuid();
         }
         $code = $this->captcha->getPhrase();
-        Redis::set($key, $code);
-        Redis::expire($key, Constant::CACHE_TTL_MINUTE);
+        Redis::hSet($key, 'code', $code);
+        Redis::expire($key, $config['cache_ttl']);
         Log::debug(__FUNCTION__ . ' key:' . $key . ' captcha:' . $code);
 
         return [$key, $this->captcha->get()];
@@ -31,7 +31,7 @@ class Captcha
 
     public function check($code, $key)
     {
-        $saved = Redis::get($key);
+        $saved = Redis::hGet($key, 'code');
         if ($saved === $code) {
             return true;
         }
