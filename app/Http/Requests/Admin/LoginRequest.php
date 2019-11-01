@@ -26,8 +26,7 @@ class LoginRequest extends FormRequest
         return [
             'mobile'   => 'sometimes|required|mobile|exists:admin',
             'email'    => 'sometimes|required|email|exists:admin',
-            'code'     => 'required_without_all:email,password|string|min:4|max:4',
-            'password' => 'required_without:code|string|min:6|max:20',
+            'password' => 'required|string|min:6|max:20',
         ];
     }
 
@@ -39,7 +38,6 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'code.required'   => '验证码必须填写',
             'mobile.required' => '手机号必须填写',
             'mobile.exists'   => '手机号不存在',
             'email.exists'    => '邮箱不存在',
