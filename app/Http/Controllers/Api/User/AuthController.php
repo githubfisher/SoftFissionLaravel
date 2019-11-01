@@ -9,6 +9,7 @@ use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RegisterRequest;
+use App\Http\Requests\User\LoginBySmsCodeRequest;
 
 class AuthController extends Controller
 {
@@ -38,7 +39,7 @@ class AuthController extends Controller
     }
 
     /**
-     * 用户登录
+     * 登录: 手机号(邮箱) + 密码
      *
      * @param LoginRequest $request
      *
@@ -46,7 +47,11 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $credentials = $request->only(['mobile', 'password']);
+        if ($request->has('mobile')) {
+            $credentials = $request->only(['mobile', 'password']);
+        } else {
+            $credentials = $request->only(['email', 'password']);
+        }
 
         return (($token = Auth::attempt($credentials))
             ? $this->suc(['token' => $token], 201)
@@ -54,13 +59,23 @@ class AuthController extends Controller
     }
 
     /**
-     * 用户信息
+     * 登录: 手机号+验证码
+     * @param LoginBySmsCodeRequest $request
+     * @param Sms                   $sms
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function me()
+    public function loginBySmsCode(LoginBySmsCodeRequest $request, Sms $sms)
     {
-        return $this->suc(Auth::user());
+        $mobile = $request->get('mobile');
+        if ($sms->check($mobile, $request->get('code'))) {
+            $user  = User::where('mobile', $mobile)->find(1);
+            $token = Auth::login($user);
+
+            return $this->suc(compact('token'));
+        }
+
+        return $this->err(FeedBack::SMS_CODE_INCORRECT);
     }
 
     /**
@@ -73,5 +88,15 @@ class AuthController extends Controller
         Auth::logout();
 
         return $this->suc(['message' => 'success'], 200);
+    }
+
+    /**
+     * 用户信息
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function me()
+    {
+        return $this->suc(Auth::user());
     }
 }
