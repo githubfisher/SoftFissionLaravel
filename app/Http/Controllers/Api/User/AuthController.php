@@ -34,7 +34,7 @@ class AuthController extends Controller
             return $this->suc(compact('token'));
         }
 
-        return $this->err(FeedBack::SMS_CODE_SEND_FAIL);
+        return $this->err(FeedBack::SMS_CODE_INCORRECT);
     }
 
     /**
