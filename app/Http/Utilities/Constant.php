@@ -3,6 +3,13 @@ namespace App\Http\Utilities;
 
 class Constant
 {
+    const FLASE_ZERO = 0;
+    const TRUE_ONE   = 1;
+    // 分页
+    const PAGINATE_MIN    = 10;
+    const PAGINATE_SMALL  = 20;
+    const PAGINATE_MIDDLE = 50;
+    const PAGINATE_MAX    = 100;
     // 缓存时效
     const CACHE_TTL_MINUTE      = 60;
     const CACHE_TTL_TWO_MINUTE  = 120;
