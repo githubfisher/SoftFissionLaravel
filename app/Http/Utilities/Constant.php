@@ -21,4 +21,5 @@ class Constant
     // 短信验证码场景值
     const SMS_CODE_SCENE_REGISTER = 'register';
     const SMS_CODE_SCENE_LOGIN    = 'login';
+    const SMS_CODE_SCENE_RESET    = 'reset';
 }
