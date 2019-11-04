@@ -65,7 +65,11 @@ $api->version('v1', [
      * 需认证且刷新token的接口
      */
     $api->group(['middleware' => ['refresh', 'api.auth'], 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
-        $api->get('/user/auth/me', 'User\UserController@me');
+        $api->group(['prefix' => '/user/auth'], function (\Dingo\Api\Routing\Router $api) {
+            $api->get('me', 'User\AuthController@me');
+            $api->get('reset_passwd', 'User\UserController@resetPassword');
+            $api->get('reset_mobile', 'User\UserController@resetMobile');
+        });
         $api->group(['prefix' => '/role'], function (\Dingo\Api\Routing\Router $api) {
             $api->get('', 'Permission\RoleController@index');
             $api->post('create', 'Permission\RoleController@create');
