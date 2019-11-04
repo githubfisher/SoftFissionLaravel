@@ -22,4 +22,10 @@ class Constant
     const SMS_CODE_SCENE_REGISTER = 'register';
     const SMS_CODE_SCENE_LOGIN    = 'login';
     const SMS_CODE_SCENE_RESET    = 'reset';
+    // 已解绑的微信公众号appid的集合
+    const UNBINDED_APP_ZSET       = 'sf:unbind_apps';
+    // 绑定公众号列表 // userID
+    const BIND_APP_LIST = 'sf:bind_app_list:%d';
+    // 绑定公众号信息 // APPID
+    const BIND_APP_INFO = 'lh:bind_app_info:%s';
 }
