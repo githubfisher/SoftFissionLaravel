@@ -13,7 +13,7 @@ return [
             'cache_ttl'   => 60,
         ],
         // 更新手机号
-        'change' => [
+        'reset' => [
             'template_id' => 224794,
             'cache_ttl'   => 60,
         ],
