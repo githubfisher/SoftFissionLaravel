@@ -65,11 +65,15 @@ $api->version('v1', [
      * 需认证且刷新token的接口
      */
     $api->group(['middleware' => ['refresh', 'api.auth'], 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
-        $api->get('/user/auth/me', 'User\AuthController@me');
-        $api->get('/roles', 'Permission\RoleController@index');
-        $api->post('/role/create', 'Permission\RoleController@create');
-        $api->get('/permissions', 'Permission\PermissionController@index');
-        $api->post('/permission/create', 'Permission\PermissionController@create');
+        $api->get('/user/auth/me', 'User\UserController@me');
+        $api->group(['prefix' => '/role'], function (\Dingo\Api\Routing\Router $api) {
+            $api->get('', 'Permission\RoleController@index');
+            $api->post('create', 'Permission\RoleController@create');
+        });
+        $api->group(['prefix' => '/permission'], function (\Dingo\Api\Routing\Router $api) {
+            $api->get('', 'Permission\PermissionController@index');
+            $api->post('create', 'Permission\PermissionController@create');
+        });
     });
 
     $api->group(['middleware' => ['admin', 'refresh', 'api.auth'], 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
