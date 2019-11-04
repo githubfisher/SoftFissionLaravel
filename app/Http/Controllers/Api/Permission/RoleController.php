@@ -3,29 +3,30 @@ namespace App\Http\Controllers\Api\Permission;
 
 use Illuminate\Http\Request;
 use App\Http\Utilities\Constant;
-use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 
 class RoleController extends Controller
 {
-    public function index(Request $request)
+    protected $guard;
+    protected $role;
+
+    public function __construct(\App\Http\Repositories\Permission\Role $role)
     {
-        $list = Role::where('guard_name', $request->input('guard', 'user'))->simplePaginate(Constant::PAGINATE_MIN);
+        $this->role  = $role;
+        $this->guard = Config('auth.defaults.guard');
+    }
+
+    public function index()
+    {
+        $list = $this->role->list(Constant::PAGINATE_MIN, $this->guard);
 
         return $this->suc(compact('list'));
     }
 
     public function create(Request $request)
     {
-        $role = Role::create(['guard_name' => $request->input('guard', 'user'), 'name' => $request->input('name')]);
+        $role = $this->role->create($request->input('name'), $this->guard);
 
         return $this->suc(compact('role'));
-    }
-
-    public function delete(Request $request)
-    {
-        Role::destroy($request->input('name'));
-
-        return $this->suc();
     }
 }
