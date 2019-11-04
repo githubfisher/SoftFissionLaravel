@@ -24,7 +24,7 @@ class ResetMobileRequest extends FormRequest
     public function rules()
     {
         return [
-            'mobile' => 'required|mobile|exists:user',
+            'mobile' => 'required|mobile|unique:user',
             'code'   => 'required|string|min:4|max:4',
         ];
     }
