@@ -70,7 +70,7 @@ class AuthController extends Controller
     {
         $mobile = $request->get('mobile');
         if ($sms->check($mobile, $request->get('code'), Constant::SMS_CODE_SCENE_LOGIN)) {
-            $user  = User::where('mobile', $mobile)->find(1);
+            $user  = User::where('mobile', $mobile)->first();
             $token = Auth::login($user);
 
             return $this->suc(compact('token'));
