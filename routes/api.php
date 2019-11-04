@@ -66,6 +66,9 @@ $api->version('v1', [
      */
     $api->group(['middleware' => ['refresh', 'api.auth'], 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
         $api->get('/user/auth/me', 'User\AuthController@me');
+        $api->get('/role', 'Permission\RoleController@index');
+        $api->post('/role/create', 'Permission\RoleController@create');
+        $api->delete('/role/delete', 'Permission\RoleController@delete');
     });
 
     $api->group(['middleware' => ['admin', 'refresh', 'api.auth'], 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
