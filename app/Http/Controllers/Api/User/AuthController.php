@@ -90,16 +90,4 @@ class AuthController extends Controller
 
         return $this->suc(['message' => 'success'], 200);
     }
-
-    /**
-     * 用户信息
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
-    {
-        $user = Auth::user();
-
-        return $this->suc(compact('user'));
-    }
 }
