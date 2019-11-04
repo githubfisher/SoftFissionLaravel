@@ -98,6 +98,8 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return $this->suc(Auth::user());
+        $user = Auth::user();
+
+        return $this->suc(compact('user'));
     }
 }
