@@ -67,8 +67,10 @@ $api->version('v1', [
     $api->group(['middleware' => ['refresh', 'api.auth'], 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
         $api->group(['prefix' => '/user/auth'], function (\Dingo\Api\Routing\Router $api) {
             $api->get('me', 'User\AuthController@me');
-            $api->get('reset_passwd', 'User\UserController@resetPassword');
-            $api->get('reset_mobile', 'User\UserController@resetMobile');
+            $api->get('repwd', 'User\UserController@resetPassword');
+            $api->get('remobile', 'User\UserController@resetMobile');
+            $api->get('rename', 'User\UserController@resetMobile');
+            $api->get('sms-code', 'Auth\SmsCodeController@getCodeByCode');
         });
         $api->group(['prefix' => '/role'], function (\Dingo\Api\Routing\Router $api) {
             $api->get('', 'Permission\RoleController@index');
