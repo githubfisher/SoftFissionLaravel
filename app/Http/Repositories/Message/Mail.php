@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Repositories\Message;
 
-use Carbon\Carbon;
 use App\Http\Utilities\Constant;
 use Illuminate\Support\Facades\Redis;
 use App\Models\User\Message\Mail as Message;
@@ -74,38 +73,18 @@ class Mail
     public static function mergeMsg($params): array
     {
         if (isset($params[0]) && isset($params[1])) {
-            $now = Carbon::now()->toDateTimeString();
-
             $template = Constant::MAIL_TEMPLATE[$params[1]];
             $data     = [
                 'user_id'    => $params[0],
                 'scene_code' => $params[1],
                 'title'      => $template[0],
                 'content'    => $template[1],
-                'status'     => 0,
-                'created_at' => $now,
-                'updated_at' => $now,
             ];
 
             $count = count($params);
             if ($count > 2) {
-                switch ($count) {
-                    case 3:
-                        $data['content'] = sprintf($data['content'], $params[2]);
-
-                        break;
-                    case 4:
-                        $data['content'] = sprintf($data['content'], $params[2], $params[3]);
-
-                        break;
-                    case 5:
-                        $data['content'] = sprintf($data['content'], $params[2], $params[3], $params[4]);
-
-                        break;
-                    case 6:
-                        $data['content'] = sprintf($data['content'], $params[2], $params[3], $params[4], $params[5]);
-
-                        break;
+                for ($i = 2; $i < $count; $i++) {
+                    $data['content'] = sprintf($data['content'], $params[$i]);
                 }
             }
 
