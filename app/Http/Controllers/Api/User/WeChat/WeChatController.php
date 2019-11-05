@@ -3,7 +3,6 @@ namespace App\Http\Controllers\Api\User\WeChat;
 
 use Log;
 use EasyWeChat\Factory;
-use App\Http\Traits\WechatCache;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\BindRequest;
 use App\Http\Repositories\WeChatApp\App;
@@ -11,14 +10,12 @@ use EasyWeChat\OpenPlatform\Server\Guard;
 
 class WeChatController extends Controller
 {
-    use WechatCache;
 
     protected $openPlatform;
 
     public function __construct()
     {
-        $this->openPlatform = Factory::openPlatform(config('openplatform.wechat'));
-        $this->setWechatCache();
+        $this->openPlatform = Factory::openPlatform(config('wechat.official_account.default'));
     }
 
     public function serve(App $weApp)
