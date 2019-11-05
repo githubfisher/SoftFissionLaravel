@@ -49,8 +49,8 @@ class WeChatController extends Controller
     public function binding(BindRequest $request)
     {
         $domain = config('api.domain');
-        $userId = $request->get('id');
-        if ( ! empty($params['is_mobile'])) {
+        $userId = $request->get('user_id');
+        if ( ! empty($request->get('is_mobile'))) {
             $url = $this->openPlatform->getMobilePreAuthorizationUrl($domain . '/wechat/bind/callback?id=' . $userId, ['auth_type' => 3]);
         } else {
             $url = $this->openPlatform->getPreAuthorizationUrl($domain . '/wechat/bind/callback?id=' . $userId);
