@@ -19,7 +19,6 @@ $api->version('v1', [
         'api.throttle',
     ],
 ], function (\Dingo\Api\Routing\Router $api) {
-
     /**
      * 无需认证的接口
      */
@@ -44,6 +43,12 @@ $api->version('v1', [
     $api->group(['prefix' => '/auth'], function (\Dingo\Api\Routing\Router $api) {
         $api->get('captcha', 'Auth\CaptchaController@getCode');
         $api->get('sms-code', ['uses' => 'Auth\SmsCodeController@getCode', 'expires' => 1, 'limit' => 1]);
+    });
+
+    $api->group(['prefix' => 'wechat'], function (\Dingo\Api\Routing\Router $api) {
+        $api->post('serve', 'User\WeChat\WeChatController@serve');
+        $api->post('bind', 'User\WeChat\WeChatController@binding');
+        $api->post('bind/callback', 'User\WeChat\WeChatController@bindCallBack');
     });
 
     /**
