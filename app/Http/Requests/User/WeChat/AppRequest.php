@@ -4,7 +4,7 @@ namespace App\Http\Requests\User\WeChat;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SwitchRequest extends FormRequest
+class AppRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
