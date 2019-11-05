@@ -3,6 +3,7 @@ namespace App\Http\Repositories\WeChatApp;
 
 use App\Models\User\WeChatApp;
 use App\Http\Utilities\Constant;
+use App\Http\Utilities\FeedBack;
 use Illuminate\Support\Facades\Redis;
 
 class App
@@ -41,6 +42,8 @@ class App
         ];
         $key = sprintf(Constant::BIND_APP_LIST, $userId);
         Redis::set($key, json_encode($list));
+
+        return $list;
     }
 
     public function refreshAppInfo($appId)
@@ -52,5 +55,29 @@ class App
             $appInfo = $appInfo->toArray();
             Redis::set($key, json_encode($appInfo));
         }
+    }
+
+    public function list($userId)
+    {
+        return WeChatApp::where('user_id', $userId)->get();
+    }
+
+    public function switchApp($userId, $appId)
+    {
+        $list   = $this->refreshAppList($userId, $appId);
+        $appIds = array_column($list['list'], 'app_id');
+        if ( ! in_array($appId, $appIds)) {
+            return FeedBack::SWITCH_FAIL;
+        }
+
+        return true;
+    }
+
+    public function unbind($userId, $appId)
+    {
+        WeChatApp::where(['user_id' => $userId, 'app_id' => $appId])->delete();
+        $this->addUnbindSet($appId);
+
+        return true;
     }
 }
