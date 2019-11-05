@@ -12,4 +12,6 @@ class FeedBack
     const USERNAME_RESET_FAIL = ['code' => 1006, 'message' => 'name reset fail!'];
     const MOBILE_RESET_FAIL   = ['code' => 1007, 'message' => 'mobile reset fail!'];
     const SAME_MOBILE         = ['code' => 1008, 'message' => 'same mobile!'];
+    const BIND_FAIL_BOUND     = ['code' => 1009, 'message' => 'bound!'];
+    const BIND_FAIL           = ['code' => 1010, 'message' => 'bind fail!'];
 }
