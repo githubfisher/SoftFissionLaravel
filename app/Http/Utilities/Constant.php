@@ -14,6 +14,9 @@ class Constant
     const CACHE_TTL_MINUTE      = 60;
     const CACHE_TTL_TWO_MINUTE  = 120;
     const CACHE_TTL_FIVE_MINUTE = 300;
+    const CACHE_TTL_TEN_MINUTE  = 600;
+    const CACHE_TTL_ONE_HOUR    = 3600;
+    const CACHE_TTL_ONE_DAY     = 86400;
     // Base64图片头
     const BASE64_PREFIX_PNG = 'data:image/png;base64,';
     // 缓存短信码 // scene:mobile
@@ -27,5 +30,7 @@ class Constant
     // 绑定公众号列表 // userID
     const BIND_APP_LIST = 'sf:bind_app_list:%d';
     // 绑定公众号信息 // APPID
-    const BIND_APP_INFO = 'lh:bind_app_info:%s';
+    const BIND_APP_INFO = 'sf:bind_app_info:%s';
+    // 站内信-未读数 // userID
+    const MAIL_UNREAD   = 'sf:mail_unread:%d';
 }
