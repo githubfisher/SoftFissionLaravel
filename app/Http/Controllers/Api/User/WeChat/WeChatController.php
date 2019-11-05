@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api\User\WeChat;
 
 use Log;
 use EasyWeChat\Factory;
+use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\BindRequest;
 use App\Http\Repositories\WeChatApp\App;
@@ -51,9 +52,9 @@ class WeChatController extends Controller
         $domain = config('api.domain');
         $userId = $request->get('user_id');
         if ( ! empty($request->get('is_mobile'))) {
-            $url = $this->openPlatform->getMobilePreAuthorizationUrl($domain . '/wechat/bind/callback?id=' . $userId, ['auth_type' => 3]);
+            $url = $this->openPlatform->getMobilePreAuthorizationUrl($domain . '/wechat/bind/callback?is_mobile=1&user_id=' . $userId, ['auth_type' => 3]);
         } else {
-            $url = $this->openPlatform->getPreAuthorizationUrl($domain . '/wechat/bind/callback?id=' . $userId);
+            $url = $this->openPlatform->getPreAuthorizationUrl($domain . '/wechat/bind/callback?is_mobile=0&user_id=' . $userId);
         }
 
         $html = <<<EOF
@@ -71,13 +72,13 @@ EOF;
         $oAuth       = $this->openPlatform->handleAuthorize();
         $appId       = $oAuth['authorization_info']['authorizer_appid'];
         $app         = $weApp->first(['app_id' => $appId]);
-        $frontDomain = config('app.front_url');
+        $frontDomain = config('front.url');
         //判断是否被绑定
-        $userId   = $request->get('id');
+        $userId   = $request->get('user_id');
         if ($app && $app->user_id != $userId) {
             Log::debug(__FUNCTION__ . ' ' . $appId . ', 该公众号已绑定到其他账号! userid: ' . $app->user_id);
 
-            return redirect($frontDomain . '/#/bind/fail?message=');
+            return redirect($frontDomain . '/#/bind/fail?message=' . FeedBack::BIND_FAIL_BOUND['message']);
         }
 
         $info    = $this->openPlatform->getAuthorizer($oAuth['authorization_info']['authorizer_appid']);
@@ -104,10 +105,9 @@ EOF;
             $weApp->remUnbindSet($appId);
 
             return redirect($frontDomain . '/#/bind/success');
-        } else {
-            Log::error(__FUNCTION__ . ' ' . $appId . ', 更新或创建公众号信息失败! userId: ' . $userId);
         }
+        Log::error(__FUNCTION__ . ' ' . $appId . ', 更新或创建公众号信息失败! userId: ' . $userId);
 
-        return redirect($frontDomain . '/#/bind/fail?message=');
+        return redirect($frontDomain . '/#/bind/fail?message=' . FeedBack::BIND_FAIL['message']);
     }
 }
