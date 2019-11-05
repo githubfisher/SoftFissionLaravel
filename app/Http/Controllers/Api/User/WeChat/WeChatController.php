@@ -105,9 +105,12 @@ EOF;
             // 更新绑定公众号列表
             $apps->refreshAppList($userId, $appInfo);
             $apps->refreshAppInfo($appInfo);
-
             // 若之前解绑过, 从已解绑集合中去除
             $apps->remUnbindSet($appId);
+            // TODO
+            // 发送绑定成功的消息
+            // 甄别赠送体验优惠券
+            // 推送教程|案例
 
             return redirect($frontDomain . '/#/bind/success');
         }
