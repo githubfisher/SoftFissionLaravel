@@ -14,7 +14,7 @@ class WeChatController extends Controller
 
     public function __construct()
     {
-        $this->openPlatform = Factory::openPlatform(config('wechat.official_account.default'));
+        $this->openPlatform = Factory::openPlatform(config('wechat.open_platform.default'));
     }
 
     public function serve(App $weApp)
