@@ -18,7 +18,7 @@ class WeChatController extends Controller
         $this->openPlatform = Factory::openPlatform(config('wechat.open_platform.default'));
     }
 
-    public function serve(App $weApp)
+    public function serve(App $apps)
     {
         $server = $this->openPlatform->server;
         // 处理授权成功事件
@@ -32,11 +32,11 @@ class WeChatController extends Controller
         }, Guard::EVENT_UPDATE_AUTHORIZED);
 
         // 处理授权取消事件
-        $server->push(function ($message) use ($weApp) {
+        $server->push(function ($message) use ($apps) {
             Log::debug('Unauthorized ' . json_encode($message));
 
             // 删除公众号信息 // 加入到已解绑公众号集合中
-            $weApp->addUnbindSet($message['AuthorizerAppid']);
+            $apps->unbind($message['AuthorizerAppid']);
         }, Guard::EVENT_UNAUTHORIZED);
 
         // 处理VerifyTicket推送事件
@@ -66,11 +66,11 @@ EOF;
         return response()->make($html);
     }
 
-    public function bindCallBack(BindRequest $request, App $weApp)
+    public function bindCallBack(BindRequest $request, App $apps)
     {
         $oAuth       = $this->openPlatform->handleAuthorize();
         $appId       = $oAuth['authorization_info']['authorizer_appid'];
-        $app         = $weApp->first(['app_id' => $appId]);
+        $app         = $apps->first($appId);
         $frontDomain = config('front.url');
         //判断是否被绑定
         $userId   = $request->get('user_id');
@@ -81,7 +81,8 @@ EOF;
         }
 
         $info    = $this->openPlatform->getAuthorizer($oAuth['authorization_info']['authorizer_appid']);
-        $appData = [
+        $appInfo = [
+            'app_id'            => $appId,
             'user_id'           => $userId,
             'refresh_token'     => $oAuth['authorization_info']['authorizer_refresh_token'],
             'nick_name'         => $info['authorizer_info']['nick_name'],
@@ -94,14 +95,19 @@ EOF;
             'service_type_info' => $info['authorizer_info']['service_type_info']['id'],
             'verify_type_info'  => $info['authorizer_info']['verify_type_info']['id'],
             'deleted_at'        => null,
+            'keyword_reply'     => 0,
+            'anytype_reply'     => 0,
+            'subscribe_reply'   => 0,
         ];
-        $id = $weApp->updateOrCreate($appId, $appData);
+        $id = $apps->updateOrCreate($appId, $appInfo);
         if ($id) {
+            $appInfo['id'] = $id;
             // 更新绑定公众号列表
-            $weApp->refreshAppList($userId, $appId);
+            $apps->refreshAppList($userId, $appInfo);
+            $apps->refreshAppInfo($appInfo);
 
             // 若之前解绑过, 从已解绑集合中去除
-            $weApp->remUnbindSet($appId);
+            $apps->remUnbindSet($appId);
 
             return redirect($frontDomain . '/#/bind/success');
         }
