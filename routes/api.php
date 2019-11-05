@@ -47,7 +47,7 @@ $api->version('v1', [
 
     $api->group(['prefix' => 'wechat'], function (\Dingo\Api\Routing\Router $api) {
         $api->post('serve', 'User\WeChat\WeChatController@serve');
-        $api->post('bind', 'User\WeChat\WeChatController@binding');
+        $api->get('bind', 'User\WeChat\WeChatController@binding');
         $api->post('bind/callback', 'User\WeChat\WeChatController@bindCallBack');
     });
 
