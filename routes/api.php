@@ -47,7 +47,6 @@ $api->version('v1', [
 
     $api->group(['prefix' => 'wechat'], function (\Dingo\Api\Routing\Router $api) {
         $api->post('serve', 'User\WeChat\WeChatController@serve');
-        $api->get('bind', 'User\WeChat\WeChatController@binding');
         $api->post('bind/callback', 'User\WeChat\WeChatController@bindCallBack');
     });
 
@@ -85,6 +84,7 @@ $api->version('v1', [
             $api->get('', 'Permission\PermissionController@index');
             $api->post('create', 'Permission\PermissionController@create');
         });
+        $api->get('/wechat/binding', 'User\WeChat\WeChatController@binding');
     });
 
     $api->group(['middleware' => ['admin', 'refresh', 'api.auth'], 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
