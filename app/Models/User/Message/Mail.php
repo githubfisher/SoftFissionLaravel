@@ -1,7 +1,7 @@
 <?php
 namespace App\Models\User\Message;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 
 class Mail extends Model
 {
@@ -14,18 +14,6 @@ class Mail extends Model
         'status',
     ];
     protected $hidden = [];
-
-    /**
-     * 查询特定账户的消息
-     *
-     * @param $query
-     * @param $userId
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeLocal($query, $userId)
-    {
-        return $query->where('user_id', $userId)->orderBy('id', 'desc');
-    }
 
     /**
      * 查询未读的消息
