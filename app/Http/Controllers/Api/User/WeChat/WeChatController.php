@@ -10,7 +10,6 @@ use EasyWeChat\OpenPlatform\Server\Guard;
 
 class WeChatController extends Controller
 {
-
     protected $openPlatform;
 
     public function __construct()
