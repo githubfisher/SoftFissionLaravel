@@ -23,7 +23,7 @@ class BindRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'   => 'required|integer|min:1',
+            'user_id'   => 'sometimes|required|integer|min:1',
             'is_mobile' => 'required|integer|in:1,0',
         ];
     }
