@@ -33,4 +33,6 @@ class Constant
     const BIND_APP_INFO = 'sf:bind_app_info:%s';
     // 站内信-未读数 // userID
     const MAIL_UNREAD   = 'sf:mail_unread:%d';
+    // 站内信模板
+    public const MAIL_TEMPLATE = [];
 }
