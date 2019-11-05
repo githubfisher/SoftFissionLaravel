@@ -8,27 +8,27 @@ use App\Http\Repositories\Message\Mail;
 class MailController extends Controller
 {
     /**
-     * 获取未读消息的数量
-     *
-     * @param Mail $mail
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function unReadMsgCount(Mail $mail)
-    {
-        return $this->suc($mail->unread($this->user()->id));
-    }
-
-    /**
      * 消息列表 - 分页
      *
      * @param Mail $mail
      *
      * @return mixed
      */
-    public function list(Mail $mail)
+    public function index(Mail $mail)
     {
         return $this->suc($mail->list($this->user()->id));
+    }
+
+    /**
+     * 获取未读消息的数量
+     *
+     * @param Mail $mail
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unread(Mail $mail)
+    {
+        return $this->suc($mail->unread($this->user()->id));
     }
 
     /**
