@@ -16,7 +16,9 @@ class MailController extends Controller
      */
     public function index(Mail $mail)
     {
-        return $this->suc($mail->list($this->user()->id));
+        $list = $mail->list($this->user()->id);
+
+        return $this->suc(compact('list'));
     }
 
     /**
@@ -28,7 +30,9 @@ class MailController extends Controller
      */
     public function unread(Mail $mail)
     {
-        return $this->suc($mail->unread($this->user()->id));
+        $unread = $mail->unread($this->user()->id);
+
+        return $this->suc(compact('unread'));
     }
 
     /**
