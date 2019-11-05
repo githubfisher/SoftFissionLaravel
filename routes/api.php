@@ -90,6 +90,11 @@ $api->version('v1', [
             $api->get('switch', 'User\WeChat\ManageController@switchApp');
             $api->get('unbind', 'User\WeChat\ManageController@unbind');
         });
+        $api->group(['prefix' => '/mail'], function (\Dingo\Api\Routing\Router $api) {
+            $api->get('', 'User\Message\MailController@index');
+            $api->get('unread', 'User\Message\MailController@unread');
+            $api->get('setread', 'User\Message\MailController@setRead');
+        });
     });
 
     $api->group(['middleware' => ['admin', 'refresh', 'api.auth'], 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
