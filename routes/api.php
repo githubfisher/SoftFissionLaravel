@@ -93,7 +93,7 @@ $api->version('v1', [
         $api->group(['prefix' => '/mail'], function (\Dingo\Api\Routing\Router $api) {
             $api->get('', 'User\Message\MailController@index');
             $api->get('unread', 'User\Message\MailController@unread');
-            $api->get('setread', 'User\Message\MailController@setRead');
+            $api->put('setread', 'User\Message\MailController@setRead');
         });
     });
 
