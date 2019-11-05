@@ -55,14 +55,11 @@ class WeChatController extends Controller
         } else {
             $url = $this->openPlatform->getPreAuthorizationUrl($domain . '/wechat/bind/callback?id=' . $userId);
         }
-        
+
         $html = <<<EOF
 <html>
-    <body>
-    </body>
-    <script>
-        window.location.href='$url';
-    </script>
+    <body></body>
+    <script>window.location.href='$url';</script>
 </html>
 EOF;
 
