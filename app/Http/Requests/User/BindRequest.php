@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,7 +23,8 @@ class BindRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|integer|min:1'
+            'user_id'   => 'required|integer|min:1',
+            'is_mobile' => 'required|integer|in:1,0',
         ];
     }
 }
