@@ -85,6 +85,11 @@ $api->version('v1', [
             $api->post('create', 'Permission\PermissionController@create');
         });
         $api->get('/wechat/binding', 'User\WeChat\WeChatController@binding');
+        $api->group(['prefix' => '/apps'], function (\Dingo\Api\Routing\Router $api) {
+            $api->get('', 'User\WeChat\ManageController@index');
+            $api->get('switch', 'User\WeChat\ManageController@switchApp');
+            $api->get('unbind', 'User\WeChat\ManageController@unbind');
+        });
     });
 
     $api->group(['middleware' => ['admin', 'refresh', 'api.auth'], 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
