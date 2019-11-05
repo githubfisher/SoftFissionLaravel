@@ -13,7 +13,8 @@ class App
     {
         $condition                                = ['app_id' => $appId];
         ! empty($userId) && $condition['user_id'] = $userId;
-        WeChatApp::where($condition)->delete();
+
+        return WeChatApp::where($condition)->delete();
     }
 
     // 添加到解绑集合
@@ -67,7 +68,7 @@ class App
         $key  = sprintf(Constant::BIND_APP_LIST, $userId);
         $list = Redis::get($key);
         $list = json_decode($list, true);
-        if ($list === false || ! isset($list['current']) || ! isset($list['list']) || empty($list['current']) || empty($list['list'])) {
+        if ($list === false || ! isset($list['current']) || ! isset($list['list']) || ! is_array($list['list'])) {
             $list = [
                 'current' => '',
                 'list'    => [
@@ -75,7 +76,7 @@ class App
                 ],
             ];
             $appList = WeChatApp::where('user_id', $userId)->get();
-            if ($appList) {
+            if ($appList && $appList->isNotEmpty()) {
                 $appList         = $appList->toArray();
                 $list['list']    = array_column($appList, null, 'app_id');
                 $list['current'] = $appList[0]['app_id'];
@@ -117,14 +118,16 @@ class App
             return true;
         }
 
-        return false;
+        return FeedBack::WECHAT_APP_NOT_FOUND;
     }
 
     // 解绑公众号
     public function unbind(string $appId, int $userId = 0)
     {
-        $this->addUnbindSet($appId);
-        $this->delApp($appId, $userId);
+        $res = $this->delApp($appId, $userId);
+        if ($res) {
+            $this->addUnbindSet($appId);
+        }
 
         return true;
     }
