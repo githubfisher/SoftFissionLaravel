@@ -5,9 +5,9 @@ use Log;
 use EasyWeChat\Factory;
 use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\BindRequest;
 use App\Http\Repositories\WeChatApp\App;
 use EasyWeChat\OpenPlatform\Server\Guard;
+use App\Http\Requests\User\WeChat\BindRequest;
 
 class WeChatController extends Controller
 {

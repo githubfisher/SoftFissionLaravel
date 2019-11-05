@@ -1,10 +1,9 @@
 <?php
-
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\User\WeChat;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResetNameRequest extends FormRequest
+class BindRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +23,8 @@ class ResetNameRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:64',
+            'user_id'   => 'sometimes|required|integer|min:1',
+            'is_mobile' => 'required|integer|in:1,0',
         ];
     }
 }

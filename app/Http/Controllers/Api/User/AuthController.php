@@ -8,9 +8,9 @@ use App\Http\Repositories\Sms;
 use App\Http\Utilities\Constant;
 use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\LoginRequest;
-use App\Http\Requests\User\RegisterRequest;
-use App\Http\Requests\User\LoginBySmsCodeRequest;
+use App\Http\Requests\User\Auth\LoginRequest;
+use App\Http\Requests\User\Auth\RegisterRequest;
+use App\Http\Requests\User\Auth\LoginBySmsCodeRequest;
 
 class AuthController extends Controller
 {

@@ -8,9 +8,9 @@ use App\Http\Repositories\Sms;
 use App\Http\Utilities\Constant;
 use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\ResetNameRequest;
-use App\Http\Requests\User\ResetMobileRequest;
-use App\Http\Requests\User\ResetPasswordRequest;
+use App\Http\Requests\User\Auth\ResetNameRequest;
+use App\Http\Requests\User\Auth\ResetMobileRequest;
+use App\Http\Requests\User\Auth\ResetPasswordRequest;
 
 class UserController extends Controller
 {

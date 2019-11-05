@@ -1,10 +1,9 @@
 <?php
-
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\User\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResetMobileRequest extends FormRequest
+class ResetNameRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +23,7 @@ class ResetMobileRequest extends FormRequest
     public function rules()
     {
         return [
-            'mobile' => 'required|mobile|unique:user',
-            'code'   => 'required|string|min:4|max:4',
+            'name' => 'required|string|max:64',
         ];
     }
 }

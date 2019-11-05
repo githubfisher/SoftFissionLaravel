@@ -1,9 +1,9 @@
 <?php
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\User\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +23,9 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'code'     => 'required|string|min:4|max:4',
-            'mobile'   => 'required|mobile|unique:user',
+            'mobile'   => 'sometimes|required|mobile|exists:user',
+            'email'    => 'sometimes|required|email|exists:user',
             'password' => 'required|string|min:6|max:20',
-            'name'     => 'sometimes|required|string|max:64',
-            'email'    => 'sometimes|required|email|unique:user',
         ];
     }
 
@@ -39,10 +37,9 @@ class RegisterRequest extends FormRequest
     public function messages()
     {
         return [
-            'code.required'   => '验证码必须填写',
             'mobile.required' => '手机号必须填写',
-            'mobile.unique'   => '手机号已注册',
-            'email.unique'    => '邮箱已注册',
+            'mobile.exists'   => '手机号不存在',
+            'email.exists'    => '邮箱不存在',
         ];
     }
 }
