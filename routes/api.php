@@ -94,9 +94,9 @@ $api->version('v1', [
         });
         // 站内信
         $api->group(['prefix' => '/mail'], function (\Dingo\Api\Routing\Router $api) {
-            $api->get('', 'User\Message\MailController@index');
-            $api->get('unread', 'User\Message\MailController@unread');
-            $api->put('read', 'User\Message\MailController@setRead');
+            $api->get('', 'Message\MailController@index');
+            $api->get('unread', 'Message\MailController@unread');
+            $api->put('read', 'Message\MailController@setRead');
         });
     });
 
