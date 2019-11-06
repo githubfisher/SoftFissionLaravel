@@ -6,6 +6,7 @@ use App\Http\Utilities\Constant;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Reply\Keyword;
 use App\Http\Requests\User\AutoReply\KeywordRequest;
+use App\Http\Requests\User\AutoReply\CreateKeywordRequest;
 
 class KeywordController extends Controller
 {
@@ -35,19 +36,28 @@ class KeywordController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param KeywordRequest $request
+     * @param CreateKeywordRequest $request
+     * @param Keyword $keyword
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(KeywordRequest $request)
+    public function store(CreateKeywordRequest $request, Keyword $keyword)
     {
-        return $this->suc();
+        $params            = $request->all();
+        $params['user_id'] = $this->user()->id;
+        $res               = $keyword->store($params);
+        if (is_numeric($res)) {
+            return $this->suc(['id' => $res]);
+        }
+
+        return $this->err($res);
     }
 
     /**
      * Display the specified resource.
      *
      * @param $id
+     * @param Keyword $keyword
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -79,7 +89,7 @@ class KeywordController extends Controller
      */
     public function update(Request $request, $id, Keyword $keyword)
     {
-        if ($keyword->update($id, $request->only(['']))) {
+        if ($keyword->update($id, $request->all())) {
             return $this->suc();
         }
 
