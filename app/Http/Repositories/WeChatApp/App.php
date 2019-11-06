@@ -131,4 +131,9 @@ class App
 
         return true;
     }
+
+    public function isBinded(string $appId)
+    {
+        return $appId;
+    }
 }
