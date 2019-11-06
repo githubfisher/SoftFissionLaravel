@@ -1,5 +1,5 @@
 <?php
-namespace App\Models\User\Message;
+namespace App\Models\Message;
 
 use App\Models\Model;
 

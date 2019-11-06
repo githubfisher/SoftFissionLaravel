@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Api\User\Message;
+namespace App\Http\Controllers\Api\Message;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

@@ -3,7 +3,7 @@ namespace App\Http\Repositories\Message;
 
 use App\Http\Utilities\Constant;
 use Illuminate\Support\Facades\Redis;
-use App\Models\User\Message\Mail as Message;
+use App\Models\Message\Mail as Message;
 
 class Mail
 {
