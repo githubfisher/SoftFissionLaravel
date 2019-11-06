@@ -16,4 +16,6 @@ class FeedBack
     const BIND_FAIL            = ['code' => 1010, 'message' => 'bind fail!'];
     const SWITCH_FAIL          = ['code' => 1011, 'message' => 'switch fail!'];
     const WECHAT_APP_NOT_FOUND = ['code' => 1012, 'message' => 'wechat app not found!'];
+    const CREATE_FAIL          = ['code' => 1013, 'message' => 'create fail!'];
+    const PARAMS_INCORRECT     = ['code' => 1014, 'message' => 'params incorrect!'];
 }
