@@ -39,4 +39,10 @@ class Constant
     const MSG_TYPE_EVENT = 1;
     const MSG_TYPE_TEXT  = 2;
     const MSG_TYPE_OTHER = 0;
+    // 自动回复, 场景值
+    const REPLY_RULE_SCENE_KEYWORD   = 'keyword';
+    const REPLY_RULE_SCENE_SCAN      = 'scan';
+    const REPLY_RULE_SCENE_CLICK     = 'click';
+    const REPLY_RULE_SCENE_SUBSCRIBE = 'subscribe';
+    const REPLY_RULE_SCENE_ANY       = 'any';
 }
