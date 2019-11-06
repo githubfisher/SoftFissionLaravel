@@ -25,6 +25,10 @@ class CreateRepliesTable extends Migration
             $table->unsignedInteger('material_id_female');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('rule_id')
+                  ->references('id')->on('rules')
+                  ->onDelete('cascade');
         });
     }
 

@@ -20,6 +20,10 @@ class CreateKeywordsTable extends Migration
             $table->unsignedTinyInteger('match_type')->default(1)->comment('匹配规则: 1全匹配 2半匹配');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('rule_id')
+                  ->references('id')->on('rules')
+                  ->onDelete('cascade');
         });
     }
 
