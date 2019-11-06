@@ -7,6 +7,13 @@ use App\Http\Repositories\Message\Mail;
 
 class MailController extends Controller
 {
+    protected $guard;
+
+    public function __construct()
+    {
+        $this->guard = config('auth.defaults.guard');
+    }
+
     /**
      * 消息列表 - 分页
      *
@@ -16,7 +23,7 @@ class MailController extends Controller
      */
     public function index(Mail $mail)
     {
-        $list = $mail->list($this->user()->id);
+        $list  = $mail->list($this->user()->id, $this->guard);
 
         return $this->suc(compact('list'));
     }
@@ -30,7 +37,7 @@ class MailController extends Controller
      */
     public function unread(Mail $mail)
     {
-        $unread = $mail->unread($this->user()->id);
+        $unread = $mail->unread($this->user()->id, $this->guard);
 
         return $this->suc(compact('unread'));
     }
@@ -45,7 +52,7 @@ class MailController extends Controller
      */
     public function setRead(Request $request, Mail $mail)
     {
-        $mail->setRead($this->user()->id, $request->input('ids', []));
+        $mail->setRead($this->user()->id, $this->guard, $request->input('ids', []));
 
         return $this->suc();
     }

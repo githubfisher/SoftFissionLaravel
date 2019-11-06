@@ -31,8 +31,8 @@ class Constant
     const BIND_APP_LIST = 'sf:bind_app_list:%d';
     // 绑定公众号信息 // APPID
     const BIND_APP_INFO = 'sf:bind_app_info:%s';
-    // 站内信-未读数 // userID
-    const MAIL_UNREAD   = 'sf:mail_unread:%d';
+    // 站内信-未读数 // guard userID
+    const MAIL_UNREAD   = 'sf:mail_unread:%s:%d';
     // 站内信模板
     const MAIL_TEMPLATE = [];
     // 微信消息类型

@@ -8,6 +8,7 @@ class Mail extends Model
     protected $table    = 'mail';
     protected $fillable = [
         'user_id',
+        'guard',
         'scene_code', // 情景编码
         'title',
         'content',
@@ -24,5 +25,18 @@ class Mail extends Model
     public function scopeUnread($query)
     {
         return $query->where('status', 0);
+    }
+
+    /**
+     * 查询某特定用户体系
+     *
+     * @param $query
+     * @param $guard
+     *
+     * @return mixed
+     */
+    public function scopeGuard($query, $guard)
+    {
+        return $query->where('guard', $guard);
     }
 }

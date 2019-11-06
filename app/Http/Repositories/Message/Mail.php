@@ -8,37 +8,39 @@ use App\Models\Message\Mail as Message;
 class Mail
 {
     // 查询未读消息数量
-    public function unread(int $userId)
+    public function unread(int $userId, string $guard)
     {
-        $key = sprintf(Constant::MAIL_UNREAD, $userId);
+        $key = sprintf(Constant::MAIL_UNREAD, $guard, $userId);
         if (Redis::exists($key)) {
             $unread = Redis::get($key);
         } else {
-            $unread = Message::Local($userId)->Unread()->count();
+            $unread = Message::Local($userId)->Guard($guard)->Unread()->count();
+            Redis::set($key, $unread);
+            Redis::expire($key, Constant::CACHE_TTL_TEN_MINUTE);
         }
 
         return $unread;
     }
 
     // 消息列表
-    public function list(int $userId, int $limit = Constant::PAGINATE_MIN)
+    public function list(int $userId, string $guard, int $limit = Constant::PAGINATE_MIN)
     {
-        return Message::Local($userId)->paginate($limit);
+        return Message::Local($userId)->Guard($guard)->Recent()->paginate($limit);
     }
 
     // 设置消息已读
-    public function setRead(int $userId, array $ids = [])
+    public function setRead(int $userId, string $guard, array $ids = [])
     {
-        $query = Message::Local($userId)->Unread();
+        $query = Message::Local($userId)->Guard($guard)->Unread();
         if (count($ids)) {
             $query = $query->whereIn('id', $ids);
         }
         $res = $query->update(['status' => Constant::TRUE_ONE]);
         if ($res) {
-            $key = sprintf(Constant::MAIL_UNREAD, $userId);
+            $key = sprintf(Constant::MAIL_UNREAD, $guard, $userId);
             Redis::del($key);
             if (count($ids)) {
-                Redis::set($key, $this->unread($userId));
+                Redis::set($key, $this->unread($userId, $guard));
             } else {
                 Redis::set($key, Constant::FLASE_ZERO);
             }
@@ -77,13 +79,15 @@ class Mail
             $data     = [
                 'user_id'    => $params[0],
                 'scene_code' => $params[1],
+                'guard'      => $params[2],
                 'title'      => $template[0],
                 'content'    => $template[1],
             ];
 
+            $start = 3;
             $count = count($params);
-            if ($count > 2) {
-                for ($i = 2; $i < $count; $i++) {
+            if ($count > $start) {
+                for ($i = $start; $i < $count; $i++) {
                     $data['content'] = sprintf($data['content'], $params[$i]);
                 }
             }
