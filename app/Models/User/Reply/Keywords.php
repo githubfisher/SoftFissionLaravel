@@ -8,7 +8,10 @@ class Keywords extends Model
 {
     use SoftDeletes;
 
-    protected $table   = 'keywords';
+    protected $table    = 'keywords';
+    protected $fillable = [
+        'rule_id', 'keyword', 'match_type',
+    ];
     protected $hidden  = [];
     protected $guarded = ['id'];
     protected $dates   = ['deleted_at'];
