@@ -14,7 +14,8 @@ class Mail extends Model
         'content',
         'status',
     ];
-    protected $hidden = [];
+    protected $hidden  = [];
+    protected $guarded = ['id'];
 
     /**
      * 查询未读的消息
