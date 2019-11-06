@@ -66,20 +66,51 @@ class Keyword
         // {difference:, reply_type:, reply_type_female:, content:, content_female:, material_id:, material_id_female}
         $replies  = $params['replies'];
         if (is_array($keywords) && is_array($replies) && count($keywords) && count($replies)) {
+            $rule = $this->get($id);
+            if ( ! $rule) {
+                return FeedBack::RULE_NOT_FOUND;
+            }
+            $rule = $rule->toArray();
+
             DB::beginTransaction();
 
             try {
-                $ruleId = Rules::where('id', $id)->update([
-                    'title'      => $params['title'],
-                    'reply_rule' => $params['reply_rule'],
-                    'start_at'   => $params['start_at'],
-                    'end_at'     => $params['end_at'],
-                ]);
+                if ($this->diff($rule, $params, ['title', 'reply_rule', 'start_at', 'end_at'])) {
+                    Rules::where('id', $id)->update([
+                        'title'      => $params['title'],
+                        'reply_rule' => $params['reply_rule'],
+                        'start_at'   => $params['start_at'],
+                        'end_at'     => $params['end_at'],
+                    ]);
+                }
 
-                data_fill($keywords, '*.rule_id', $ruleId);
-                data_fill($replies, '*.rule_id', $ruleId);
-                (new Keywords)->addAll($keywords);
-                (new Replies())->addAll($replies);
+                $ks    = array_column($rule['keywords'], null, 'id');
+                $still = [];
+                foreach ($keywords as $k => $keyword) {
+                    if (isset($keyword['id']) && $keyword['id'] && $this->diff($ks[$keyword['id']], $keyword, ['keyword', 'match_type'])) {
+                        Keywords::where('id', $keyword['id'])->update($keyword);
+                        $still[] = $keyword['id'];
+                    } else {
+                        $keyword['rule_id'] = $id;
+                        Keywords::create($keyword);
+                    }
+                }
+                $del = array_diff(array_keys($ks), $still);
+                Keywords::whereIn('id', $del)->delete();
+
+                $rp    = array_column($rule['replies'], null, 'id');
+                $still = [];
+                foreach ($replies as $k => $reply) {
+                    if (isset($reply['id']) && $reply['id'] && $this->diff($rp[$reply['id']], $reply, ['difference', 'reply_type', 'reply_type_female', 'content', 'content_female', 'material_id', 'material_id_female'])) {
+                        Replies::where('id', $reply['id'])->update($reply);
+                        $still[] = $reply['id'];
+                    } else {
+                        $reply['rule_id'] = $id;
+                        Replies::create($reply);
+                    }
+                }
+                $del = array_diff(array_keys($rp), $still);
+                Replies::whereIn('id', $del)->delete();
             } catch (\Exception $e) {
                 Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
                 DB::rollBack();
@@ -89,5 +120,16 @@ class Keyword
         }
 
         return true;
+    }
+
+    private function diff($rule, $params, $columns)
+    {
+        foreach ($columns as $column) {
+            if (isset($rule[$column]) && isset($params[$column]) && $rule[$column] != $params[$column]) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
