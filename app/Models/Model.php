@@ -20,7 +20,7 @@ class Model extends EloquentModel
     }
 
     /**
-     * 查询特定账户的消息
+     * 查询特定账户的
      *
      * @param $query
      * @param $userId
@@ -37,5 +37,17 @@ class Model extends EloquentModel
     public function addAll(array $data)
     {
         return DB::table($this->getTable())->insert($data);
+    }
+
+    /**
+     * 查询特定公众号的
+     *
+     * @param $query
+     * @param $appId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeApp($query, $appId)
+    {
+        return $query->where('app_id', $appId);
     }
 }
