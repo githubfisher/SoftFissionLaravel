@@ -3,7 +3,6 @@ namespace App\Http\Controllers\Api\User\WeChat;
 
 use Log;
 use EasyWeChat\Factory;
-use Illuminate\Http\Request;
 use App\Http\Utilities\Constant;
 use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
@@ -121,10 +120,8 @@ EOF;
         return redirect($frontDomain . '/#/bind/fail?message=' . FeedBack::BIND_FAIL['message']);
     }
 
-    public function message(Request $request, App $apps)
+    public function message($appId, App $apps)
     {
-        $appId = $request->input('appId');
-
         try {
             if (empty($appId)) {
                 throw new \Exception('appId is empty!', 999);
