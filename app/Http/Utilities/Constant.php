@@ -34,5 +34,9 @@ class Constant
     // 站内信-未读数 // userID
     const MAIL_UNREAD   = 'sf:mail_unread:%d';
     // 站内信模板
-    public const MAIL_TEMPLATE = [];
+    const MAIL_TEMPLATE = [];
+    // 微信消息类型
+    const MSG_TYPE_EVENT = 1;
+    const MSG_TYPE_TEXT  = 2;
+    const MSG_TYPE_OTHER = 0;
 }
