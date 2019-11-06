@@ -18,4 +18,5 @@ class FeedBack
     const WECHAT_APP_NOT_FOUND = ['code' => 1012, 'message' => 'wechat app not found!'];
     const CREATE_FAIL          = ['code' => 1013, 'message' => 'create fail!'];
     const PARAMS_INCORRECT     = ['code' => 1014, 'message' => 'params incorrect!'];
+    const RULE_NOT_FOUND       = ['code' => 1015, 'message' => 'rule not found!'];
 }
