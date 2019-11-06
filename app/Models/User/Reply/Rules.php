@@ -20,4 +20,14 @@ class Rules extends Model
     {
         return $this->belongsTo('App\Models\User\User', 'user_id');
     }
+
+    public function keywords()
+    {
+        return $this->hasMany('App\Models\User\Reply\Keywords', 'rule_id', 'id');
+    }
+
+    public function replies()
+    {
+        return $this->hasMany('App\Models\User\Reply\Replies', 'rule_id', 'id');
+    }
 }
