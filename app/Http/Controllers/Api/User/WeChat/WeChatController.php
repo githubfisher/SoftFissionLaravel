@@ -201,7 +201,7 @@ EOF;
                 Log::debug(__FUNCTION__ . ' app: ' . $appId . ', refresh token invalid, 加入到已解绑公众号集合! ' . $throwable->getCode());
             } elseif (strpos($message, 'Invalid Signature') !== false || strpos($message, 'Invalid appId') !== false) {
                 Log::error(__FUNCTION__ . ' ' . $message);
-            } elseif (Constant::TRUE_ONE != $throwable->getCode()) {
+            } else {
                 $data = [
                     'code'    => $throwable->getCode(),
                     'title'   => '微信消息处理异常',
