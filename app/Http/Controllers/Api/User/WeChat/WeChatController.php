@@ -162,7 +162,6 @@ EOF;
                 $msgType = $message['MsgType'];
                 $message['fansInfo'] = $fansInfo;
                 $message['appInfo']  = $appInfo;
-
                 switch ($msgType) {
                     case 'event':
                         $this->logMsg($message, Constant::FLASE_ZERO);
@@ -178,12 +177,10 @@ EOF;
                         break;
                 }
 
-                return 'SUCCESS';
+                return '';
             });
 
-            $response = $server->serve();
-
-            return response($response->getContent())->send();
+            return response($server->serve()->getContent())->send();
         } catch (\Throwable $throwable) {
             $message = $throwable->getMessage();
             if (strpos($message, ':61023,') !== false) {
