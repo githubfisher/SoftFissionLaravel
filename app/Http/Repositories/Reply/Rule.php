@@ -130,4 +130,9 @@ class Rule
 
         return true;
     }
+
+    public function destroy($id)
+    {
+        return Rules::destroy($id);
+    }
 }
