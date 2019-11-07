@@ -110,7 +110,7 @@ $api->version('v1', [
         $api->group(['prefix' => 'rule'], function (\Dingo\Api\Routing\Router $api) {
             $api->post('any', 'User\AutoReply\AnyController@store');
             $api->get('any', 'User\AutoReply\AnyController@show');
-            $api->put('any', 'User\AutoReply\AnyController@update');
+            $api->put('any/{id}', 'User\AutoReply\AnyController@update');
         });
     });
 

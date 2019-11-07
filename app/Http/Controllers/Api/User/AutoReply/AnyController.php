@@ -41,11 +41,11 @@ class AnyController extends Controller
         return $this->suc(compact('data'));
     }
 
-    public function update(CreateRuleRequest $request)
+    public function update(CreateRuleRequest $request, $id)
     {
         $this->authorize('update', Rules::class);
 
-        if ($this->rule->updateAnyRule($this->user()->id, $request->all())) {
+        if ($this->rule->update($id, $request->all())) {
             return $this->suc();
         }
 
