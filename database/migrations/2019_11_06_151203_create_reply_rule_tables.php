@@ -24,7 +24,6 @@ class CreateReplyRuleTables extends Migration
             $table->dateTime('start_at')->nullable();
             $table->dateTime('end_at')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
 
         Schema::create('keywords', function (Blueprint $table) {
@@ -33,7 +32,6 @@ class CreateReplyRuleTables extends Migration
             $table->string('keyword', 64);
             $table->unsignedTinyInteger('match_type')->default(1)->comment('匹配规则: 1全匹配 2半匹配');
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('rule_id')
                   ->references('id')->on('rules')
@@ -51,7 +49,6 @@ class CreateReplyRuleTables extends Migration
             $table->unsignedInteger('material_id')->default(0)->comment('素材ID');
             $table->unsignedInteger('material_id_female')->default(0);
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('rule_id')
                   ->references('id')->on('rules')
