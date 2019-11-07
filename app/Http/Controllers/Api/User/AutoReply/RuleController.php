@@ -120,7 +120,7 @@ class RuleController extends Controller
     {
         $this->authorize('delete', Rules::class);
 
-        if ($this->rule->destroy($this->user()->id, $request->input('app_id'), $id)) {
+        if ($this->rule->destroy($this->user()->id, $request->input('app_id'), $id, Constant::REPLY_RULE_SCENE_KEYWORD)) {
             return $this->suc();
         }
 

@@ -146,9 +146,9 @@ class Rule
         return true;
     }
 
-    public function destroy($userId, $appId, $id)
+    public function destroy($userId, $appId, $id, $scene)
     {
-        return Rules::Local($userId)->App($appId)->where('id', $id)->delete();
+        return Rules::Local($userId)->App($appId)->Scene($scene)->where('id', $id)->delete();
     }
 
     // 任意回复
