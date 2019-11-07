@@ -21,8 +21,8 @@ class CreateReplyRuleTables extends Migration
             $table->string('title', 128)->default('');
             $table->unsignedTinyInteger('reply_rule')->default(1)->comment('回复规则: 1全部 2随机');
             $table->unsignedTinyInteger('status')->default(0);
-            $table->dateTime('start_at');
-            $table->dateTime('end_at');
+            $table->dateTime('start_at')->nullable();
+            $table->dateTime('end_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
