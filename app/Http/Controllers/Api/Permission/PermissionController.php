@@ -35,7 +35,7 @@ class PermissionController extends Controller
 
     public function assignRole($permission, $role)
     {
-        $permission = Permission::find($permission);
+        $permission = Permission::findOrFail($permission);
         $role       = Role::findOrFail($role);
         Log::debug(__FUNCTION__ . ' ' . $permission->name . ' ' . $role->name);
 
