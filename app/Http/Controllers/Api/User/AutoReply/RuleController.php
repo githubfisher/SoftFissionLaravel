@@ -23,9 +23,12 @@ class RuleController extends Controller
      * @param RuleRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(RuleRequest $request)
     {
+        $this->authorize('view', Rules::class);
+
         $list = $this->rule->list($this->user()->id, $request->input('app_id'), Constant::REPLY_RULE_SCENE_KEYWORD);
 
         return $this->suc(compact('list'));
@@ -63,9 +66,12 @@ class RuleController extends Controller
      * @param       $id
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
+        $this->authorize('view', Rules::class);
+
         $data = $this->rule->get($id);
 
         return $this->suc(compact('data'));
@@ -86,9 +92,12 @@ class RuleController extends Controller
      * @param         $id
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('update', Rules::class);
+
         if ($this->rule->update($id, $request->all())) {
             return $this->suc();
         }
@@ -99,17 +108,17 @@ class RuleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param $id
+     * @param RuleRequest $request
+     * @param             $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy($id)
+    public function destroy(RuleRequest $request, $id)
     {
-        $rule = $this->rule->get($id);
-        $this->authorize('delete', $rule);
+        $this->authorize('delete', Rules::class);
 
-        if ($this->rule->destroy($id)) {
+        if ($this->rule->destroy($this->user()->id, $request->input('app_id'), $id)) {
             return $this->suc();
         }
 
