@@ -3,7 +3,9 @@ namespace App\Http\Controllers\Api\Permission;
 
 use Illuminate\Http\Request;
 use App\Http\Utilities\Constant;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
@@ -28,5 +30,14 @@ class PermissionController extends Controller
         $role = $this->permission->create($request->input('name'), $this->guard);
 
         return $this->suc(compact('role'));
+    }
+
+    public function assignRole(Permission $permission, Role $role)
+    {
+        if ($res = $this->permission->assignRole($permission, $role)) {
+            return $this->suc();
+        }
+
+        return $this->err();
     }
 }

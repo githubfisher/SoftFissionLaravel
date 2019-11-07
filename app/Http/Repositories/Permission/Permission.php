@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Repositories\Permission;
 
+use \Spatie\Permission\Models\Role;
 use \Spatie\Permission\Models\Permission as Permissions;
 
 class Permission
@@ -13,5 +14,10 @@ class Permission
     public function list(int $limit, string $guard)
     {
         return Permissions::where('guard_name', $guard)->simplePaginate($limit);
+    }
+
+    public function assignRole(Permissions $permission, Role $role)
+    {
+        return $permission->assignRole($role);
     }
 }
