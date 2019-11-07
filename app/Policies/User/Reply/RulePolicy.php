@@ -67,6 +67,7 @@ class RulePolicy
 
         return false;
     }
+
     /**
      * Determine whether the user can delete the post.
      *
@@ -77,7 +78,11 @@ class RulePolicy
     public function delete(User $user, Rule $rule)
     {
         if ($user->can('delete own rules')) {
-            return $user->id == $rule->user_id;
+            if ($user->pid == 0) {
+                return $user->id == $rule->user_id;
+            }
+
+            return $user->pid == $rule->user_id;
         }
 
         return false;
