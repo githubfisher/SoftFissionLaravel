@@ -6,20 +6,20 @@ use Log;
 use Illuminate\Support\Arr;
 use App\Http\Utilities\Constant;
 use App\Http\Utilities\FeedBack;
-use App\Models\User\Reply\Rule;
 use App\Models\User\Reply\Reply;
 use App\Models\User\Reply\Keyword;
+use App\Models\User\Reply\Rule as Rules;
 
 class Rule
 {
     public function list($userId, $appId, $scene, $limit = Constant::PAGINATE_MIN)
     {
-        return Rule::Local($userId)->App($appId)->Scene($scene)->Recent()->paginate($limit);
+        return Rules::Local($userId)->App($appId)->Scene($scene)->Recent()->paginate($limit);
     }
 
     public function get($id)
     {
-        return Rule::with(['keywords', 'replies'])->find($id);
+        return Rules::with(['keywords', 'replies'])->find($id);
     }
 
     public function store($params)
@@ -32,7 +32,7 @@ class Rule
             DB::beginTransaction();
 
             try {
-                $ruleId = Rule::insertGetId([
+                $ruleId = Rules::insertGetId([
                     'user_id'    => $params['user_id'],
                     'app_id'     => $params['app_id'],
                     'title'      => $params['title'],
@@ -76,15 +76,12 @@ class Rule
             DB::beginTransaction();
 
             try {
-                if ($this->diff($rule, $params, ['title', 'reply_rule', 'start_at', 'end_at'])) {
-                    Rule::where('id', $id)->update([
-                        'title'      => $params['title'],
-                        'reply_rule' => $params['reply_rule'],
-                        'start_at'   => $params['start_at'],
-                        'end_at'     => $params['end_at'],
-                    ]);
-                }
+                // 更新规则表
+                $ruleCol = ['title', 'reply_rule', 'start_at', 'end_at'];
+                $diff    = array_diff_assoc(Arr::only($params, $ruleCol), Arr::only($rule, $ruleCol));
+                ! empty($diff) && Rules::where('id', $id)->update($diff);
 
+                // 更新关键词表
                 $ks    = array_column($rule['keywords'], null, 'id');
                 $still = [];
                 foreach ($keywords as $k => $keyword) {
@@ -99,9 +96,11 @@ class Rule
                         Keyword::create($keyword);
                     }
                 }
+                // 清理旧关键词
                 $del = array_diff(array_keys($ks), $still);
                 Keyword::whereIn('id', $del)->delete();
 
+                // 更新回复内容表
                 $rp    = array_column($rule['replies'], null, 'id');
                 $still = [];
                 foreach ($replies as $k => $reply) {
@@ -117,6 +116,7 @@ class Rule
                         Reply::create($reply);
                     }
                 }
+                // 清理旧回复内容
                 $del = array_diff(array_keys($rp), $still);
                 Reply::whereIn('id', $del)->delete();
                 // 引用计数 TODO
