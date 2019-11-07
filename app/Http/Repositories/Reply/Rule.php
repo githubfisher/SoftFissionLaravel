@@ -164,13 +164,6 @@ class Rule
         return $this->get($id);
     }
 
-    public function updateAnyRule($userId, $params)
-    {
-        $id = $this->getIdByScene($userId, $params['app_id'], Constant::REPLY_RULE_SCENE_ANY);
-
-        return $this->update($id, $params);
-    }
-
     // 关注回复
     // 点击回复
     // 扫码回复
