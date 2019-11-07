@@ -106,11 +106,15 @@ $api->version('v1', [
         });
         // 关键词回复规则
         $api->resource('rule', 'User\AutoReply\RuleController');
-        // 任意回复规则
         $api->group(['prefix' => 'rule'], function (\Dingo\Api\Routing\Router $api) {
+            // 任意回复规则
             $api->post('any', 'User\AutoReply\AnyController@store');
             $api->get('any', 'User\AutoReply\AnyController@show');
+            // 关注回复规则
+            $api->post('subscribe', 'User\AutoReply\SubscribeController@store');
+            $api->get('subscribe', 'User\AutoReply\SubscribeController@show');
         });
+
     });
 
     // 管理后台
