@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Repositories\Permission;
 
+use App\Models\User\User;
 use \Spatie\Permission\Models\Role;
 use \Spatie\Permission\Models\Permission as Permissions;
 
@@ -19,5 +20,15 @@ class Permission
     public function assignRole(Permissions $permission, Role $role)
     {
         return $permission->assignRole($role);
+    }
+
+    public function removeRole(Permissions $permission, Role $role)
+    {
+        return $permission->removeRole($role);
+    }
+
+    public function getAllPermissions(User $user)
+    {
+        return $user->getAllPermissions();
     }
 }
