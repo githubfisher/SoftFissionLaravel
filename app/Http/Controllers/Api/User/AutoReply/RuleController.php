@@ -4,23 +4,23 @@ namespace App\Http\Controllers\Api\User\AutoReply;
 use Illuminate\Http\Request;
 use App\Http\Utilities\Constant;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\Reply\Keyword;
-use App\Http\Requests\User\AutoReply\KeywordRequest;
-use App\Http\Requests\User\AutoReply\CreateKeywordRequest;
+use App\Http\Repositories\Reply\Rule;
+use App\Http\Requests\User\AutoReply\RuleRequest;
+use App\Http\Requests\User\AutoReply\CreateRuleRequest;
 
 class RuleController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param KeywordRequest $request
-     * @param Keyword $keyword
+     * @param RuleRequest $request
+     * @param Rule        $rule
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(KeywordRequest $request, Keyword $keyword)
+    public function index(RuleRequest $request, Rule $rule)
     {
-        $list = $keyword->list($this->user()->id, $request->input('app_id'), Constant::REPLY_RULE_SCENE_KEYWORD);
+        $list = $rule->list($this->user()->id, $request->input('app_id'), Constant::REPLY_RULE_SCENE_KEYWORD);
 
         return $this->suc(compact('list'));
     }
@@ -36,16 +36,16 @@ class RuleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param CreateKeywordRequest $request
-     * @param Keyword $keyword
+     * @param CreateRuleRequest $request
+     * @param Rule              $rule
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreateKeywordRequest $request, Keyword $keyword)
+    public function store(CreateRuleRequest $request, Rule $rule)
     {
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
-        $res               = $keyword->store($params);
+        $res               = $rule->store($params);
         if (is_numeric($res)) {
             return $this->suc(['id' => $res]);
         }
@@ -57,13 +57,13 @@ class RuleController extends Controller
      * Display the specified resource.
      *
      * @param $id
-     * @param Keyword $keyword
+     * @param Rule $rule
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id, Keyword $keyword)
+    public function show($id, Rule $rule)
     {
-        $data = $keyword->get($id);
+        $data = $rule->get($id);
 
         return $this->suc(compact('data'));
     }
@@ -83,13 +83,13 @@ class RuleController extends Controller
      *
      * @param Request $request
      * @param         $id
-     * @param Keyword $keyword
+     * @param Rule $rule
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id, Keyword $keyword)
+    public function update(Request $request, $id, Rule $rule)
     {
-        if ($keyword->update($id, $request->all())) {
+        if ($rule->update($id, $request->all())) {
             return $this->suc();
         }
 
@@ -100,13 +100,13 @@ class RuleController extends Controller
      * Remove the specified resource from storage.
      *
      * @param         $id
-     * @param Keyword $keyword
+     * @param Rule $rule
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id, Keyword $keyword)
+    public function destroy($id, Rule $rule)
     {
-        if ($keyword->destroy($id)) {
+        if ($rule->destroy($id)) {
             return $this->suc();
         }
 
