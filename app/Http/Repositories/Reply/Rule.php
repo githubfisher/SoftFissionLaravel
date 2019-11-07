@@ -30,7 +30,7 @@ class Rule
         $keywords = $params['keywords'];
         // {difference:, reply_type:, reply_type_female:, content:, content_female:, material_id:, material_id_female}
         $replies  = $params['replies'];
-        if (is_array($keywords) && is_array($replies) && count($keywords) && count($replies)) {
+        if (is_array($keywords) && is_array($replies) && count($replies)) {
             DB::beginTransaction();
 
             try {
@@ -47,9 +47,12 @@ class Rule
                     'updated_at' => $now,
                 ]);
 
-                data_fill($keywords, '*.rule_id', $ruleId);
+                if (count($keywords)) {
+                    data_fill($keywords, '*.rule_id', $ruleId);
+                    (new Keyword)->addAll($keywords);
+                }
+
                 data_fill($replies, '*.rule_id', $ruleId);
-                (new Keyword)->addAll($keywords);
                 (new Reply())->addAll($replies);
             } catch (\Exception $e) {
                 Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
@@ -72,7 +75,7 @@ class Rule
         $keywords = $params['keywords'];
         // {difference:, reply_type:, reply_type_female:, content:, content_female:, material_id:, material_id_female}
         $replies  = $params['replies'];
-        if (is_array($keywords) && is_array($replies) && count($keywords) && count($replies)) {
+        if (is_array($keywords) && is_array($replies) && count($replies)) {
             $rule = $this->get($id);
             if ( ! $rule) {
                 return FeedBack::RULE_NOT_FOUND;
@@ -89,23 +92,28 @@ class Rule
                 ! empty($diff) && Rules::where('id', $id)->update($diff);
 
                 // 更新关键词表
-                $ks    = array_column($rule['keywords'], null, 'id');
-                $still = [];
-                foreach ($keywords as $k => $keyword) {
-                    if (isset($keyword['id']) && $keyword['id']) {
-                        $still[] = $keyword['id'];
-                        $diff    = array_diff_assoc($keyword, Arr::only($ks[$keyword['id']], ['keyword', 'match_type']));
-                        if ( ! empty($diff)) {
-                            Keyword::where('id', $keyword['id'])->update($keyword);
+                $ks = array_column($rule['keywords'], null, 'id');
+                if (count($keywords)) {
+                    $still = [];
+                    foreach ($keywords as $k => $keyword) {
+                        if (isset($keyword['id']) && $keyword['id']) {
+                            $still[] = $keyword['id'];
+                            $diff    = array_diff_assoc($keyword, Arr::only($ks[$keyword['id']], ['keyword', 'match_type']));
+                            if ( ! empty($diff)) {
+                                Keyword::where('id', $keyword['id'])
+                                       ->update($keyword);
+                            }
+                        } else {
+                            $keyword['rule_id'] = $id;
+                            Keyword::create($keyword);
                         }
-                    } else {
-                        $keyword['rule_id'] = $id;
-                        Keyword::create($keyword);
                     }
+                    // 清理旧关键词
+                    $del = array_diff(array_keys($ks), $still);
+                } else {
+                    $del = array_keys($ks);
                 }
-                // 清理旧关键词
-                $del = array_diff(array_keys($ks), $still);
-                Keyword::whereIn('id', $del)->delete();
+                count($del) && Keyword::whereIn('id', $del)->delete();
 
                 // 更新回复内容表
                 $rp    = array_column($rule['replies'], null, 'id');
@@ -125,7 +133,7 @@ class Rule
                 }
                 // 清理旧回复内容
                 $del = array_diff(array_keys($rp), $still);
-                Reply::whereIn('id', $del)->delete();
+                count($del) && Reply::whereIn('id', $del)->delete();
                 // 引用计数 TODO
             } catch (\Exception $e) {
                 Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
