@@ -1,9 +1,11 @@
 <?php
 namespace App\Http\Controllers\Api\User\AutoReply;
 
+use App\Http\Utilities\Constant;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Reply\Rule;
 use App\Models\User\Reply\Rule as Rules;
+use App\Http\Requests\User\AutoReply\RuleRequest;
 use App\Http\Requests\User\AutoReply\CreateRuleRequest;
 
 class AnyController extends Controller
@@ -21,6 +23,7 @@ class AnyController extends Controller
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
+        $params['scene']   = Constant::REPLY_RULE_SCENE_ANY;
         $res               = $this->rule->storeAnyRule($params);
         if (is_numeric($res)) {
             return $this->suc(['id' => $res]);
@@ -29,11 +32,11 @@ class AnyController extends Controller
         return $this->err($res);
     }
 
-    public function show()
+    public function show(RuleRequest $request)
     {
         $this->authorize('view', Rules::class);
 
-        $data = $this->rule->getAnyRule();
+        $data = $this->rule->getAnyRule($this->user()->id, $request->input('app_id'));
 
         return $this->suc(compact('data'));
     }
@@ -42,7 +45,7 @@ class AnyController extends Controller
     {
         $this->authorize('update', Rules::class);
 
-        if ($this->rule->updateAnyRule($request->all())) {
+        if ($this->rule->updateAnyRule($this->user()->id, $request->all())) {
             return $this->suc();
         }
 

@@ -55,6 +55,7 @@ class RuleController extends Controller
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
+        $params['scene']   = Constant::REPLY_RULE_SCENE_KEYWORD;
         $res               = $this->rule->store($params);
         if (is_numeric($res)) {
             return $this->suc(['id' => $res]);
