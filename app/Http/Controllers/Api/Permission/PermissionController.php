@@ -37,12 +37,30 @@ class PermissionController extends Controller
     {
         $permission = Permission::findOrFail($permission);
         $role       = Role::findOrFail($role);
-        Log::debug(__FUNCTION__ . ' ' . $permission->name . ' ' . $role->name);
 
         if ($res = $this->permission->assignRole($permission, $role)) {
             return $this->suc();
         }
 
         return $this->err();
+    }
+
+    public function removeRole($permission, $role)
+    {
+        $permission = Permission::findOrFail($permission);
+        $role       = Role::findOrFail($role);
+
+        if ($res = $this->permission->removeRole($permission, $role)) {
+            return $this->suc();
+        }
+
+        return $this->err();
+    }
+
+    public function allMyPermissons()
+    {
+        $list = $this->permission->getAllPermissions($this->user());
+
+        return $this->suc(compact('list'));
     }
 }
