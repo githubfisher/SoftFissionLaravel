@@ -131,8 +131,8 @@ class Rule
         return true;
     }
 
-    public function destroy($id)
+    public function destroy($userId, $appId, $id)
     {
-        return Rules::destroy($id);
+        return Rules::Local($userId)->App($appId)->destroy($id);
     }
 }
