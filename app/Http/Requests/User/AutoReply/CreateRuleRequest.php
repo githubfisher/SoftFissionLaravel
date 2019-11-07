@@ -24,7 +24,7 @@ class CreateRuleRequest extends FormRequest
     {
         return [
             'app_id'     => 'required|string|min:18',
-            'title'      => 'required',
+            'title'      => 'sometimes|required|string',
             'keywords'   => 'required|array',
             'replies'    => 'required|array',
             'reply_rule' => 'required|in:1,2',
