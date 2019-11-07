@@ -8,7 +8,7 @@ use App\Http\Repositories\Reply\Keyword;
 use App\Http\Requests\User\AutoReply\KeywordRequest;
 use App\Http\Requests\User\AutoReply\CreateKeywordRequest;
 
-class KeywordController extends Controller
+class RuleController extends Controller
 {
     /**
      * Display a listing of the resource.
