@@ -3,6 +3,7 @@ namespace App\Http\Repositories\Reply;
 
 use DB;
 use Log;
+use Illuminate\Support\Arr;
 use App\Http\Utilities\Constant;
 use App\Http\Utilities\FeedBack;
 use App\Models\User\Reply\Rules;
@@ -87,9 +88,12 @@ class Keyword
                 $ks    = array_column($rule['keywords'], null, 'id');
                 $still = [];
                 foreach ($keywords as $k => $keyword) {
-                    if (isset($keyword['id']) && $keyword['id'] && $this->diff($ks[$keyword['id']], $keyword, ['keyword', 'match_type'])) {
-                        Keywords::where('id', $keyword['id'])->update($keyword);
+                    if (isset($keyword['id']) && $keyword['id']) {
                         $still[] = $keyword['id'];
+                        $diff    = array_diff_assoc($keyword, Arr::only($ks[$keyword['id']], ['keyword', 'match_type']));
+                        if ( ! empty($diff)) {
+                            Keywords::where('id', $keyword['id'])->update($keyword);
+                        }
                     } else {
                         $keyword['rule_id'] = $id;
                         Keywords::create($keyword);
@@ -101,9 +105,13 @@ class Keyword
                 $rp    = array_column($rule['replies'], null, 'id');
                 $still = [];
                 foreach ($replies as $k => $reply) {
-                    if (isset($reply['id']) && $reply['id'] && $this->diff($rp[$reply['id']], $reply, ['difference', 'reply_type', 'reply_type_female', 'content', 'content_female', 'material_id', 'material_id_female'])) {
-                        Replies::where('id', $reply['id'])->update($reply);
+                    if (isset($reply['id']) && $reply['id']) {
                         $still[] = $reply['id'];
+                        $diff    = array_diff_assoc($reply, Arr::only($rp[$reply['id']], ['difference', 'reply_type', 'reply_type_female', 'content', 'content_female', 'material_id', 'material_id_female']));
+                        if ( ! empty($diff)) {
+                            Replies::where('id', $reply['id'])->update($reply);
+                            // 引用计数 TODO
+                        }
                     } else {
                         $reply['rule_id'] = $id;
                         Replies::create($reply);
@@ -111,6 +119,7 @@ class Keyword
                 }
                 $del = array_diff(array_keys($rp), $still);
                 Replies::whereIn('id', $del)->delete();
+                // 引用计数 TODO
             } catch (\Exception $e) {
                 Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
                 DB::rollBack();
@@ -120,16 +129,5 @@ class Keyword
         }
 
         return true;
-    }
-
-    private function diff($rule, $params, $columns)
-    {
-        foreach ($columns as $column) {
-            if (isset($rule[$column]) && isset($params[$column]) && $rule[$column] != $params[$column]) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
