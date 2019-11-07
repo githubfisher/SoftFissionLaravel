@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api\Permission;
 
+use Log;
 use Illuminate\Http\Request;
 use App\Http\Utilities\Constant;
 use Spatie\Permission\Models\Role;
@@ -34,6 +35,8 @@ class PermissionController extends Controller
 
     public function assignRole(Permission $permission, Role $role)
     {
+        Log::debug(__FUNCTION__ . ' ' . $permission->name . ' ' . $role->name);
+        
         if ($res = $this->permission->assignRole($permission, $role)) {
             return $this->suc();
         }
