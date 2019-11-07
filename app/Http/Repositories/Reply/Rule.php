@@ -6,20 +6,20 @@ use Log;
 use Illuminate\Support\Arr;
 use App\Http\Utilities\Constant;
 use App\Http\Utilities\FeedBack;
-use App\Models\User\Reply\Rules;
-use App\Models\User\Reply\Replies;
-use App\Models\User\Reply\Keywords;
+use App\Models\User\Reply\Rule;
+use App\Models\User\Reply\Reply;
+use App\Models\User\Reply\Keyword;
 
-class Keyword
+class Rule
 {
     public function list($userId, $appId, $scene, $limit = Constant::PAGINATE_MIN)
     {
-        return Rules::Local($userId)->App($appId)->Scene($scene)->Recent()->paginate($limit);
+        return Rule::Local($userId)->App($appId)->Scene($scene)->Recent()->paginate($limit);
     }
 
     public function get($id)
     {
-        return Rules::with(['keywords', 'replies'])->find($id);
+        return Rule::with(['keywords', 'replies'])->find($id);
     }
 
     public function store($params)
@@ -32,7 +32,7 @@ class Keyword
             DB::beginTransaction();
 
             try {
-                $ruleId = Rules::insertGetId([
+                $ruleId = Rule::insertGetId([
                     'user_id'    => $params['user_id'],
                     'app_id'     => $params['app_id'],
                     'title'      => $params['title'],
@@ -43,8 +43,8 @@ class Keyword
 
                 data_fill($keywords, '*.rule_id', $ruleId);
                 data_fill($replies, '*.rule_id', $ruleId);
-                (new Keywords)->addAll($keywords);
-                (new Replies())->addAll($replies);
+                (new Keyword)->addAll($keywords);
+                (new Reply())->addAll($replies);
             } catch (\Exception $e) {
                 Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
                 DB::rollBack();
@@ -77,7 +77,7 @@ class Keyword
 
             try {
                 if ($this->diff($rule, $params, ['title', 'reply_rule', 'start_at', 'end_at'])) {
-                    Rules::where('id', $id)->update([
+                    Rule::where('id', $id)->update([
                         'title'      => $params['title'],
                         'reply_rule' => $params['reply_rule'],
                         'start_at'   => $params['start_at'],
@@ -92,15 +92,15 @@ class Keyword
                         $still[] = $keyword['id'];
                         $diff    = array_diff_assoc($keyword, Arr::only($ks[$keyword['id']], ['keyword', 'match_type']));
                         if ( ! empty($diff)) {
-                            Keywords::where('id', $keyword['id'])->update($keyword);
+                            Keyword::where('id', $keyword['id'])->update($keyword);
                         }
                     } else {
                         $keyword['rule_id'] = $id;
-                        Keywords::create($keyword);
+                        Keyword::create($keyword);
                     }
                 }
                 $del = array_diff(array_keys($ks), $still);
-                Keywords::whereIn('id', $del)->delete();
+                Keyword::whereIn('id', $del)->delete();
 
                 $rp    = array_column($rule['replies'], null, 'id');
                 $still = [];
@@ -109,16 +109,16 @@ class Keyword
                         $still[] = $reply['id'];
                         $diff    = array_diff_assoc($reply, Arr::only($rp[$reply['id']], ['difference', 'reply_type', 'reply_type_female', 'content', 'content_female', 'material_id', 'material_id_female']));
                         if ( ! empty($diff)) {
-                            Replies::where('id', $reply['id'])->update($reply);
+                            Reply::where('id', $reply['id'])->update($reply);
                             // 引用计数 TODO
                         }
                     } else {
                         $reply['rule_id'] = $id;
-                        Replies::create($reply);
+                        Reply::create($reply);
                     }
                 }
                 $del = array_diff(array_keys($rp), $still);
-                Replies::whereIn('id', $del)->delete();
+                Reply::whereIn('id', $del)->delete();
                 // 引用计数 TODO
             } catch (\Exception $e) {
                 Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());

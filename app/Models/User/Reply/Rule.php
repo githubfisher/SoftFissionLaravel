@@ -4,7 +4,7 @@ namespace App\Models\User\Reply;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Rules extends Model
+class Rule extends Model
 {
     use SoftDeletes;
 
@@ -23,11 +23,11 @@ class Rules extends Model
 
     public function keywords()
     {
-        return $this->hasMany('App\Models\User\Reply\Keywords', 'rule_id', 'id');
+        return $this->hasMany('App\Models\User\Reply\Keyword', 'rule_id', 'id');
     }
 
     public function replies()
     {
-        return $this->hasMany('App\Models\User\Reply\Replies', 'rule_id', 'id');
+        return $this->hasMany('App\Models\User\Reply\Reply', 'rule_id', 'id');
     }
 }
