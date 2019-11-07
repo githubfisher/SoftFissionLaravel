@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use DB;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 
@@ -36,6 +37,10 @@ class Model extends EloquentModel
      */
     public function addAll(array $data)
     {
+        $now = Carbon::now()->toDateTimeString();
+        data_fill($data, '*.created_at', $now);
+        data_fill($data, '*.updated_at', $now);
+
         return DB::table($this->getTable())->insert($data);
     }
 
