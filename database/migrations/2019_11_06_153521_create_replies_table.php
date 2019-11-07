@@ -15,7 +15,7 @@ class CreateRepliesTable extends Migration
     {
         Schema::create('replies', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('rule_id')->default(0);
+            $table->unsignedBigInteger('rule_id')->default(0);
             $table->unsignedTinyInteger('difference')->comment('是否区分男女: 1不区分 2区分');
             $table->unsignedTinyInteger('reply_type')->comment('回复消息类型: 1文本 2图文 3图片 4音频 5视频 6位置 ...');
             $table->unsignedTinyInteger('reply_type_female');
