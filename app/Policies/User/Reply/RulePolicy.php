@@ -1,6 +1,7 @@
 <?php
 namespace App\Policies\User\Reply;
 
+use Log;
 use App\Models\User\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -36,6 +37,7 @@ class RulePolicy
      */
     public function create(User $user)
     {
+        Log::debug(__FUNCTION__ . ' ' . $user->id);
         // visitors cannot view unpublished items
         if ($user === null) {
             return false;
