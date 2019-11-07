@@ -38,6 +38,7 @@ class Rule
                 $ruleId = Rules::insertGetId([
                     'user_id'    => $params['user_id'],
                     'app_id'     => $params['app_id'],
+                    'scene'      => $params['scene'],
                     'title'      => $params['title'],
                     'reply_rule' => $params['reply_rule'],
                     'start_at'   => isset($params['start_at']) ? $params['start_at'] : null,
