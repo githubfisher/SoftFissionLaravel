@@ -80,11 +80,16 @@ $api->version('v1', [
         $api->group(['prefix' => '/role'], function (\Dingo\Api\Routing\Router $api) {
             $api->get('', 'Permission\RoleController@index');
             $api->post('create', 'Permission\RoleController@create');
+            $api->post('assign/{role}/{user}', 'Permission\RoleController@assignRole');
+            $api->delete('remove/{role}/{user}', 'Permission\RoleController@removeRole');
+            $api->get('my/all', 'Permission\RoleController@allMyRoles');
         });
         $api->group(['prefix' => '/permission'], function (\Dingo\Api\Routing\Router $api) {
             $api->get('', 'Permission\PermissionController@index');
             $api->post('create', 'Permission\PermissionController@create');
             $api->post('assign/{permission}/{role}', 'Permission\PermissionController@assignRole');
+            $api->delete('remove/{permission}/{role}', 'Permission\PermissionController@removeRole');
+            $api->get('my/all', 'Permission\PermissionController@allMyPermissons');
         });
         // 公众号管理
         $api->get('/wechat/binding', 'User\WeChat\WeChatController@binding');
