@@ -30,4 +30,16 @@ class Rule extends Model
     {
         return $this->hasMany('App\Models\User\Reply\Reply', 'rule_id', 'id');
     }
+
+    /**
+     * 查询特定公众号的
+     *
+     * @param $query
+     * @param $scene
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeScene($query, $scene)
+    {
+        return $query->where('scene', $scene);
+    }
 }
