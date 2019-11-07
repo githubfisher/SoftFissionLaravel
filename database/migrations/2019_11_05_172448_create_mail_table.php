@@ -16,6 +16,7 @@ class CreateMailTable extends Migration
         Schema::create('mail', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->default(0);
+            $table->string('guard', 8);
             $table->unsignedInteger('scene_code')->default(0);
             $table->string('title');
             $table->text('content');

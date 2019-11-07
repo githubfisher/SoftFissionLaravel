@@ -31,6 +31,11 @@ class CreateWechatAppTable extends Migration
             $table->unsignedTinyInteger('anytype_reply')->default(0)->comment('任意回复: 0未开启');
             $table->unsignedTinyInteger('subscribe_reply')->default(0)->comment('关注回复: 0未开启');
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('user_id')
+                  ->references('id')->on('user')
+                  ->onDelete('cascade');
 
             $table->unique('app_id', 'app_id');
             $table->index('user_id', 'user_id');
