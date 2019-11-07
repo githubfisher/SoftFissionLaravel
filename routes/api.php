@@ -98,8 +98,8 @@ $api->version('v1', [
             $api->get('unread', 'Message\MailController@unread');
             $api->put('read', 'Message\MailController@setRead');
         });
-        // 关键词回复
-        $api->resource('keyword', 'User\AutoReply\KeywordController');
+        // 关键词回复规则
+        $api->resource('rule', 'User\AutoReply\RuleController');
     });
 
     // 管理后台
