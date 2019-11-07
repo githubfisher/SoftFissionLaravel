@@ -17,6 +17,7 @@ class RuleController extends Controller
     {
         $this->rule = $rule;
     }
+
     /**
      * Display a listing of the resource.
      *
