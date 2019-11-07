@@ -84,7 +84,7 @@ $api->version('v1', [
         $api->group(['prefix' => '/permission'], function (\Dingo\Api\Routing\Router $api) {
             $api->get('', 'Permission\PermissionController@index');
             $api->post('create', 'Permission\PermissionController@create');
-            $api->post('assign/{permission}/{role}', 'Permission\RoleController@assignRole');
+            $api->post('assign/{permission}/{role}', 'Permission\PermissionController@assignRole');
         });
         // 公众号管理
         $api->get('/wechat/binding', 'User\WeChat\WeChatController@binding');
