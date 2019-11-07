@@ -13,6 +13,7 @@ use App\Models\User\Reply\Rule as Rules;
 
 class Rule
 {
+    // 关键词回复
     public function list($userId, $appId, $scene, $limit = Constant::PAGINATE_MIN)
     {
         return Rules::Local($userId)->App($appId)->Scene($scene)->Recent()->paginate($limit);
@@ -41,6 +42,7 @@ class Rule
                     'reply_rule' => $params['reply_rule'],
                     'start_at'   => isset($params['start_at']) ? $params['start_at'] : null,
                     'end_at'     => isset($params['end_at']) ? $params['end_at'] : null,
+                    'status'     => isset($params) ? $params['status'] : Constant::FLASE_ZERO,
                     'created_at' => $now,
                     'updated_at' => $now,
                 ]);
@@ -140,4 +142,36 @@ class Rule
     {
         return Rules::Local($userId)->App($appId)->where('id', $id)->delete();
     }
+
+    // 任意回复
+    public function storeAnyRule($params)
+    {
+        $params['title']  = '任意回复规则';
+        $params['status'] = Constant::TRUE_ONE;
+
+        return $this->store($params);
+    }
+
+    private function getIdByScene($userId, $appId, $scene = Constant::REPLY_RULE_SCENE_ANY)
+    {
+        return Rules::Local($userId)->App($appId)->Scene($scene)->first('id');
+    }
+
+    public function getAnyRule($userId, $appId)
+    {
+        $id = $this->getIdByScene($userId, $appId, Constant::REPLY_RULE_SCENE_ANY);
+
+        return $this->get($id);
+    }
+
+    public function updateAnyRule($userId, $params)
+    {
+        $id = $this->getIdByScene($userId, $params['app_id'], Constant::REPLY_RULE_SCENE_ANY);
+
+        return $this->update($id, $params);
+    }
+
+    // 关注回复
+    // 点击回复
+    // 扫码回复
 }
