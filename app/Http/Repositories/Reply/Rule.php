@@ -3,6 +3,7 @@ namespace App\Http\Repositories\Reply;
 
 use DB;
 use Log;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use App\Http\Utilities\Constant;
 use App\Http\Utilities\FeedBack;
@@ -32,6 +33,7 @@ class Rule
             DB::beginTransaction();
 
             try {
+                $now    = Carbon::now()->toDateTimeString();
                 $ruleId = Rules::insertGetId([
                     'user_id'    => $params['user_id'],
                     'app_id'     => $params['app_id'],
@@ -39,6 +41,8 @@ class Rule
                     'reply_rule' => $params['reply_rule'],
                     'start_at'   => isset($params['start_at']) ? $params['start_at'] : null,
                     'end_at'     => isset($params['end_at']) ? $params['end_at'] : null,
+                    'created_at' => $now,
+                    'updated_at' => $now,
                 ]);
 
                 data_fill($keywords, '*.rule_id', $ruleId);
