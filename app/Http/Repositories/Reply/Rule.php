@@ -27,7 +27,7 @@ class Rule
     public function store($params)
     {
         // {keyword:, match_type:}
-        $keywords = $params['keywords'];
+        $keywords = isset($params['keywords']) ? $params['keywords'] : [];
         // {difference:, reply_type:, reply_type_female:, content:, content_female:, material_id:, material_id_female}
         $replies  = $params['replies'];
         if (is_array($keywords) && is_array($replies) && count($replies)) {
@@ -72,7 +72,7 @@ class Rule
     public function update($id, $params)
     {
         // {keyword:, match_type:}
-        $keywords = $params['keywords'];
+        $keywords = isset($params['keywords']) ? $params['keywords'] : [];
         // {difference:, reply_type:, reply_type_female:, content:, content_female:, material_id:, material_id_female}
         $replies  = $params['replies'];
         if (is_array($keywords) && is_array($replies) && count($replies)) {
@@ -173,6 +173,20 @@ class Rule
     }
 
     // 关注回复
+    public function storeSubscribeRule($params)
+    {
+        $params['title']  = '关注回复规则';
+        $params['status'] = Constant::TRUE_ONE;
+
+        return $this->store($params);
+    }
+
+    public function getSubscribeRule($userId, $appId)
+    {
+        $id = $this->getIdByScene($userId, $appId, Constant::REPLY_RULE_SCENE_SUBSCRIBE);
+
+        return $this->get($id);
+    }
     // 点击回复
     // 扫码回复
 }
