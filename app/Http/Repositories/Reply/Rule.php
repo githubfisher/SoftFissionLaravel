@@ -37,8 +37,8 @@ class Rule
                     'app_id'     => $params['app_id'],
                     'title'      => $params['title'],
                     'reply_rule' => $params['reply_rule'],
-                    'start_at'   => $params['start_at'],
-                    'end_at'     => $params['end_at'],
+                    'start_at'   => isset($params['start_at']) ? $params['start_at'] : null,
+                    'end_at'     => isset($params['end_at']) ? $params['end_at'] : null,
                 ]);
 
                 data_fill($keywords, '*.rule_id', $ruleId);
@@ -77,8 +77,9 @@ class Rule
 
             try {
                 // 更新规则表
-                $ruleCol = ['title', 'reply_rule', 'start_at', 'end_at'];
-                $diff    = array_diff_assoc(Arr::only($params, $ruleCol), Arr::only($rule, $ruleCol));
+                $ruleCol  = ['title', 'reply_rule', 'start_at', 'end_at'];
+                $ruleInfo = Arr::only($params, $ruleCol);
+                $diff     = array_diff_assoc($ruleInfo, Arr::only($rule, array_keys($ruleInfo)));
                 ! empty($diff) && Rules::where('id', $id)->update($diff);
 
                 // 更新关键词表
