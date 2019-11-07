@@ -138,6 +138,6 @@ class Rule
 
     public function destroy($userId, $appId, $id)
     {
-        return Rules::Local($userId)->App($appId)->destroy($id);
+        return Rules::Local($userId)->App($appId)->delete($id);
     }
 }
