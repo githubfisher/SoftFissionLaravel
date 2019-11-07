@@ -33,10 +33,12 @@ class PermissionController extends Controller
         return $this->suc(compact('role'));
     }
 
-    public function assignRole(Permission $permission, Role $role)
+    public function assignRole($permission, $role)
     {
+        $permission = Permission::find($permission);
+        $role       = Role::findOrFail($role);
         Log::debug(__FUNCTION__ . ' ' . $permission->name . ' ' . $role->name);
-        
+
         if ($res = $this->permission->assignRole($permission, $role)) {
             return $this->suc();
         }
