@@ -106,7 +106,7 @@ $api->version('v1', [
         });
         // 关键词回复规则
         $api->resource('rule', 'User\AutoReply\RuleController');
-        $api->group(['prefix' => 'rule'], function (\Dingo\Api\Routing\Router $api) {
+        $api->group(['prefix' => 'rules'], function (\Dingo\Api\Routing\Router $api) {
             // 任意回复规则
             $api->post('any', 'User\AutoReply\AnyController@store');
             $api->get('any', 'User\AutoReply\AnyController@show');
