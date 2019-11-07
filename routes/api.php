@@ -106,6 +106,12 @@ $api->version('v1', [
         });
         // 关键词回复规则
         $api->resource('rule', 'User\AutoReply\RuleController');
+        // 任意回复规则
+        $api->group(['prefix' => 'rule'], function (\Dingo\Api\Routing\Router $api) {
+            $api->post('any', 'User\AutoReply\AnyController@store');
+            $api->get('any', 'User\AutoReply\AnyController@show');
+            $api->put('any', 'User\AutoReply\AnyController@update');
+        });
     });
 
     // 管理后台
