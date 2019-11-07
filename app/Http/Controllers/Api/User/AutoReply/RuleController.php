@@ -89,13 +89,13 @@ class RuleController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param CreateRuleRequest $request
      * @param         $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, $id)
+    public function update(CreateRuleRequest $request, $id)
     {
         $this->authorize('update', Rules::class);
 
