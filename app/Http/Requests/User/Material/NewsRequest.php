@@ -13,7 +13,7 @@ class NewsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class NewsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'app_id' => 'required|string|min:18',
+            'limit'  => 'sometimes|required|integer|min:10',
         ];
     }
 }
