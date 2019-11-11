@@ -24,6 +24,7 @@ class RuleRequest extends FormRequest
     {
         return [
             'app_id' => 'required|string|min:18',
+            'limit'  => 'sometimes|required|integer|min:10',
         ];
     }
 }

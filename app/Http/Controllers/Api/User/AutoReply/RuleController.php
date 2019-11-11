@@ -29,7 +29,8 @@ class RuleController extends Controller
     {
         $this->authorize('view', Rules::class);
 
-        $list = $this->rule->list($this->user()->id, $request->input('app_id'), Constant::REPLY_RULE_SCENE_KEYWORD);
+        $limit = $request->input('limit', Constant::PAGINATE_MIN);
+        $list  = $this->rule->list($this->user()->id, $request->input('app_id'), Constant::REPLY_RULE_SCENE_KEYWORD, $limit);
 
         return $this->suc(compact('list'));
     }
