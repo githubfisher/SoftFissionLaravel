@@ -59,6 +59,7 @@ class QrCode
 
                 // 创建回复规则
                 $params['keywords'] = [];
+                $params['status']   = Constant::TRUE_ONE;
                 $ruleId             = (new Rule)->store($params);
 
                 // 创建二维码记录
@@ -74,7 +75,6 @@ class QrCode
                     'expire_type' => $params['expire_type'],
                     'expire_at'   => date('Y-m-d H:i:s', $expireAt),
                     'expire_in'   => $expireIn,
-                    'status'      => isset($params) ? $params['status'] : Constant::FLASE_ZERO,
                     'created_at'  => $now,
                     'updated_at'  => $now,
                 ]);
