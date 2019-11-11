@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Models\User\Material;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 
 class News extends Model
 {
