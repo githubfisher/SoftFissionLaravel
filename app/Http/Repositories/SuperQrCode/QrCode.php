@@ -28,15 +28,15 @@ class QrCode
         $expireAt = $error = null;
         $expireIn = 0;
         //临时二维码 有效时间换算
-        if ($params['type'] == 2) {
-            if ($params['expire_type'] == 1) { // 小时
+        if ($params['type'] == Constant::QR_CODE_TYPE_SHORT_TERM) {
+            if ($params['expire_type'] == Constant::QR_CODE_SHORT_TERM_BY_EXPIRE) { // 小时
                 $expireAt = strtotime("+ $params[expire_in] hours");
             } else { // 日历
                 $expireAt = strtotime($params['expire_at']);
             }
 
             $expireIn = $expireAt - time();
-            if ($expireIn > 2592000) {
+            if ($expireIn > Constant::CACHE_TTL_THIRTY_DAY) {
                 Log::error(__FUNCTION__ . ' 临时二维码有效时长超过30天! ' . json_encode($params));
 
                 $error = FeedBack::PARAMS_INCORRECT;
@@ -68,7 +68,6 @@ class QrCode
                     'user_id'     => $params['user_id'],
                     'app_id'      => $params['app_id'],
                     'rule_id'     => $ruleId,
-                    'scene'       => $params['scene'],
                     'title'       => $params['title'],
                     'type'        => $params['type'],
                     'target_num'  => $params['target_num'],
@@ -84,7 +83,7 @@ class QrCode
                     'id'          => $qrCodeId,
                     'type'        => $params['type'],
                     'target_num'  => $params['target_num'],
-                    'expire_type' => isset($params['expire_type']) ? $params['expire_type'] : 1,
+                    'expire_type' => isset($params['expire_type']) ? $params['expire_type'] : Constant::FLASE_ZERO,
                     'expire_at'   => $expireAt,
                     'expire_in'   => $expireIn,
                 ]));
@@ -138,7 +137,7 @@ class QrCode
                             'id'          => $qrCode['id'],
                             'type'        => $qrCode['type'], // 永久与临时不可修改
                             'target_num'  => $params['target_num'] - $qrCode['target_num'],
-                            'expire_type' => isset($params['expire_type']) ? $params['expire_type'] : 1,
+                            'expire_type' => isset($params['expire_type']) ? $params['expire_type'] : Constant::FLASE_ZERO,
                             'expire_at'   => $expireAt,
                             'expire_in'   => $expireIn,
                         ]));
