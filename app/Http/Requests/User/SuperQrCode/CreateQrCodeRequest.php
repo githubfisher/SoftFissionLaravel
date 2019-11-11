@@ -32,7 +32,7 @@ class CreateQrCodeRequest extends FormRequest
             'end_at'      => 'nullable|date',
             'target_num'  => 'sometimes|required|integer|min:1',
             'type'        => 'required|integer|in:1,2',
-            'expire_type' => 'required_if:type,1',
+            'expire_type' => 'required_if:type,1|integer|in:1,2',
             'expire_at'   => 'sometimes|required|date',
             'expire_in'   => 'sometimes|required|integer|min:1',
         ];
