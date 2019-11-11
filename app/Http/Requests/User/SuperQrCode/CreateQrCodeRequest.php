@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\User\SuperQrCode;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -13,7 +12,7 @@ class CreateQrCodeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +23,18 @@ class CreateQrCodeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'app_id'      => 'required|string|min:18',
+            'title'       => 'sometimes|required|string',
+            'keywords'    => 'sometimes|required|array',
+            'replies'     => 'required|array',
+            'reply_rule'  => 'required|in:1,2',
+            'start_at'    => 'nullable|date',
+            'end_at'      => 'nullable|date',
+            'target_num'  => 'sometimes|required|integer|min:1',
+            'type'        => 'required|integer|in:1,2',
+            'expire_type' => 'required_if:type,1',
+            'expire_at'   => 'sometimes|required|date',
+            'expire_in'   => 'sometimes|required|integer|min:1',
         ];
     }
 }
