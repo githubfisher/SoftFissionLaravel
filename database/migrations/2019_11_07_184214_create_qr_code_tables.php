@@ -32,7 +32,7 @@ class CreateQrCodeTables extends Migration
         Schema::create('super_qr_code_detail', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('qrcode_id')->default(0)->comment('二维码ID');
-            $table->string('batch')->default('')->comment('批次号: ymdHi');
+            $table->string('batch', 12)->default('')->comment('批次号: ymdHi');
             $table->string('scene_str')->default('')->comment('二维码信息');
             $table->unsignedInteger('scan_num')->default(0)->comment('扫码数量统计');
             $table->unsignedInteger('subscribe_num')->default(0)->comment('扫码关注数量统计');
