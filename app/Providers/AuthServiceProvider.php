@@ -2,8 +2,10 @@
 namespace App\Providers;
 
 use App\Models\User\Reply\Rule;
+use App\Models\User\Material\News;
 use App\Models\User\SuperQrCode\QrCode;
 use App\Policies\User\Reply\RulePolicy;
+use App\Policies\User\Material\NewsPolicy;
 use App\Policies\User\SuperQrCode\QrCodePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -18,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
         // 'App\Model' => 'App\Policies\ModelPolicy',
         Rule::class   => RulePolicy::class,
         QrCode::class => QrCodePolicy::class,
+        News::class   => NewsPolicy::class,
     ];
 
     /**
