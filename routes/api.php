@@ -114,7 +114,8 @@ $api->version('v1', [
             $api->post('subscribe', 'User\AutoReply\SubscribeController@store');
             $api->get('subscribe', 'User\AutoReply\SubscribeController@show');
         });
-
+        // 超级二维码
+        $api->resource('qrcode', 'User\SuperQrCode\QrCodeController');
     });
 
     // 管理后台
