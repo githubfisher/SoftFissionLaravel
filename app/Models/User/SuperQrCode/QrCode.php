@@ -1,7 +1,7 @@
 <?php
 namespace App\Models\User\SuperQrCode;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 
 class QrCode extends Model
 {
