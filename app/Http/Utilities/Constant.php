@@ -17,6 +17,7 @@ class Constant
     const CACHE_TTL_TEN_MINUTE  = 600;
     const CACHE_TTL_ONE_HOUR    = 3600;
     const CACHE_TTL_ONE_DAY     = 86400;
+    const CACHE_TTL_THIRTY_DAY  = 2592000;
     // Base64图片头
     const BASE64_PREFIX_PNG = 'data:image/png;base64,';
     // 缓存短信码 // scene:mobile
@@ -45,4 +46,10 @@ class Constant
     const REPLY_RULE_SCENE_CLICK     = 'click';
     const REPLY_RULE_SCENE_SUBSCRIBE = 'subscribe';
     const REPLY_RULE_SCENE_ANY       = 'any';
+    // 二维码类型
+    const QR_CODE_TYPE_SHORT_TERM = 1;
+    const QR_CODE_TYPE_FOREVER    = 2;
+    // 临时二维码到期计算方式
+    const QR_CODE_SHORT_TERM_BY_EXPIRE = 1;
+    const QR_CODE_SHORT_TERM_BY_DATE   = 2;
 }
