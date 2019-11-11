@@ -43,7 +43,7 @@ class Rule
                     'reply_rule' => $params['reply_rule'],
                     'start_at'   => isset($params['start_at']) ? $params['start_at'] : null,
                     'end_at'     => isset($params['end_at']) ? $params['end_at'] : null,
-                    'status'     => isset($params) ? $params['status'] : Constant::FLASE_ZERO,
+                    'status'     => isset($params['status']) ? $params['status'] : Constant::FLASE_ZERO,
                     'created_at' => $now,
                     'updated_at' => $now,
                 ]);
