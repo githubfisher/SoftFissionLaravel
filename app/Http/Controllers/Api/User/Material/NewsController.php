@@ -33,7 +33,7 @@ class NewsController extends Controller
         $this->authorize('view', Material::class);
 
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $list  = $this->news->list($this->user()->id, $request->input('app_id'), Constant::REPLY_RULE_SCENE_KEYWORD, $limit);
+        $list  = $this->news->list($this->user()->id, $request->input('app_id'), $limit);
 
         return $this->suc(compact('list'));
     }
@@ -64,16 +64,17 @@ class NewsController extends Controller
     }
 
     /**
-     * @param $id
+     * @param NewsRequest $request
+     * @param             $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show($id)
+    public function show(NewsRequest $request, $id)
     {
         $this->authorize('view', Material::class);
 
-        $data = $this->news->get($id);
+        $data = $this->news->get($id, $this->user()->id, $request->input('app_id'));
 
         return $this->suc(compact('data'));
     }
