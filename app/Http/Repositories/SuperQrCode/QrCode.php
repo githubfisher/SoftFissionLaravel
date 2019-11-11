@@ -58,7 +58,8 @@ class QrCode
                 }
 
                 // 创建回复规则
-                $ruleId = (new Rule)->store($params);
+                $params['keywords'] = [];
+                $ruleId             = (new Rule)->store($params);
 
                 // 创建二维码记录
                 $now      = Carbon::now()->toDateTimeString();
@@ -115,6 +116,7 @@ class QrCode
                 $qrCode = $qrCode->toArray();
 
                 // 更新回复规则
+                $params['keywords'] = [];
                 (new Rule())->update($qrCode['rule_id'], $params);
 
                 // 更新二维码头表
