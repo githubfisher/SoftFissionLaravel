@@ -48,7 +48,7 @@ class QrCode
 
     public function store($params)
     {
-        if (is_array($params['keywords']) && is_array($params['replies']) && count($params['replies'])) {
+        if (is_array($params['replies']) && count($params['replies'])) {
             DB::beginTransaction();
 
             try {
@@ -105,7 +105,7 @@ class QrCode
 
     public function update($id, $params)
     {
-        if (is_array($params['keywords']) && is_array($params['replies']) && count($params['replies'])) {
+        if (is_array($params['replies']) && count($params['replies'])) {
             DB::beginTransaction();
 
             try {
