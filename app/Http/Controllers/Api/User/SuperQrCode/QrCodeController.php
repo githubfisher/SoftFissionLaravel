@@ -7,6 +7,7 @@ use App\Models\User\SuperQrCode\QrCode;
 use App\Http\Requests\User\SuperQrCode\QrCodeRequest;
 use App\Http\Repositories\SuperQrCode\QrCode as QrCodes;
 use App\Http\Requests\User\SuperQrCode\CreateQrCodeRequest;
+use App\Http\Requests\User\SuperQrCode\UpdateQrCodeRequest;
 
 /**
  * 超级二维码
@@ -85,13 +86,13 @@ class QrCodeController extends Controller
     }
 
     /**
-     * @param CreateQrCodeRequest $request
+     * @param UpdateQrCodeRequest $request
      * @param                     $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(CreateQrCodeRequest $request, $id)
+    public function update(UpdateQrCodeRequest $request, $id)
     {
         $this->authorize('update', QrCode::class);
 
