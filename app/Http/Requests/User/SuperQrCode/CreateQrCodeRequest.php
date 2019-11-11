@@ -33,8 +33,8 @@ class CreateQrCodeRequest extends FormRequest
             'target_num'  => 'sometimes|required|integer|min:1',
             'type'        => 'required|integer|in:1,2',
             'expire_type' => 'required_if:type,1|integer|in:1,2',
-            'expire_in'   => 'required_if:expire_type,1|required|integer|min:1',
-            'expire_at'   => 'required_if:expire_type,2|required|date',
+            'expire_in'   => 'required_if:expire_type,1|integer|min:1',
+            'expire_at'   => 'required_if:expire_type,2|date',
         ];
     }
 }
