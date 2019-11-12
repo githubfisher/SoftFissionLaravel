@@ -73,11 +73,13 @@ class News
                         if ( ! empty($diff)) {
                             NewsDetail::where('id', $detail['id'])->update($diff);
                             $updated = true;
+                            Log::debug(__FUNCTION__ . ' 更新文章');
                         }
                         $still[] = $detail['id'];
                     } else {
                         NewsDetail::create($detail);
                         $updated = true;
+                        Log::debug(__FUNCTION__ . ' 新增文章');
                     }
                 }
 
