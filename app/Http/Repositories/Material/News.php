@@ -109,6 +109,16 @@ class News
     public function destory($id, $userId, $appId)
     {
         // 引用保护 TODO
-        return Material::where('id', $id)->Local($userId)->App($appId)->delete();
+        
+        $news = $this->get($id, $userId, $appId);
+        if ($news) {
+            if (empty($news->media_id)) {
+                return Material::where('id', $id)->Local($userId)->App($appId)->delete();
+            }
+
+            return FeedBack::MATERIAL_NEWS_CANNOT_DEL;
+        }
+
+        return FeedBack::MATERIAL_NEWS_NOT_FOUND;
     }
 }
