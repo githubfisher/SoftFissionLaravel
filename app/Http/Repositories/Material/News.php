@@ -91,7 +91,9 @@ class News
                 // 清理关联海报, 图片关系 TODO
 
                 if ($updated) {
-                    Material::where('id', $id)->Local($params['user_id'])->App($params['app_id'])->update();
+                    Material::where('id', $id)->Local($params['user_id'])->App($params['app_id'])->update([
+                        'app_id' => $params['app_id'],
+                    ]);
                 }
             }
         } catch (\Exception $e) {
