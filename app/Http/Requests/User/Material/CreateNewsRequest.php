@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\User\Material;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -13,7 +12,7 @@ class CreateNewsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +23,14 @@ class CreateNewsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'details'                      => 'required|array|min:1',
+            'details.*.title'              => 'required|string|max:192',
+            'details.*.thumb_url'          => 'required|string|max:255',
+            'details.*.digest'             => 'sometimes|nullable|string|max:192',
+            'details.*.author'             => 'sometimes|nullable|string|max:24',
+            'details.*.content_source_url' => 'sometimes|nullable|string|max:255',
+            'details.*.content'            => 'sometimes|nullable|string',
+            'details.*.poster_id'          => 'sometimes|nullable|integer|min:1',
         ];
     }
 }
