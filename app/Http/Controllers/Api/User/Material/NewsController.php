@@ -98,7 +98,7 @@ class NewsController extends Controller
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
         $res               = $this->news->update($id, $params);
-        if ($res) {
+        if ($res === true) {
             return $this->suc();
         }
 
@@ -117,7 +117,7 @@ class NewsController extends Controller
         $this->authorize('delete', Material::class);
 
         $res = $this->news->destory($id, $this->user()->id, $request->input('app_id'));
-        if ($res) {
+        if ($res === true) {
             return $this->suc();
         }
 
