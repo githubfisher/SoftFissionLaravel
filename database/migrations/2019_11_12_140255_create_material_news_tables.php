@@ -26,7 +26,7 @@ class CreateMaterialNewsTables extends Migration
             $table->unsignedBigInteger('news_id');
             $table->string('thumb_media_id', 64)->default('')->comment('图文消息的封面图片素材id（必须是永久mediaID）');
             $table->unsignedTinyInteger('sort');
-            $table->unsignedTinyInteger('show_cover_pic')->comment('是否显示封面，0为false，即不显示，1为true，即显示');
+            $table->unsignedTinyInteger('show_cover_pic')->default(1)->comment('是否显示封面，0为false，即不显示，1为true，即显示');
             $table->string('title')->default('');
             $table->string('author', 32)->nullable()->default('')->comment('作者');
             $table->string('digest')->nullable()->default('')->comment('图文消息的摘要，仅有单图文消息才有摘要，多图文此处为空');
