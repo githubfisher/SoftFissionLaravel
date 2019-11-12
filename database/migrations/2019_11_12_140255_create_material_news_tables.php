@@ -33,7 +33,7 @@ class CreateMaterialNewsTables extends Migration
             $table->string('thumb_url')->default('')->comment('封面图片URL');
             $table->string('url')->default('')->comment('图文页的URL');
             $table->string('content_source_url')->nullable()->default('')->comment('图文消息的原文地址，即点击“阅读原文”后的URL');
-            $table->text('content')->comment('图文消息的具体内容，支持HTML标签，必须少于2万字符，小于1M，且此处会去除JS');
+            $table->text('content')->nullable()->comment('图文消息的具体内容，支持HTML标签，必须少于2万字符，小于1M，且此处会去除JS');
             $table->unsignedBigInteger('poster_id')->nullable()->default(0)->comment('趣味封面ID');
             $table->unsignedBigInteger('image_id')->nullable()->comment('图片ID');
             $table->timestamps();
