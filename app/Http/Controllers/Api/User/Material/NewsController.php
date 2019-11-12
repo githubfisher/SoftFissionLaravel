@@ -95,11 +95,12 @@ class NewsController extends Controller
     {
         $this->authorize('update', Material::class);
 
-        if ($this->news->update($id, $request->all())) {
+        $res = $this->news->update($id, $request->all());
+        if ($res) {
             return $this->suc();
         }
 
-        return $this->err();
+        return $this->err($res);
     }
 
     /**
@@ -113,10 +114,11 @@ class NewsController extends Controller
     {
         $this->authorize('delete', Material::class);
 
-        if ($this->news->destory($id, $this->user()->id, $request->input('app_id'))) {
+        $res = $this->news->destory($id, $this->user()->id, $request->input('app_id'));
+        if ($res) {
             return $this->suc();
         }
 
-        return $this->err();
+        return $this->err($res);
     }
 }
