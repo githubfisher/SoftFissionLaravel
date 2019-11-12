@@ -51,7 +51,7 @@ class CreateMaterialNewsTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('material_news');
         Schema::dropIfExists('material_news_detail');
+        Schema::dropIfExists('material_news');
     }
 }
