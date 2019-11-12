@@ -19,6 +19,8 @@ class CreateMaterialNewsTables extends Migration
             $table->string('app_id', 20)->default('');
             $table->string('media_id', 64)->nullable()->default('');
             $table->timestamps();
+
+            $table->index(['user_id', 'app_id', 'media_id']);
         });
 
         Schema::create('material_news_detail', function (Blueprint $table) {
@@ -41,6 +43,23 @@ class CreateMaterialNewsTables extends Migration
             $table->foreign('news_id')
                   ->references('id')->on('material_news')
                   ->onDelete('cascade');
+
+            $table->index(['news_id', 'thumb_media_id']);
+        });
+
+        Schema::create('material_images', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedInteger('user_id')->default(0);
+            $table->string('app_id', 20)->default('');
+            $table->string('scene', 9)->nullable()->default('');
+            $table->string('name', 64)->nullable()->default('');
+            $table->string('media_id', 64)->nullable()->default('');
+            $table->string('url')->nullable()->default('')->comment('微信URL');
+            $table->dateTime('expire_at')->nullable()->comment('有效截止日期');
+            $table->string('origin_url')->nullable()->default('')->comment('云存储URL');
+            $table->timestamps();
+
+            $table->index(['user_id', 'app_id', 'media_id']);
         });
     }
 
@@ -53,5 +72,6 @@ class CreateMaterialNewsTables extends Migration
     {
         Schema::dropIfExists('material_news_detail');
         Schema::dropIfExists('material_news');
+        Schema::dropIfExists('material_images');
     }
 }
