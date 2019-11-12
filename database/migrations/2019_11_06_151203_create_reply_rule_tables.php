@@ -63,8 +63,8 @@ class CreateReplyRuleTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rules');
         Schema::dropIfExists('keywords');
         Schema::dropIfExists('replies');
+        Schema::dropIfExists('rules');
     }
 }

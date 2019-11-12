@@ -54,7 +54,7 @@ class CreateQrCodeTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('super_qr_code');
         Schema::dropIfExists('super_qr_code_detail');
+        Schema::dropIfExists('super_qr_code');
     }
 }
