@@ -16,10 +16,10 @@ class News
 
     public function get($id, $userId, $appId)
     {
-        return Material::Local($userId)->App($appId)->findOrFail($id);
+        return Material::with(['details'])->Local($userId)->App($appId)->findOrFail($id);
     }
 
-    public function create($params)
+    public function store($params)
     {
         DB::beginTransaction();
 
