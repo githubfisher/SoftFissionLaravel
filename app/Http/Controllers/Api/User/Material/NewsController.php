@@ -113,7 +113,7 @@ class NewsController extends Controller
     {
         $this->authorize('delete', Material::class);
 
-        if ($this->news->destroy($this->user()->id, $request->input('app_id'), $id)) {
+        if ($this->news->destory($id, $this->user()->id, $request->input('app_id'))) {
             return $this->suc();
         }
 
