@@ -42,12 +42,12 @@ class CreateReplyRuleTables extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rule_id')->default(0);
             $table->unsignedTinyInteger('difference')->default(1)->comment('是否区分男女: 1不区分 2区分');
-            $table->unsignedTinyInteger('reply_type')->default(1)->comment('回复消息类型: 1文本 2图文 3图片 4音频 5视频 6位置 ...');
-            $table->unsignedTinyInteger('reply_type_female')->default(1);
+            $table->unsignedTinyInteger('reply_type')->nullable()->default(1)->comment('回复消息类型: 1文本 2图文 3图片 4音频 5视频 6位置 ...');
+            $table->unsignedTinyInteger('reply_type_female')->nullable()->default(1);
             $table->text('content')->nullable();
             $table->text('content_female')->nullable();
-            $table->unsignedInteger('material_id')->default(0)->comment('素材ID');
-            $table->unsignedInteger('material_id_female')->default(0);
+            $table->unsignedInteger('material_id')->nullable()->default(0)->comment('素材ID');
+            $table->unsignedInteger('material_id_female')->nullable()->default(0);
             $table->timestamps();
 
             $table->foreign('rule_id')
