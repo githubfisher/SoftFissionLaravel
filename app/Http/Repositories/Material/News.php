@@ -46,7 +46,7 @@ class News
 
         DB::commit();
 
-        return true;
+        return $newsId;
     }
 
     public function update($id, $params)
