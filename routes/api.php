@@ -117,6 +117,10 @@ $api->version('v1', [
         // 超级二维码
         $api->resource('qrcode', 'User\SuperQrCode\QrCodeController');
         $api->resource('/material/news', 'User\Material\NewsController');
+        $api->resource('/material/image', 'User\Material\ImageController');
+        $api->resource('/material/voice', 'User\Material\VoiceController');
+        $api->resource('/material/video', 'User\Material\VideoController');
+        $api->resource('/material/thumb', 'User\Material\ThumbController');
     });
 
     // 管理后台
