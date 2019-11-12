@@ -25,8 +25,7 @@ class CreateQrCodeRequest extends FormRequest
         return [
             'app_id'      => 'required|string|min:18',
             'title'       => 'sometimes|required|string',
-            'keywords'    => 'sometimes|required|array',
-            'replies'     => 'required|array',
+            'replies'     => 'required|array|min:1',
             'reply_rule'  => 'required|in:1,2',
             'start_at'    => 'nullable|date',
             'end_at'      => 'nullable|date',
