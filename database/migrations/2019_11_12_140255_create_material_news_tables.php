@@ -35,6 +35,7 @@ class CreateMaterialNewsTables extends Migration
             $table->string('content_source_url')->default('')->comment('图文消息的原文地址，即点击“阅读原文”后的URL');
             $table->text('content')->comment('图文消息的具体内容，支持HTML标签，必须少于2万字符，小于1M，且此处会去除JS');
             $table->unsignedBigInteger('poster_id')->comment('趣味封面ID');
+            $table->unsignedBigInteger('image_id')->comment('图片ID');
             $table->timestamps();
 
             $table->foreign('news_id')
