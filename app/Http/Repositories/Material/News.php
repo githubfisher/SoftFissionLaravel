@@ -79,7 +79,6 @@ class News
                         $detail['news_id'] = $id;
                         NewsDetail::create($detail);
                         $updated = true;
-                        Log::debug(__FUNCTION__ . ' 新增文章');
                     }
                 }
 
