@@ -109,7 +109,7 @@ class News
     public function destory($id, $userId, $appId)
     {
         // 引用保护 TODO
-        
+
         $news = $this->get($id, $userId, $appId);
         if ($news) {
             if (empty($news->media_id)) {
