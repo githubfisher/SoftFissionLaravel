@@ -94,8 +94,9 @@ class NewsController extends Controller
     public function update(CreateNewsRequest $request, $id)
     {
         $this->authorize('update', Material::class);
-
-        $res = $this->news->update($id, $request->all());
+        
+        $params['user_id'] = $this->user()->id;
+        $res               = $this->news->update($id, $request->all());
         if ($res) {
             return $this->suc();
         }
