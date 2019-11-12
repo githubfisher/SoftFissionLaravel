@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateMaterialNewsTables extends Migration
 {
@@ -13,7 +13,7 @@ class CreateMaterialNewsTables extends Migration
      */
     public function up()
     {
-        Schema::create('news', function (Blueprint $table) {
+        Schema::create('material_news', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
@@ -21,7 +21,7 @@ class CreateMaterialNewsTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('news_detail', function (Blueprint $table) {
+        Schema::create('material_news_detail', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('news_id');
             $table->string('thumb_media_id', 64)->default('')->comment('图文消息的封面图片素材id（必须是永久mediaID）');
@@ -37,7 +37,7 @@ class CreateMaterialNewsTables extends Migration
             $table->timestamps();
 
             $table->foreign('news_id')
-                  ->references('id')->on('news')
+                  ->references('id')->on('material_news')
                   ->onDelete('cascade');
         });
     }
@@ -49,7 +49,7 @@ class CreateMaterialNewsTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('news');
-        Schema::dropIfExists('news_detail');
+        Schema::dropIfExists('material_news');
+        Schema::dropIfExists('material_news_detail');
     }
 }
