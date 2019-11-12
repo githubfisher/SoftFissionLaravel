@@ -17,7 +17,7 @@ class CreateMaterialNewsTables extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
-            $table->string('media_id', 64)->default('');
+            $table->string('media_id', 64)->nullable()->default('');
             $table->timestamps();
         });
 
