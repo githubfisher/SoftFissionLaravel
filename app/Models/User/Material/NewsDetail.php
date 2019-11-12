@@ -18,6 +18,7 @@ class NewsDetail extends Model
         'url',
         'content_source_url',
         'content',
+        'poster_id',
     ];
     protected $hidden  = [];
     protected $guarded = ['id'];
