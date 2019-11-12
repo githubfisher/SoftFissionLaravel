@@ -24,6 +24,8 @@ class CreateReplyRuleTables extends Migration
             $table->dateTime('start_at')->nullable();
             $table->dateTime('end_at')->nullable();
             $table->timestamps();
+
+            $table->index(['user_id', 'app_id']);
         });
 
         Schema::create('keywords', function (Blueprint $table) {
@@ -36,6 +38,8 @@ class CreateReplyRuleTables extends Migration
             $table->foreign('rule_id')
                   ->references('id')->on('rules')
                   ->onDelete('cascade');
+
+            $table->index(['rule_id', 'keyword']);
         });
 
         Schema::create('replies', function (Blueprint $table) {
@@ -53,6 +57,8 @@ class CreateReplyRuleTables extends Migration
             $table->foreign('rule_id')
                   ->references('id')->on('rules')
                   ->onDelete('cascade');
+
+            $table->index('rule_id');
         });
     }
 

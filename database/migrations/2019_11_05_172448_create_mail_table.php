@@ -22,6 +22,8 @@ class CreateMailTable extends Migration
             $table->text('content');
             $table->unsignedTinyInteger('status')->default(0);
             $table->timestamps();
+
+            $table->index('user_id');
         });
     }
 

@@ -27,6 +27,8 @@ class CreateQrCodeTables extends Migration
             $table->integer('expire_in')->default(0)->comment('有效时长');
             $table->unsignedTinyInteger('status')->default(0)->comment('状态: 0生成中 1完成');
             $table->timestamps();
+
+            $table->index(['user_id', 'app_id', 'rule_id']);
         });
 
         Schema::create('super_qr_code_detail', function (Blueprint $table) {
@@ -44,6 +46,8 @@ class CreateQrCodeTables extends Migration
             $table->foreign('qrcode_id')
                   ->references('id')->on('super_qr_code')
                   ->onDelete('cascade');
+
+            $table->index(['qrcode_id', 'scene_str']);
         });
     }
 
