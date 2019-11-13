@@ -10,7 +10,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  *
  * @package namespace App\Entities\Material;
  */
-class News extends Model implements Transformable
+class MaterialNews extends Model implements Transformable
 {
     use TransformableTrait;
 
