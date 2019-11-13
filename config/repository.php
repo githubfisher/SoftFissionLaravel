@@ -15,7 +15,7 @@ return [
     |
     */
     'pagination' => [
-        'limit' => 15
+        'limit' => env('REPOSITORY_PAGINATION', 15),
     ],
 
     /*
@@ -52,7 +52,7 @@ return [
          | Enable or disable cache
          |
          */
-        'enabled'    => false,
+        'enabled'    => env('REPOSITORY_CACHE_ENABLE', false),
 
         /*
          |--------------------------------------------------------------------------
@@ -62,7 +62,7 @@ return [
          | Time of expiration cache
          |
          */
-        'minutes'    => 30,
+        'minutes'    => env('REPOSITORY_CACHE_TTL', 30),
 
         /*
          |--------------------------------------------------------------------------
