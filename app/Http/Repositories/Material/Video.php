@@ -3,7 +3,7 @@ namespace App\Http\Repositories\Material;
 
 use DB;
 use Log;
-use App\Http\Utilities\FeedBack;
+use App\Utilities\FeedBack;
 use App\Models\User\Material\Video as Videos;
 
 class Video

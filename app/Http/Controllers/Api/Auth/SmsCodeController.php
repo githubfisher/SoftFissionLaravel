@@ -3,8 +3,8 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Services\Sms;
 use App\Services\Captcha;
-use App\Http\Utilities\Constant;
-use App\Http\Utilities\FeedBack;
+use App\Utilities\Constant;
+use App\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\CaptchaCheckRequest;
 use App\Http\Requests\Auth\SmsCodeCheckRequest;

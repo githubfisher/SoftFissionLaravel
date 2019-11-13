@@ -2,10 +2,10 @@
 namespace App\Http\Controllers\Api\Permission;
 
 use App\Models\User\User;
+use App\Utilities\Constant;
 use Illuminate\Http\Request;
-use App\Http\Utilities\Constant;
-use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
 
 class RoleController extends Controller
 {

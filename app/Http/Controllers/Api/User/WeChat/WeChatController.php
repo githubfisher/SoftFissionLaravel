@@ -3,8 +3,8 @@ namespace App\Http\Controllers\Api\User\WeChat;
 
 use Log;
 use EasyWeChat\Factory;
-use App\Http\Utilities\Constant;
-use App\Http\Utilities\FeedBack;
+use App\Utilities\Constant;
+use App\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\WeChatApp\App;
 use EasyWeChat\OpenPlatform\Server\Guard;

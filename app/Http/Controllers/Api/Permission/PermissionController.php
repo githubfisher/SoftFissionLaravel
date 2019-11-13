@@ -1,9 +1,8 @@
 <?php
 namespace App\Http\Controllers\Api\Permission;
 
-use Log;
+use App\Utilities\Constant;
 use Illuminate\Http\Request;
-use App\Http\Utilities\Constant;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;

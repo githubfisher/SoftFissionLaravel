@@ -3,9 +3,9 @@ namespace App\Http\Controllers\Api\User\Material;
 
 use DB;
 use Log;
+use App\Utilities\Constant;
+use App\Utilities\FeedBack;
 use App\Criteria\MyCriteria;
-use App\Http\Utilities\Constant;
-use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
 use App\Models\User\Material\News as Material;
 use App\Http\Requests\User\Material\NewsRequest;

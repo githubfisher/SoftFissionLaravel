@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api\User\SuperQrCode;
 
-use App\Http\Utilities\Constant;
+use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
 use App\Models\User\SuperQrCode\QrCode;
 use App\Http\Requests\User\SuperQrCode\QrCodeRequest;

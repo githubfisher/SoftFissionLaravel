@@ -2,8 +2,8 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Services\Captcha;
+use App\Utilities\Constant;
 use Illuminate\Http\Request;
-use App\Http\Utilities\Constant;
 use App\Http\Controllers\Controller;
 
 class CaptchaController extends Controller

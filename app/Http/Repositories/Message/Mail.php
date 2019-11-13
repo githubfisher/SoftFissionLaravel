@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Repositories\Message;
 
-use App\Http\Utilities\Constant;
+use App\Utilities\Constant;
 use Illuminate\Support\Facades\Redis;
 use App\Models\Message\Mail as Message;
 

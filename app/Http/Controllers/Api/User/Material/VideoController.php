@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api\User\Material;
 
-use App\Http\Utilities\Constant;
+use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Material\Video;
 use App\Models\User\Material\Video as Videos;

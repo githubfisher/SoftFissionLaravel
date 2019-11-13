@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api\User\AutoReply;
 
-use App\Http\Utilities\Constant;
+use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Reply\Rule;
 use App\Models\User\Reply\Rule as Rules;

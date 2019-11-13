@@ -5,7 +5,7 @@ use DB;
 use Log;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
-use App\Http\Utilities\FeedBack;
+use App\Utilities\FeedBack;
 use App\Models\User\Material\NewsDetail;
 use App\Models\User\Material\News as Material;
 

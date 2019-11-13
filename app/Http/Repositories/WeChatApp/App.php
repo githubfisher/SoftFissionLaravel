@@ -2,8 +2,8 @@
 namespace App\Http\Repositories\WeChatApp;
 
 use App\Models\User\WeChatApp;
-use App\Http\Utilities\Constant;
-use App\Http\Utilities\FeedBack;
+use App\Utilities\Constant;
+use App\Utilities\FeedBack;
 use Illuminate\Support\Facades\Redis;
 
 class App
