@@ -1,12 +1,13 @@
 <?php
 namespace App\Http\Controllers\Api\User\Material;
 
+use App\Criteria\MyCriteria;
 use App\Http\Utilities\Constant;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\Material\News;
 use App\Models\User\Material\News as Material;
 use App\Http\Requests\User\Material\NewsRequest;
 use App\Http\Requests\User\Material\CreateNewsRequest;
+use App\Repositories\Material\NewsRepositoryEloquent;
 
 /**
  * 图文素材
@@ -15,11 +16,11 @@ use App\Http\Requests\User\Material\CreateNewsRequest;
  */
 class NewsController extends Controller
 {
-    protected $news;
+    protected $repository;
 
-    public function __construct(News $news)
+    public function __construct(NewsRepositoryEloquent $repository)
     {
-        $this->news = $news;
+        $this->repository = $repository;
     }
 
     /**
@@ -33,7 +34,8 @@ class NewsController extends Controller
         $this->authorize('view', Material::class);
 
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $list  = $this->news->list($this->user()->id, $request->input('app_id'), $limit);
+        $this->repository->pushCriteria(MyCriteria::class);
+        $list  = $this->repository->findWhere(['app_id', $request->input('app_id')])->paginate($limit);
 
         return $this->suc(compact('list'));
     }
@@ -55,7 +57,7 @@ class NewsController extends Controller
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
-        $res               = $this->news->store($params);
+        $res               = $this->repository->store($params);
         if (is_numeric($res)) {
             return $this->suc(['id' => $res]);
         }
@@ -74,7 +76,7 @@ class NewsController extends Controller
     {
         $this->authorize('view', Material::class);
 
-        $data = $this->news->get($id, $this->user()->id, $request->input('app_id'));
+        $data = $this->repository->get($id, $this->user()->id, $request->input('app_id'));
 
         return $this->suc(compact('data'));
     }
@@ -97,7 +99,7 @@ class NewsController extends Controller
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
-        $res               = $this->news->update($id, $params);
+        $res               = $this->repository->update($id, $params);
         if ($res === true) {
             return $this->suc();
         }
@@ -116,7 +118,7 @@ class NewsController extends Controller
     {
         $this->authorize('delete', Material::class);
 
-        $res = $this->news->destory($id, $this->user()->id, $request->input('app_id'));
+        $res = $this->repository->destory($id, $this->user()->id, $request->input('app_id'));
         if ($res === true) {
             return $this->suc();
         }
