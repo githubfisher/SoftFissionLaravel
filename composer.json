@@ -17,6 +17,7 @@
         "laravel/tinker": "^1.0",
         "overtrue/easy-sms": "^1.1",
         "overtrue/laravel-wechat": "~5.0",
+        "prettus/l5-repository": "^2.6",
         "spatie/laravel-permission": "^3.2",
         "tymon/jwt-auth": "^1.0.0-rc.5"
     },
