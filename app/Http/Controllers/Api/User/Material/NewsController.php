@@ -2,12 +2,13 @@
 namespace App\Http\Controllers\Api\User\Material;
 
 use App\Criteria\MyCriteria;
+use Illuminate\Http\Request;
 use App\Http\Utilities\Constant;
 use App\Http\Controllers\Controller;
 use App\Models\User\Material\News as Material;
 use App\Http\Requests\User\Material\NewsRequest;
-use App\Http\Requests\User\Material\CreateNewsRequest;
 use App\Repositories\Material\NewsRepositoryEloquent;
+use App\Http\Requests\User\Material\CreateNewsRequest;
 
 /**
  * 图文素材
@@ -23,13 +24,7 @@ class NewsController extends Controller
         $this->repository = $repository;
     }
 
-    /**
-     * @param NewsRequest $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function index(NewsRequest $request)
+    public function index(Request $request)
     {
         $this->authorize('view', Material::class);
 
