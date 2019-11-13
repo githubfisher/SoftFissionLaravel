@@ -30,7 +30,9 @@ class NewsController extends Controller
 
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
         $this->repository->pushCriteria(MyCriteria::class);
-        $list  = $this->repository->with(['details'])->findWhere(['app_id' => $request->input('app_id')])->paginate($limit);
+        $list = $this->repository->with(['details'])->scopeQuery(function ($query) use ($request) {
+            $query->where('app_id', $request->input('app_id'));
+        })->paginate($limit);
 
         return $this->suc(compact('list'));
     }
