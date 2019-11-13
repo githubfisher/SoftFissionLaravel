@@ -1,12 +1,12 @@
 <?php
-
 namespace App\Criteria;
 
+use Auth;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
- * Class MyCriteria.
+ * Class YouCriteria.
  *
  * @package namespace App\Criteria;
  */
@@ -22,6 +22,6 @@ class MyCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model;
+        return $model->where('user_id', Auth::user()->id);
     }
 }

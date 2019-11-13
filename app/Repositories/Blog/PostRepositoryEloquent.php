@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Repositories\Blog;
 
+use App\Entities\Blog\Post;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\Blog\PostRepository;
-use App\Entities\Blog\Post;
-use App\Validators\Blog\PostValidator;
 
 /**
  * Class PostRepositoryEloquent.
@@ -25,8 +22,6 @@ class PostRepositoryEloquent extends BaseRepository implements PostRepository
         return Post::class;
     }
 
-    
-
     /**
      * Boot up the repository, pushing criteria
      */
@@ -34,5 +29,4 @@ class PostRepositoryEloquent extends BaseRepository implements PostRepository
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
 }
