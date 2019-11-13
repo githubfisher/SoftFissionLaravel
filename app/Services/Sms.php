@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Repositories;
+namespace App\Services;
 
 use Log;
 use Overtrue\EasySms\EasySms;
