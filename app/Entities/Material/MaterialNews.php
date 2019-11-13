@@ -25,6 +25,6 @@ class MaterialNews extends Model implements Transformable
 
     public function details()
     {
-        return $this->hasMany('App\Models\User\Material\NewsDetail', 'news_id', 'id');
+        return $this->hasMany('App\Entities\Material\MaterialNewsDetail', 'news_id', 'id');
     }
 }

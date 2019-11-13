@@ -1,14 +1,18 @@
 <?php
 namespace App\Http\Controllers\Api\User\Material;
 
+use DB;
+use Log;
 use App\Criteria\MyCriteria;
 use Illuminate\Http\Request;
 use App\Http\Utilities\Constant;
+use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
 use App\Models\User\Material\News as Material;
 use App\Http\Requests\User\Material\NewsRequest;
 use App\Repositories\Material\NewsRepositoryEloquent;
 use App\Http\Requests\User\Material\CreateNewsRequest;
+use App\Repositories\Material\NewsDetailRepositoryEloquent;
 
 /**
  * 图文素材
@@ -42,18 +46,39 @@ class NewsController extends Controller
         //
     }
 
-    public function store(CreateNewsRequest $request)
+    public function store(CreateNewsRequest $request, NewsDetailRepositoryEloquent $repository)
     {
         $this->authorize('create', Material::class);
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
-        $res               = $this->repository->create($params);
-        if (is_numeric($res)) {
-            return $this->suc(['id' => $res]);
+
+        DB::beginTransaction();
+
+        try {
+            $data = [
+                'user_id' => $params['user_id'],
+                'app_id'  => $params['app_id'],
+            ];
+            $news = $this->repository->create($data);
+
+            foreach ($params['details'] as $key => $detail) {
+                $detail['news_id'] = $news->id;
+                $detail['sort']    = $key;
+                $repository->create($detail);
+            }
+
+            // 关联海报, 图片 TODO
+        } catch (\Exception $e) {
+            Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+            DB::rollBack();
+
+            return $this->err(FeedBack::CREATE_FAIL);
         }
 
-        return $this->err($res);
+        DB::commit();
+
+        return $this->suc(['id' => $news->id]);
     }
 
     /**
