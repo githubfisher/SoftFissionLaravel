@@ -2,8 +2,8 @@
 namespace App\Services;
 
 use Log;
+use App\Utilities\Constant;
 use Overtrue\EasySms\EasySms;
-use App\Http\Utilities\Constant;
 use Illuminate\Support\Facades\Redis;
 
 class Sms
@@ -17,7 +17,8 @@ class Sms
 
     public function send($mobile, $params)
     {
-        //return [];
+        return [];
+
         return $this->sms->send($mobile, $params);
     }
 
