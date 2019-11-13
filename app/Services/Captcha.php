@@ -24,7 +24,7 @@ class Captcha
         $code = $this->captcha->getPhrase();
         Redis::hSet($key, 'code', $code);
         Redis::expire($key, $config['cache_ttl']);
-        Log::debug(__FUNCTION__ . ' key:' . $key . ' captcha:' . $code);
+        Log::debug(__FUNCTION__ . ' key(' . $key . '), captcha:' . $code);
 
         return [$key, $this->captcha->get()];
     }
@@ -32,7 +32,7 @@ class Captcha
     public function check($code, $key)
     {
         $saved = Redis::hGet($key, 'code');
-        Log::debug(__FUNCTION__ . ' key: ' . $key . ' code:' . $code . ' saved:' . $saved);
+        Log::debug(__FUNCTION__ . ' key(' . $key . '), input[' . $code . '], saved[' . $saved . ']');
         if ($saved === $code) {
             return true;
         }
