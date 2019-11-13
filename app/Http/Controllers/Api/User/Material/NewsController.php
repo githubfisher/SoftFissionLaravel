@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\User\Material;
 use DB;
 use Log;
 use App\Criteria\MyCriteria;
-use Illuminate\Http\Request;
 use App\Http\Utilities\Constant;
 use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
