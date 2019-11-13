@@ -33,7 +33,7 @@ class ImageController extends Controller
         $this->authorize('view', Images::class);
 
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $list  = $this->images->list($this->user()->id, $request->input('app_id'), Constant::REPLY_RULE_SCENE_KEYWORD, $limit);
+        $list  = $this->images->list($this->user()->id, $request->input('app_id'), $limit);
 
         return $this->suc(compact('list'));
     }

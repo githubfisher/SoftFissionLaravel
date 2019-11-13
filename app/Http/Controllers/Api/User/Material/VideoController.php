@@ -33,7 +33,7 @@ class VideoController extends Controller
         $this->authorize('view', Videos::class);
 
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $list  = $this->videos->list($this->user()->id, $request->input('app_id'), Constant::REPLY_RULE_SCENE_KEYWORD, $limit);
+        $list  = $this->videos->list($this->user()->id, $request->input('app_id'), $limit);
 
         return $this->suc(compact('list'));
     }
