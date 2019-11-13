@@ -24,7 +24,7 @@ class NewsController extends Controller
         $this->repository = $repository;
     }
 
-    public function index(Request $request)
+    public function index(NewsRequest $request)
     {
         $this->authorize('view', Material::class);
 
@@ -42,19 +42,13 @@ class NewsController extends Controller
         //
     }
 
-    /**
-     * @param CreateNewsRequest $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
     public function store(CreateNewsRequest $request)
     {
         $this->authorize('create', Material::class);
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
-        $res               = $this->repository->store($params);
+        $res               = $this->repository->create($params);
         if (is_numeric($res)) {
             return $this->suc(['id' => $res]);
         }
