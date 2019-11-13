@@ -1,9 +1,9 @@
 <?php
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Services\Captcha;
 use Illuminate\Http\Request;
 use App\Http\Utilities\Constant;
-use App\Http\Repositories\Captcha;
 use App\Http\Controllers\Controller;
 
 class CaptchaController extends Controller

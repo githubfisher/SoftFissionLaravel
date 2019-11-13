@@ -1,10 +1,10 @@
 <?php
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Services\Captcha;
 use App\Http\Repositories\Sms;
 use App\Http\Utilities\Constant;
 use App\Http\Utilities\FeedBack;
-use App\Http\Repositories\Captcha;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\CaptchaCheckRequest;
 use App\Http\Requests\Auth\SmsCodeCheckRequest;
