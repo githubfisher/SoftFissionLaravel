@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Services\Sms;
 use App\Services\Captcha;
-use App\Http\Repositories\Sms;
 use App\Http\Utilities\Constant;
 use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;

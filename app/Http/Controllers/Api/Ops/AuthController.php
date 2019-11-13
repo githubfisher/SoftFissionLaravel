@@ -3,8 +3,8 @@ namespace App\Http\Controllers\Api\Ops;
 
 use Auth;
 use Hash;
+use App\Services\Sms;
 use App\Models\Ops\Ops;
-use App\Http\Repositories\Sms;
 use App\Http\Utilities\Constant;
 use App\Http\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
