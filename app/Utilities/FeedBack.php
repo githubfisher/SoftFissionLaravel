@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Utilities;
+namespace App\Utilities;
 
 class FeedBack
 {
