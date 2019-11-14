@@ -26,7 +26,6 @@ class CreateUsersTable extends Migration
             $table->string('nickname', 64)->default('');
             $table->string('headimgurl')->default('');
             $table->softDeletes();
-            $table->rememberToken();
             $table->timestamps();
         });
 
@@ -43,7 +42,6 @@ class CreateUsersTable extends Migration
             $table->string('nickname', 64)->default('');
             $table->string('headimgurl')->default('');
             $table->softDeletes();
-            $table->rememberToken();
             $table->timestamps();
         });
 
@@ -60,7 +58,6 @@ class CreateUsersTable extends Migration
             $table->string('nickname', 64)->default('');
             $table->string('headimgurl')->default('');
             $table->softDeletes();
-            $table->rememberToken();
             $table->timestamps();
         });
     }
