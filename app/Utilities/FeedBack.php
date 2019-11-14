@@ -30,4 +30,5 @@ class FeedBack
     const MATERIAL_VOICE_CANNOT_DEL = ['code' => 1024, 'message' => 'material voice can not delete!'];
     const MATERIAL_THUMB_NOT_FOUND  = ['code' => 1025, 'message' => 'material thumb not found!'];
     const MATERIAL_THUMB_CANNOT_DEL = ['code' => 1026, 'message' => 'material thumb can not delete!'];
+    const REGISTER_FAIL             = ['code' => 1027, 'message' => 'register fail!'];
 }
