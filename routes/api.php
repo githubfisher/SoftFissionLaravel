@@ -46,7 +46,7 @@ $api->version('v1', [
     // 公有-认证
     $api->group(['prefix' => '/auth'], function (\Dingo\Api\Routing\Router $api) {
         $api->get('captcha', 'Auth\CaptchaController@getCode');
-        $api->get('sms-code', ['uses' => 'Auth\SmsCodeController@getCode', 'expires' => env('SMS_CODE_EXPIRES_MINUTE', 1), 'limit' => 1]);
+        $api->get('sms-code', ['uses' => 'Auth\SmsCodeController@getCode', 'expires' => env('SMS_CODE_EXPIRES_MINUTE', 1), 'limit' => env('SMS_CODE_LIMIT', 1)]);
     });
 
     // 公众号授权
