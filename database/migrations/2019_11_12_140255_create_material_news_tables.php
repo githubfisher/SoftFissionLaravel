@@ -19,7 +19,7 @@ class CreateMaterialNewsTables extends Migration
             $table->string('media_id', 64)->nullable()->default('');
             $table->timestamps();
 
-            $table->index(['user_id', 'app_id', 'media_id']);
+            $table->index(['app_id', 'media_id']);
         });
 
         Schema::create('we_news_detail', function (Blueprint $table) {
@@ -57,7 +57,7 @@ class CreateMaterialNewsTables extends Migration
             $table->string('origin_url')->nullable()->default('')->comment('云存储URL');
             $table->timestamps();
 
-            $table->index(['user_id', 'app_id', 'media_id']);
+            $table->index(['app_id', 'media_id']);
         });
 
         Schema::create('we_video', function (Blueprint $table) {
@@ -72,7 +72,7 @@ class CreateMaterialNewsTables extends Migration
             $table->text('description')->nullable()->comment('描述');
             $table->timestamps();
 
-            $table->index(['user_id', 'app_id', 'media_id']);
+            $table->index(['app_id', 'media_id']);
         });
 
         Schema::create('we_voice', function (Blueprint $table) {
@@ -86,7 +86,7 @@ class CreateMaterialNewsTables extends Migration
             $table->string('origin_url')->nullable()->default('')->comment('云存储URL');
             $table->timestamps();
 
-            $table->index(['user_id', 'app_id', 'media_id']);
+            $table->index(['app_id', 'media_id']);
         });
 
         Schema::create('we_thumb', function (Blueprint $table) {
@@ -100,7 +100,7 @@ class CreateMaterialNewsTables extends Migration
             $table->string('origin_url')->nullable()->default('')->comment('云存储URL');
             $table->timestamps();
 
-            $table->index(['user_id', 'app_id', 'media_id']);
+            $table->index(['app_id', 'media_id']);
         });
     }
 

@@ -27,7 +27,7 @@ class CreateQrCodeTables extends Migration
             $table->unsignedTinyInteger('status')->default(0)->comment('状态: 0生成中 1完成');
             $table->timestamps();
 
-            $table->index(['user_id', 'app_id', 'rule_id']);
+            $table->index(['app_id', 'rule_id']);
         });
 
         Schema::create('we_qrcode_detail', function (Blueprint $table) {

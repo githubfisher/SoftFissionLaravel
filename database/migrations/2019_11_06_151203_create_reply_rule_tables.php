@@ -24,7 +24,7 @@ class CreateReplyRuleTables extends Migration
             $table->dateTime('end_at')->nullable();
             $table->timestamps();
 
-            $table->index(['user_id', 'app_id']);
+            $table->index('app_id');
         });
 
         Schema::create('we_keywords', function (Blueprint $table) {
