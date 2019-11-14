@@ -72,7 +72,7 @@ class CreateMaterialNewsTables extends Migration
             $table->string('url')->nullable()->default('')->comment('微信URL');
             $table->dateTime('expire_at')->nullable()->comment('有效截止日期');
             $table->string('origin_url')->nullable()->default('')->comment('云存储URL');
-            $table->text('description')->nullable()->default('')->comment('描述');
+            $table->text('description')->nullable()->comment('描述');
             $table->timestamps();
 
             $table->index(['user_id', 'app_id', 'media_id']);
