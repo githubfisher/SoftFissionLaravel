@@ -80,18 +80,12 @@ class NewsController extends Controller
         return $this->suc(['id' => $news->id]);
     }
 
-    /**
-     * @param NewsRequest $request
-     * @param             $id
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
     public function show(NewsRequest $request, $id)
     {
         $this->authorize('view', Material::class);
 
-        $data = $this->repository->get($id, $this->user()->id, $request->input('app_id'));
+        $this->repository->pushCriteria(MyCriteria::class);
+        $data = $this->repository->find($id);
 
         return $this->suc(compact('data'));
     }
