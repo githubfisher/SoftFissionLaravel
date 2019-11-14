@@ -24,6 +24,7 @@ class AuthController extends Controller
 
     /**
      * 邮箱注册 todo 邮箱验证码
+     * 
      * @param RegisterRequest        $request
      * @param UserRepositoryEloquent $repository
      * @param Sms                    $sms
@@ -69,17 +70,19 @@ class AuthController extends Controller
     }
 
     /**
-     * 登录: 手机号+验证码
-     * @param LoginBySmsCodeRequest $request
-     * @param Sms                   $sms
+     * 登录/注册: 手机号+验证码
+     *
+     * @param LoginBySmsCodeRequest  $request
+     * @param UserRepositoryEloquent $repository
+     * @param Sms                    $sms
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function loginBySmsCode(LoginBySmsCodeRequest $request, Sms $sms)
+    public function loginBySmsCode(LoginBySmsCodeRequest $request, UserRepositoryEloquent $repository, Sms $sms)
     {
         $mobile = $request->get('mobile');
         if ($sms->check($mobile, $request->get('code'), Constant::SMS_CODE_SCENE_LOGIN)) {
-            $user  = User::where('mobile', $mobile)->first();
+            $user  = $repository->firstOrNew(['mobile' => $mobile]);
             $token = Auth::login($user);
 
             return $this->suc(compact('token'));
