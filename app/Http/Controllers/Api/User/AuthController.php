@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api\User;
 
 use Auth;
 use Hash;
+use Carbon\Carbon;
 use App\Services\Sms;
 use App\Utilities\Constant;
 use App\Utilities\FeedBack;
@@ -11,7 +12,6 @@ use App\Http\Requests\User\Auth\LoginRequest;
 use App\Http\Requests\User\Auth\RegisterRequest;
 use App\Repositories\User\UserRepositoryEloquent;
 use App\Http\Requests\User\Auth\LoginBySmsCodeRequest;
-use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -82,7 +82,9 @@ class AuthController extends Controller
     {
         $mobile = $request->get('mobile');
         if ($sms->check($mobile, $request->get('code'), Constant::SMS_CODE_SCENE_LOGIN)) {
-            $user  = $repository->firstOrCreate(['mobile' => $mobile]);
+            $user = $repository->firstOrCreate(['mobile' => $mobile], [
+                'mobile_verified_at' => Carbon::now()->toDateTimeString(),
+            ]);
             $token = Auth::login($user);
 
             return $this->suc(compact('token'));
