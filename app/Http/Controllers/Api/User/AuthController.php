@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\User;
 use Auth;
 use Hash;
 use App\Services\Sms;
-use App\Models\User\User;
 use App\Utilities\Constant;
 use App\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
@@ -24,7 +23,7 @@ class AuthController extends Controller
 
     /**
      * 邮箱注册 todo 邮箱验证码
-     * 
+     *
      * @param RegisterRequest        $request
      * @param UserRepositoryEloquent $repository
      * @param Sms                    $sms
