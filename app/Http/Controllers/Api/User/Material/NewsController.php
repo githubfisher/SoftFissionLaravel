@@ -85,7 +85,7 @@ class NewsController extends Controller
         $this->authorize('view', Material::class);
 
         $this->repository->pushCriteria(MyCriteria::class);
-        $data = $this->repository->app($request->input('app_id'))->with('details')->find($id);
+        $data = $this->repository->app($request->input('app_id'))->with('details')->findOrFail($id);
 
         return $this->suc(compact('data'));
     }
