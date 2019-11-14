@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Requests\Auth;
 
+use App\Rules\CaptchaRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CaptchaCheckRequest extends FormRequest
@@ -24,7 +25,7 @@ class CaptchaCheckRequest extends FormRequest
     {
         return [
             'key'     => 'required|string',
-            'captcha' => 'required|string|min:4|max:6',
+            'captcha' => ['required', new CaptchaRule],
             'mobile'  => 'required|string|mobile',
             'scene'   => 'required|string|in:register,login,reset,auth',
         ];
