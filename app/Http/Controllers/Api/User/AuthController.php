@@ -2,9 +2,9 @@
 namespace App\Http\Controllers\Api\User;
 
 use Auth;
-use Hash;
 use Carbon\Carbon;
 use App\Services\Sms;
+use App\Services\Captcha;
 use App\Utilities\Constant;
 use App\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
@@ -27,23 +27,23 @@ class AuthController extends Controller
      *
      * @param RegisterRequest        $request
      * @param UserRepositoryEloquent $repository
-     * @param Sms                    $sms
+     * @param Captcha                $captcha
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function register(RegisterRequest $request, UserRepositoryEloquent $repository, Sms $sms)
+    public function register(RegisterRequest $request, UserRepositoryEloquent $repository, Captcha $captcha)
     {
-        $mobile = $request->get('mobile');
-        if ($sms->check($mobile, $request->get('code'), Constant::SMS_CODE_SCENE_REGISTER)) {
-            $user = $repository->create([
-                'name'     => $request->get('name', ''),
-                'email'    => $request->get('email'),
-                'password' => Hash::make($request->get('password')),
-            ]);
-            $token = Auth::login($user);
+        $email = $request->get('email');
+        if ($captcha->check($email, $request->get('captcha'))) {
+            $user = $repository->create(['email' => $email]);
+            if ($user) {
+                // 发送激活邮件
 
-            return $this->suc(compact('token'));
+                return $this->suc();
+            }
+
+            return $this->err(FeedBack::REGISTER_FAIL);
         }
 
         return $this->err(FeedBack::SMS_CODE_INCORRECT);
