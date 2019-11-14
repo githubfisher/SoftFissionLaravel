@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Repositories\User;
 
 use App\Entities\User\User;
@@ -23,8 +22,6 @@ class UserRepositoryEloquent extends BaseRepository
         return User::class;
     }
 
-    
-
     /**
      * Boot up the repository, pushing criteria
      */
@@ -41,5 +38,21 @@ class UserRepositoryEloquent extends BaseRepository
     public function validator()
     {
         return 'App\\Validators\\User\\UserValidator';
+    }
+
+    public function firstOrCreate(array $attributes = [], array $value = [])
+    {
+        $this->applyCriteria();
+        $this->applyScope();
+
+        $temporarySkipPresenter = $this->skipPresenter;
+        $this->skipPresenter(true);
+
+        $model = $this->model->firstOrCreate($attributes, array_merge($attributes, $value));
+        $this->skipPresenter($temporarySkipPresenter);
+
+        $this->resetModel();
+
+        return $this->parserResult($model);
     }
 }
