@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminatech\Validation\Composite\CompositeRule;
 
-class NameRule extends CompositeRule
+class UsernameRule extends CompositeRule
 {
     protected function rules(): array
     {

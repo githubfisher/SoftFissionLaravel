@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Rules;
 
 use Illuminatech\Validation\Composite\CompositeRule;
@@ -8,11 +7,11 @@ class LimitRule extends CompositeRule
 {
     protected function rules(): array
     {
-        return [];
+        return ['integer', 'min:10'];
     }
 
     public function message()
     {
-        return '格式错误';
+        return '每页条数格式错误';
     }
 }

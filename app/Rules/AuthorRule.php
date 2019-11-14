@@ -8,11 +8,11 @@ class AuthorRule extends CompositeRule
 {
     protected function rules(): array
     {
-        return [];
+        return ['string', 'max:64', 'alpha_dash'];
     }
 
     public function message()
     {
-        return '格式错误';
+        return '作者名称格式错误';
     }
 }
