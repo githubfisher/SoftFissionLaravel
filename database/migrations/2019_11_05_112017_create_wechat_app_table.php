@@ -15,7 +15,6 @@ class CreateWechatAppTable extends Migration
     {
         Schema::create('we_app', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
             $table->string('nick_name', 32)->default('');
             $table->string('head_img')->default('');
@@ -38,7 +37,19 @@ class CreateWechatAppTable extends Migration
                   ->onDelete('cascade');
 
             $table->unique('app_id', 'app_id');
-            $table->index('user_id', 'user_id');
+        });
+
+        Schema::create('user_has_apps', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('app_id');
+            $table->string('guard_name');
+
+            $table->foreign('app_id')
+                  ->references('id')
+                  ->on('we_app')
+                  ->onDelete('cascade');
+
+            $table->primary(['user_id', 'app_id', 'guard_name'], 'user_has_apps_guard_primary');
         });
     }
 
@@ -49,6 +60,7 @@ class CreateWechatAppTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('user_has_apps');
         Schema::dropIfExists('we_app');
     }
 }
