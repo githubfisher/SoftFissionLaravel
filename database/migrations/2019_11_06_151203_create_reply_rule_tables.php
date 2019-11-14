@@ -13,7 +13,7 @@ class CreateReplyRuleTables extends Migration
      */
     public function up()
     {
-        Schema::create('rules', function (Blueprint $table) {
+        Schema::create('we_rules', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
@@ -28,7 +28,7 @@ class CreateReplyRuleTables extends Migration
             $table->index(['user_id', 'app_id']);
         });
 
-        Schema::create('keywords', function (Blueprint $table) {
+        Schema::create('we_keywords', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rule_id')->default(0);
             $table->string('keyword', 64);
@@ -36,13 +36,13 @@ class CreateReplyRuleTables extends Migration
             $table->timestamps();
 
             $table->foreign('rule_id')
-                  ->references('id')->on('rules')
+                  ->references('id')->on('we_rules')
                   ->onDelete('cascade');
 
             $table->index(['rule_id', 'keyword']);
         });
 
-        Schema::create('replies', function (Blueprint $table) {
+        Schema::create('we_replies', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rule_id')->default(0);
             $table->unsignedTinyInteger('difference')->default(1)->comment('是否区分男女: 1不区分 2区分');
@@ -55,7 +55,7 @@ class CreateReplyRuleTables extends Migration
             $table->timestamps();
 
             $table->foreign('rule_id')
-                  ->references('id')->on('rules')
+                  ->references('id')->on('we_rules')
                   ->onDelete('cascade');
 
             $table->index('rule_id');
@@ -69,8 +69,8 @@ class CreateReplyRuleTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('keywords');
-        Schema::dropIfExists('replies');
-        Schema::dropIfExists('rules');
+        Schema::dropIfExists('we_keywords');
+        Schema::dropIfExists('we_replies');
+        Schema::dropIfExists('we_rules');
     }
 }

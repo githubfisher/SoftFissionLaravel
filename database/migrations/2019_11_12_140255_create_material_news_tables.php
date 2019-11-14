@@ -13,7 +13,7 @@ class CreateMaterialNewsTables extends Migration
      */
     public function up()
     {
-        Schema::create('material_news', function (Blueprint $table) {
+        Schema::create('we_news', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
@@ -23,7 +23,7 @@ class CreateMaterialNewsTables extends Migration
             $table->index(['user_id', 'app_id', 'media_id']);
         });
 
-        Schema::create('material_news_detail', function (Blueprint $table) {
+        Schema::create('we_news_detail', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('news_id');
             $table->string('thumb_media_id', 64)->default('')->comment('图文消息的封面图片素材id（必须是永久mediaID）');
@@ -41,13 +41,13 @@ class CreateMaterialNewsTables extends Migration
             $table->timestamps();
 
             $table->foreign('news_id')
-                  ->references('id')->on('material_news')
+                  ->references('id')->on('we_news')
                   ->onDelete('cascade');
 
             $table->index(['news_id', 'thumb_media_id']);
         });
 
-        Schema::create('material_image', function (Blueprint $table) {
+        Schema::create('we_image', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
@@ -62,7 +62,7 @@ class CreateMaterialNewsTables extends Migration
             $table->index(['user_id', 'app_id', 'media_id']);
         });
 
-        Schema::create('material_video', function (Blueprint $table) {
+        Schema::create('we_video', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
@@ -78,7 +78,7 @@ class CreateMaterialNewsTables extends Migration
             $table->index(['user_id', 'app_id', 'media_id']);
         });
 
-        Schema::create('material_voice', function (Blueprint $table) {
+        Schema::create('we_voice', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
@@ -93,7 +93,7 @@ class CreateMaterialNewsTables extends Migration
             $table->index(['user_id', 'app_id', 'media_id']);
         });
 
-        Schema::create('material_thumb', function (Blueprint $table) {
+        Schema::create('we_thumb', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
@@ -116,11 +116,11 @@ class CreateMaterialNewsTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('material_news_detail');
-        Schema::dropIfExists('material_news');
-        Schema::dropIfExists('material_image');
-        Schema::dropIfExists('material_video');
-        Schema::dropIfExists('material_voice');
-        Schema::dropIfExists('material_thumb');
+        Schema::dropIfExists('we_news_detail');
+        Schema::dropIfExists('we_news');
+        Schema::dropIfExists('we_image');
+        Schema::dropIfExists('we_video');
+        Schema::dropIfExists('we_voice');
+        Schema::dropIfExists('we_thumb');
     }
 }
