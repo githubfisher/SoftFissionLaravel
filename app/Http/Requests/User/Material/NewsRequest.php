@@ -25,7 +25,7 @@ class NewsRequest extends FormRequest
     {
         return [
             'app_id' => 'required|string|min:18',
-            'limit'  => [new LimitRule],
+            'limit'  => new LimitRule,
         ];
     }
 }
