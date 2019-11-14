@@ -34,9 +34,8 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request, UserRepositoryEloquent $repository, Captcha $captcha)
     {
-        $email = $request->get('email');
-        if ($captcha->check($email, $request->get('captcha'))) {
-            $user = $repository->create(['email' => $email]);
+        if ($captcha->check($request->get('captcha'), $request->get('key'))) {
+            $user = $repository->create(['email' => $request->get('email')]);
             if ($user) {
                 // 发送激活邮件
 
