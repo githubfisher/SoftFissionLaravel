@@ -15,16 +15,50 @@ class CreateUsersTable extends Migration
     {
         Schema::create('user', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('pid');
-            $table->string('name');
+            $table->unsignedInteger('pid')->default(0);
+            $table->string('name', 64)->default('');
             $table->char('mobile', 11)->unique()->nullable();
             $table->timestamp('mobile_verified_at')->nullable();
-            $table->string('email')->unique()->nullable();
+            $table->string('email', 32)->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('openid')->unique()->nullable();
-            $table->string('nickname');
-            $table->string('headimgurl');
+            $table->string('password', 64)->default('');
+            $table->string('openid', 32)->unique()->nullable();
+            $table->string('nickname', 64)->default('');
+            $table->string('headimgurl')->default('');
+            $table->softDeletes();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+        Schema::create('ops', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('pid')->default(0);
+            $table->string('name', 64)->default('');
+            $table->char('mobile', 11)->unique()->nullable();
+            $table->timestamp('mobile_verified_at')->nullable();
+            $table->string('email', 32)->unique()->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password', 64)->default('');
+            $table->string('openid', 32)->nullable();
+            $table->string('nickname', 64)->default('');
+            $table->string('headimgurl')->default('');
+            $table->softDeletes();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+        Schema::create('admin', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('pid')->default(0);
+            $table->string('name', 64)->default('');
+            $table->char('mobile', 11)->unique()->nullable();
+            $table->timestamp('mobile_verified_at')->nullable();
+            $table->string('email', 32)->unique()->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password', 64)->default('');
+            $table->string('openid', 32)->nullable();
+            $table->string('nickname', 64)->default('');
+            $table->string('headimgurl')->default('');
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
