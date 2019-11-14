@@ -8,7 +8,7 @@ class NumCodeRule extends CompositeRule
 {
     protected function rules(): array
     {
-        return ['integer', 'min:4', 'max:6'];
+        return ['integer', 'min:0', 'max:9999'];
     }
 
     public function message()
