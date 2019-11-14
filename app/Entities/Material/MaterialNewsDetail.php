@@ -1,7 +1,7 @@
 <?php
 namespace App\Entities\Material;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
