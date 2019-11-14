@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24b3d61e204453c205592bd6f4f4d255",
+    "content-hash": "d4f231edacc5f2f4725e496bfd87ae06",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1086,6 +1086,65 @@
                 "url"
             ],
             "time": "2019-07-01T23:21:34+00:00"
+        },
+        {
+            "name": "illuminatech/validation-composite",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminatech/validation-composite.git",
+                "reference": "56f481e5b544e9eeb17ede16626a595f51dd9f2f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminatech/validation-composite/zipball/56f481e5b544e9eeb17ede16626a595f51dd9f2f",
+                "reference": "56f481e5b544e9eeb17ede16626a595f51dd9f2f",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "illuminate/support": "^6.0"
+            },
+            "require-dev": {
+                "illuminate/validation": "^6.0",
+                "phpunit/phpunit": "^7.5|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminatech\\Validation\\Composite\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Klimov",
+                    "email": "klimov.paul@gmail.com"
+                }
+            ],
+            "description": "Allows uniting several validation rules into a single one for easy re-usage",
+            "keywords": [
+                "combine",
+                "composite",
+                "laravel",
+                "rule",
+                "validation",
+                "validator"
+            ],
+            "time": "2019-09-06T10:44:43+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
