@@ -10,10 +10,18 @@ use App\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Auth\LoginRequest;
 use App\Http\Requests\User\Auth\RegisterRequest;
+use App\Repositories\User\UserRepositoryEloquent;
 use App\Http\Requests\User\Auth\LoginBySmsCodeRequest;
 
 class AuthController extends Controller
 {
+    protected $repository;
+
+    public function __construct(UserRepositoryEloquent $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * 用户注册
      * @param RegisterRequest $request
@@ -21,11 +29,11 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(RegisterRequest $request, Sms $sms)
+    public function register(RegisterRequest $request, UserRepositoryEloquent $repository, Sms $sms)
     {
         $mobile = $request->get('mobile');
         if ($sms->check($mobile, $request->get('code'), Constant::SMS_CODE_SCENE_REGISTER)) {
-            $user = User::create([
+            $user = $repository->create([
                 'mobile'   => $request->get('mobile'),
                 'email'    => $request->get('email', ''),
                 'name'     => $request->get('name', ''),
