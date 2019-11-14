@@ -15,7 +15,6 @@ class CreateReplyRuleTables extends Migration
     {
         Schema::create('we_rules', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
             $table->string('scene', 9)->default('');
             $table->string('title', 128)->default('');

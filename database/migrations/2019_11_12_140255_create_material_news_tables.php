@@ -15,7 +15,6 @@ class CreateMaterialNewsTables extends Migration
     {
         Schema::create('we_news', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
             $table->string('media_id', 64)->nullable()->default('');
             $table->timestamps();
@@ -49,7 +48,6 @@ class CreateMaterialNewsTables extends Migration
 
         Schema::create('we_image', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
             $table->string('scene', 9)->nullable()->default('');
             $table->string('name', 64)->nullable()->default('');
@@ -64,7 +62,6 @@ class CreateMaterialNewsTables extends Migration
 
         Schema::create('we_video', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
             $table->string('scene', 9)->nullable()->default('');
             $table->string('name', 64)->nullable()->default('');
@@ -80,7 +77,6 @@ class CreateMaterialNewsTables extends Migration
 
         Schema::create('we_voice', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
             $table->string('scene', 9)->nullable()->default('');
             $table->string('name', 64)->nullable()->default('');
@@ -95,7 +91,6 @@ class CreateMaterialNewsTables extends Migration
 
         Schema::create('we_thumb', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
             $table->string('scene', 9)->nullable()->default('');
             $table->string('name', 64)->nullable()->default('');

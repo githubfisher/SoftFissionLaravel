@@ -15,7 +15,6 @@ class CreateQrCodeTables extends Migration
     {
         Schema::create('we_qrcode', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
             $table->unsignedBigInteger('rule_id')->default(0);
             $table->string('title')->default('');
