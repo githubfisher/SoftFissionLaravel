@@ -7,7 +7,7 @@ class LimitRule extends CompositeRule
 {
     protected function rules(): array
     {
-        return ['integer', 'min:10'];
+        return ['sometimes', 'required', 'integer', 'min:10'];
     }
 
     public function message()
