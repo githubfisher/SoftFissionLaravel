@@ -23,20 +23,21 @@ class AuthController extends Controller
     }
 
     /**
-     * 用户注册
-     * @param RegisterRequest $request
-     * @param Sms             $sms
+     * 邮箱注册 todo 邮箱验证码
+     * @param RegisterRequest        $request
+     * @param UserRepositoryEloquent $repository
+     * @param Sms                    $sms
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function register(RegisterRequest $request, UserRepositoryEloquent $repository, Sms $sms)
     {
         $mobile = $request->get('mobile');
         if ($sms->check($mobile, $request->get('code'), Constant::SMS_CODE_SCENE_REGISTER)) {
             $user = $repository->create([
-                'mobile'   => $request->get('mobile'),
-                'email'    => $request->get('email', ''),
                 'name'     => $request->get('name', ''),
+                'email'    => $request->get('email'),
                 'password' => Hash::make($request->get('password')),
             ]);
             $token = Auth::login($user);
