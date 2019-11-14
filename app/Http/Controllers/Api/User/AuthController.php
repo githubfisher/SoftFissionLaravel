@@ -49,6 +49,39 @@ class AuthController extends Controller
     }
 
     /**
+     * 手机验证码登录/注册: 获取短信验证码
+     *
+     * @param RegisterRequest        $request
+     * @param UserRepositoryEloquent $repository
+     * @param Captcha                $captcha
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function loginOrRegisterSmsCode(RegisterRequest $request, UserRepositoryEloquent $repository, Captcha $captcha)
+    {
+        if ($captcha->check($request->get('captcha'), $request->get('key'))) {
+            $mobile = $request->input('mobile');
+            $user   = $repository->firstOrCreate(['mobile' => $mobile]);
+            if ($user) {
+                // 发送短信验证码
+                $sms    = new Sms();
+                $scene  = empty($user->mobile_verified_at) ? Constant::SMS_CODE_SCENE_REGISTER : Constant::SMS_CODE_SCENE_LOGIN;
+                if ( ! $sms->hasSent($mobile, $scene)) {
+                    $res = $sms->sendCode($mobile, $scene);
+
+                    return $res ? $this->suc() : $this->err(FeedBack::SMS_CODE_SEND_FAIL);
+                }
+
+                return $this->suc();
+            }
+
+            return $this->err(FeedBack::REGISTER_FAIL);
+        }
+
+        return $this->err(FeedBack::CAPTCHA_INCORRECT);
+    }
+
+    /**
      * 登录: 手机号(邮箱) + 密码
      *
      * @param LoginRequest $request
