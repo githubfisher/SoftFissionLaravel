@@ -17,12 +17,12 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('pid');
             $table->string('name');
-            $table->char('mobile', 11)->unique();
-            $table->timestamp('mobile_verified_at');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at');
+            $table->char('mobile', 11)->unique()->nullable();
+            $table->timestamp('mobile_verified_at')->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('openid')->unique();
+            $table->string('openid')->unique()->nullable();
             $table->string('nickname');
             $table->string('headimgurl');
             $table->softDeletes();
