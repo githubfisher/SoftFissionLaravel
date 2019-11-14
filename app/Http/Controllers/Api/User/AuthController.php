@@ -11,6 +11,7 @@ use App\Http\Requests\User\Auth\LoginRequest;
 use App\Http\Requests\User\Auth\RegisterRequest;
 use App\Repositories\User\UserRepositoryEloquent;
 use App\Http\Requests\User\Auth\LoginBySmsCodeRequest;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -81,7 +82,7 @@ class AuthController extends Controller
     {
         $mobile = $request->get('mobile');
         if ($sms->check($mobile, $request->get('code'), Constant::SMS_CODE_SCENE_LOGIN)) {
-            $user  = $repository->firstOrNew(['mobile' => $mobile]);
+            $user  = $repository->firstOrCreate(['mobile' => $mobile]);
             $token = Auth::login($user);
 
             return $this->suc(compact('token'));
