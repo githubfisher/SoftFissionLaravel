@@ -1,8 +1,7 @@
 <?php
 namespace App\Http\Requests\User\Auth;
 
-use App\Rules\NumCodeRule;
-use App\Rules\PasswordRule;
+use App\Rules\CaptchaRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
@@ -25,9 +24,8 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'    => 'required|email|unique:user',
-            'code'     => ['required', new NumCodeRule],
-            'password' => ['required', new PasswordRule],
+            'email'   => 'required|email|unique:user',
+            'captcha' => ['required', new CaptchaRule],
         ];
     }
 
@@ -39,10 +37,9 @@ class RegisterRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required'    => '邮箱必须填写',
-            'email.unique'      => '邮箱已注册',
-            'code.required'     => '验证码必须填写',
-            'password.required' => '密码必须填写',
+            'email.required'   => '邮箱必须填写',
+            'email.unique'     => '邮箱已注册',
+            'captcha.required' => '验证码必须填写',
         ];
     }
 }
