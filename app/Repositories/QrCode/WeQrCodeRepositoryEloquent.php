@@ -2,7 +2,7 @@
 
 namespace App\Repositories\QrCode;
 
-use App\Entities\QrCode\QrCode;
+use App\Entities\QrCode\WeQrCode;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 
@@ -11,7 +11,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
  *
  * @package namespace App\Repositories\QrCode;
  */
-class QrCodeRepositoryEloquent extends BaseRepository
+class WeQrCodeRepositoryEloquent extends BaseRepository
 {
     /**
      * Specify Model class name
@@ -20,10 +20,10 @@ class QrCodeRepositoryEloquent extends BaseRepository
      */
     public function model()
     {
-        return QrCode::class;
+        return WeQrCode::class;
     }
 
-    
+
 
     /**
      * Boot up the repository, pushing criteria
@@ -40,6 +40,6 @@ class QrCodeRepositoryEloquent extends BaseRepository
      */
     public function validator()
     {
-        return 'App\\Validators\\QrCode\\QrCodeValidator';
+        return 'App\\Validators\\QrCode\\WeQrCodeValidator';
     }
 }

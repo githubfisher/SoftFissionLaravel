@@ -10,7 +10,7 @@ use \Prettus\Validator\LaravelValidator;
  *
  * @package namespace App\Validators\QrCode;
  */
-class QrCodeValidator extends LaravelValidator
+class WeQrCodeValidator extends LaravelValidator
 {
     /**
      * Validation Rules
