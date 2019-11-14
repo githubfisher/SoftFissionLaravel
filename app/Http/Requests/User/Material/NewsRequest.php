@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Http\Requests\User\Material;
 
+use App\Rules\LimitRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NewsRequest extends FormRequest
@@ -25,7 +25,7 @@ class NewsRequest extends FormRequest
     {
         return [
             'app_id' => 'required|string|min:18',
-            'limit'  => 'sometimes|required|integer|min:10',
+            'limit'  => ['sometimes|required', new LimitRule],
         ];
     }
 }
