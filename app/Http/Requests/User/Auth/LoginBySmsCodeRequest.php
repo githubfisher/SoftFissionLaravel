@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Requests\User\Auth;
 
+use App\Rules\NumCodeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginBySmsCodeRequest extends FormRequest
@@ -23,8 +24,8 @@ class LoginBySmsCodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'mobile'   => 'required|mobile|exists:user',
-            'code'     => 'required|string|min:4|max:4',
+            'mobile' => 'required|mobile',
+            'code'   => ['required', new NumCodeRule],
         ];
     }
 
@@ -36,9 +37,8 @@ class LoginBySmsCodeRequest extends FormRequest
     public function messages()
     {
         return [
-            'code.required'   => '验证码必须填写',
             'mobile.required' => '手机号必须填写',
-            'mobile.exists'   => '手机号不存在',
+            'code.required'   => '验证码必须填写',
         ];
     }
 }
