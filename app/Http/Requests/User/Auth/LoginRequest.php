@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Requests\User\Auth;
 
+use App\Rules\PasswordRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest
@@ -25,7 +26,7 @@ class LoginRequest extends FormRequest
         return [
             'mobile'   => 'sometimes|required|mobile|exists:user',
             'email'    => 'sometimes|required|email|exists:user',
-            'password' => 'required|string|min:6|max:20',
+            'password' => ['required', new PasswordRule],
         ];
     }
 
@@ -37,9 +38,10 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'mobile.required' => '手机号必须填写',
-            'mobile.exists'   => '手机号不存在',
-            'email.exists'    => '邮箱不存在',
+            'mobile.required'   => '手机号必须填写',
+            'password.required' => '密码必须填写',
+            'mobile.exists'     => '手机号不存在',
+            'email.exists'      => '邮箱不存在',
         ];
     }
 }
