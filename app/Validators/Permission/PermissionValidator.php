@@ -1,8 +1,6 @@
 <?php
 namespace App\Validators\Permission;
 
-use App\Rules\GuardNameRule;
-use App\Rules\PermissionNameRule;
 use \Prettus\Validator\LaravelValidator;
 use \Prettus\Validator\Contracts\ValidatorInterface;
 
@@ -20,12 +18,12 @@ class PermissionValidator extends LaravelValidator
      */
     protected $rules = [
         ValidatorInterface::RULE_CREATE => [
-            'name'       => ['required', new PermissionNameRule],
-            'guard_name' => ['required', new GuardNameRule],
+            'name'       => ['required', 'string', 'max:64', 'alpha_dash'],
+            'guard_name' => ['required', 'string', 'max:64', 'alpha_num'],
         ],
         ValidatorInterface::RULE_UPDATE => [
-            'name'       => ['required', PermissionNameRule::class],
-            'guard_name' => ['sometimes|required', GuardNameRule::class],
+            'name'       => ['required', 'string', 'max:64', 'alpha_dash'],
+            'guard_name' => ['sometimes|required', 'string', 'max:64', 'alpha_num'],
         ],
     ];
 }
