@@ -6,6 +6,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Prettus\Repository\Traits\CacheableRepository;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
@@ -15,7 +16,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable implements JWTSubject, Transformable
 {
-    use TransformableTrait, Notifiable, HasRoles;
+    use TransformableTrait, Notifiable, HasRoles, CacheableRepository;
 
     protected $table = 'user';
 
