@@ -65,4 +65,16 @@ class User extends Authenticatable implements JWTSubject, Transformable
     {
         return [];
     }
+
+    /**
+     * 查询手机号
+     *
+     * @param $query
+     * @param $mobile
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeMobile($query, $mobile)
+    {
+        return $query->where('mobile', $mobile);
+    }
 }
