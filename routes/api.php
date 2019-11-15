@@ -36,12 +36,14 @@ $api->version('v1', [
         $api->post('login-by-sms-code', 'User\AuthController@loginBySmsCode');
     });
 
+
     // 管理员认证
     $api->group(['prefix' => '/admin/auth', 'middleware' => 'admin', 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
         $api->post('login', 'Admin\AuthController@login');
         $api->post('register', 'Admin\AuthController@register');
         $api->post('login-by-sms-code', 'Admin\AuthController@loginBySmsCode');
     });
+
 
     // 运营认证
     $api->group(['prefix' => '/ops/auth', 'middleware' => 'ops', 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
@@ -50,12 +52,15 @@ $api->version('v1', [
         $api->post('login-by-sms-code', 'Ops\AuthController@loginBySmsCode');
     });
 
+
     // 公众号授权
     $api->group(['prefix' => 'wechat'], function (\Dingo\Api\Routing\Router $api) {
         $api->post('serve', 'User\WeChat\WeChatController@serve');
         $api->get('bind/callback', 'User\WeChat\WeChatController@bindCallBack');
         $api->post('message/{appId}', 'User\WeChat\WeChatController@message');
     });
+
+
 
     /**
      * 需认证但不需要刷新token的接口
@@ -64,6 +69,8 @@ $api->version('v1', [
     $api->get('/admin/auth/logout', ['middleware' => ['admin', 'api.auth'], 'expires' => 1, 'limit' => 60, 'uses' => 'Admin\AuthController@logout']);
     $api->get('/ops/auth/logout', ['middleware' => ['ops', 'api.auth'], 'expires' => 1, 'limit' => 60, 'uses' => 'Ops\AuthController@logout']);
 
+
+    
     /**
      * 需认证且刷新token的接口
      */
@@ -77,6 +84,8 @@ $api->version('v1', [
             $api->put('remobile', 'User\UserController@resetMobile');
             $api->put('repwd', 'User\UserController@resetPassword');
         });
+
+
         // 权限
         $api->group(['prefix' => '/role'], function (\Dingo\Api\Routing\Router $api) {
             $api->get('', 'Permission\RoleController@index');
@@ -92,6 +101,8 @@ $api->version('v1', [
             $api->delete('remove/{permission}/{role}', 'Permission\PermissionController@removeRole');
             $api->get('my/all', 'Permission\PermissionController@allMyPermissons');
         });
+
+
         // 公众号管理
         $api->get('/wechat/binding', 'User\WeChat\WeChatController@binding');
         $api->group(['prefix' => '/wechat/apps'], function (\Dingo\Api\Routing\Router $api) {
@@ -99,12 +110,16 @@ $api->version('v1', [
             $api->get('switch', 'User\WeChat\ManageController@switchApp');
             $api->get('unbind', 'User\WeChat\ManageController@unbind');
         });
+
+
         // 站内信
         $api->group(['prefix' => '/mail'], function (\Dingo\Api\Routing\Router $api) {
             $api->get('', 'Message\MailController@index');
             $api->get('unread', 'Message\MailController@unread');
             $api->put('read', 'Message\MailController@setRead');
         });
+
+
         // 关键词回复规则
         $api->resource('rule', 'User\AutoReply\RuleController');
         $api->group(['prefix' => 'rules'], function (\Dingo\Api\Routing\Router $api) {
@@ -115,6 +130,7 @@ $api->version('v1', [
             $api->post('subscribe', 'User\AutoReply\SubscribeController@store');
             $api->get('subscribe', 'User\AutoReply\SubscribeController@show');
         });
+
         // 超级二维码
         $api->resource('qrcode', 'User\SuperQrCode\QrCodeController');
         $api->resource('/material/news', 'User\Material\NewsController');
