@@ -4,14 +4,18 @@ namespace App\Repositories\User;
 use App\Entities\User\User;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
+use Prettus\Repository\Traits\CacheableRepository;
+use Prettus\Repository\Contracts\CacheableInterface;
 
 /**
  * Class UserRepositoryEloquent.
  *
  * @package namespace App\Repositories\User;
  */
-class UserRepositoryEloquent extends BaseRepository
+class UserRepositoryEloquent extends BaseRepository implements CacheableInterface
 {
+    use CacheableRepository;
+
     /**
      * Specify Model class name
      *

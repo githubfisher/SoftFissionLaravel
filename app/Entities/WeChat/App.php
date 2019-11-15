@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Entities\WeChat;
 
 use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
-use Prettus\Repository\Traits\CacheableRepository;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
@@ -15,7 +13,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  */
 class App extends Model implements Transformable
 {
-    use TransformableTrait, SoftDeletes, CacheableRepository;
+    use TransformableTrait, SoftDeletes;
 
     protected $table    = 'we_app';
     protected $fillable = [
