@@ -24,7 +24,10 @@ class Sms
 
     public function hasSent($mobile, $scene)
     {
-        if (Redis::exists(sprintf(Constant::AUTH_SMS_SEND, $scene, $mobile))) {
+        $key = sprintf(Constant::AUTH_SMS_SEND, $scene, $mobile);
+        if (Redis::exists($key)) {
+            Log::debug(__FUNCTION__ . ' key: ' . $key . ' 已发送过短信验证码,且未过期!');
+
             return true;
         }
 
