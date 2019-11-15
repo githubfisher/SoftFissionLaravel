@@ -22,6 +22,12 @@ $api->version('v1', [
     /**
      * 无需认证的接口
      */
+    // 公有-认证
+    $api->group(['prefix' => '/auth'], function (\Dingo\Api\Routing\Router $api) {
+        $api->get('captcha', 'Auth\CaptchaController@getCode');
+        $api->get('sms-code', ['uses' => 'Auth\SmsCodeController@getCode', 'expires' => env('SMS_CODE_EXPIRES_MINUTE', 1), 'limit' => env('SMS_CODE_LIMIT', 1)]);
+    });
+    
     // 用户认证
     $api->group(['prefix' => '/user/auth', 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
         $api->post('login', 'User\AuthController@login');
@@ -41,12 +47,6 @@ $api->version('v1', [
         $api->post('login', 'Ops\AuthController@login');
         $api->post('register', 'Ops\AuthController@register');
         $api->post('login-by-sms-code', 'Ops\AuthController@loginBySmsCode');
-    });
-
-    // 公有-认证
-    $api->group(['prefix' => '/auth'], function (\Dingo\Api\Routing\Router $api) {
-        $api->get('captcha', 'Auth\CaptchaController@getCode');
-        $api->get('sms-code', ['uses' => 'Auth\SmsCodeController@getCode', 'expires' => env('SMS_CODE_EXPIRES_MINUTE', 1), 'limit' => env('SMS_CODE_LIMIT', 1)]);
     });
 
     // 公众号授权
