@@ -80,7 +80,7 @@ class AuthController extends Controller
                 if ( ! $sms->hasSent($mobile, $scene)) {
                     $res = $sms->sendCode($mobile, $scene);
 
-                    return $res ? $this->suc(compact('scene')) : $this->err(FeedBack::SMS_CODE_SEND_FAIL);
+                    return $res ? $this->suc() : $this->err(FeedBack::SMS_CODE_SEND_FAIL);
                 }
 
                 return $this->suc();
