@@ -31,4 +31,5 @@ class FeedBack
     const MATERIAL_THUMB_NOT_FOUND  = ['code' => 1025, 'message' => 'material thumb not found!'];
     const MATERIAL_THUMB_CANNOT_DEL = ['code' => 1026, 'message' => 'material thumb can not delete!'];
     const REGISTER_FAIL             = ['code' => 1027, 'message' => 'register fail!'];
+    const USER_NOT_FOUND            = ['code' => 1028, 'message' => 'user not found!'];
 }
