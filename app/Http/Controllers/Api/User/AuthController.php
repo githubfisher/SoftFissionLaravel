@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Api\User;
 
-use Log;
 use Auth;
 use Carbon\Carbon;
 use App\Services\Sms;
@@ -135,8 +134,7 @@ class AuthController extends Controller
         if ($pass !== false) {
             $user = $repository->findByField('mobile', $mobile);
             if ($user) {
-                Log::debug(__FUNCTION__ . ' user:' . json_encode(compact('user')));
-                $pass == Constant::SMS_CODE_SCENE_REGISTER && $repository->update(['id' => $user->id], ['mobile_verified_at' => Carbon::now()->toDateTimeString()]);
+                $pass == Constant::SMS_CODE_SCENE_REGISTER && $repository->update(['id' => $user['id']], ['mobile_verified_at' => Carbon::now()->toDateTimeString()]);
                 $token = Auth::login($user);
 
                 return $this->suc(compact('token'));
