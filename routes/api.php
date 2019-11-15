@@ -70,7 +70,7 @@ $api->version('v1', [
     $api->get('/ops/auth/logout', ['middleware' => ['ops', 'api.auth'], 'expires' => 1, 'limit' => 60, 'uses' => 'Ops\AuthController@logout']);
 
 
-    
+
     /**
      * 需认证且刷新token的接口
      */
