@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api\User\WeChat;
 
+use App\Repositories\WeChat\AppRepositoryEloquent;
 use Log;
 use EasyWeChat\Factory;
 use App\Utilities\Constant;
@@ -67,11 +68,11 @@ EOF;
         return response()->make($html);
     }
 
-    public function bindCallBack(BindRequest $request, App $apps)
+    public function bindCallBack(BindRequest $request, AppRepositoryEloquent $apps)
     {
         $oAuth       = $this->openPlatform->handleAuthorize();
         $appId       = $oAuth['authorization_info']['authorizer_appid'];
-        $app         = $apps->first($appId);
+        $app         = $apps->findWhere(['app_id' => $appId]);
         $frontDomain = config('front.url');
         //判断是否被绑定
         $userId   = $request->get('user_id');
@@ -100,14 +101,14 @@ EOF;
             'anytype_reply'     => 0,
             'subscribe_reply'   => 0,
         ];
-        $id = $apps->updateOrCreate($appId, $appInfo);
+        $id = $apps->updateOrCreate(['app_id' => $appId], $appInfo);
         if ($id) {
             $appInfo['id'] = $id;
             // 更新绑定公众号列表
-            $apps->refreshAppList($userId, $appInfo);
-            $apps->refreshAppInfo($appInfo);
+            //$apps->refreshAppList($userId, $appInfo);
+            //$apps->refreshAppInfo($appInfo);
             // 若之前解绑过, 从已解绑集合中去除
-            $apps->remUnbindSet($appId);
+            //$apps->remUnbindSet($appId);
             // TODO
             // 发送绑定成功的消息
             // 甄别赠送体验优惠券
