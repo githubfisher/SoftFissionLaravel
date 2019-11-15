@@ -75,12 +75,12 @@ class AuthController extends Controller
             if ($user) {
                 Log::debug(__FUNCTION__ . ' user:' . json_encode(compact('user')));
                 // 发送短信验证码
-                $sms    = new Sms();
-                $scene  = empty($user->mobile_verified_at) ? Constant::SMS_CODE_SCENE_REGISTER : Constant::SMS_CODE_SCENE_LOGIN;
+                $sms   = new Sms();
+                $scene = empty($user->mobile_verified_at) ? Constant::SMS_CODE_SCENE_REGISTER : Constant::SMS_CODE_SCENE_LOGIN;
                 if ( ! $sms->hasSent($mobile, $scene)) {
                     $res = $sms->sendCode($mobile, $scene);
 
-                    return $res ? $this->suc() : $this->err(FeedBack::SMS_CODE_SEND_FAIL);
+                    return $res ? $this->suc(compact('scene')) : $this->err(FeedBack::SMS_CODE_SEND_FAIL);
                 }
 
                 return $this->suc();
