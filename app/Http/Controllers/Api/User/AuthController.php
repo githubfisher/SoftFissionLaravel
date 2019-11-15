@@ -124,7 +124,7 @@ class AuthController extends Controller
     public function loginBySmsCode(LoginBySmsCodeRequest $request, UserRepositoryEloquent $repository, Sms $sms)
     {
         $mobile = $request->get('mobile');
-        if ($sms->check($mobile, $request->get('code'), Constant::SMS_CODE_SCENE_LOGIN)) {
+        if ($sms->check($mobile, $request->get('code'), $request->input('scene'))) {
             $user = $repository->firstOrCreate(['mobile' => $mobile], [
                 'mobile_verified_at' => Carbon::now()->toDateTimeString(),
             ]);

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Requests\User\Auth;
 
+use App\Rules\SceneRule;
 use App\Rules\NumCodeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,6 +27,7 @@ class LoginBySmsCodeRequest extends FormRequest
         return [
             'mobile' => 'required|mobile',
             'code'   => ['required', new NumCodeRule],
+            'scene'  => ['required', new SceneRule],
         ];
     }
 
