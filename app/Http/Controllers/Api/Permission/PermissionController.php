@@ -2,10 +2,10 @@
 namespace App\Http\Controllers\Api\Permission;
 
 use App\Utilities\FeedBack;
-use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Permission;
 use App\Http\Requests\Permission\CreateRequest;
+use App\Repositories\User\UserRepositoryEloquent;
+use App\Repositories\Permission\RoleRepositoryEloquent;
 use App\Repositories\Permission\PermissionRepositoryEloquent;
 
 class PermissionController extends Controller
@@ -39,33 +39,32 @@ class PermissionController extends Controller
         return $this->err(FeedBack::CREATE_FAIL);
     }
 
-    public function assignRole($permission, $role)
+    public function assignRole($permission, $role, RoleRepositoryEloquent $roleRepositoryEloquent)
     {
-        $permission = Permission::findOrFail($permission);
-        $role       = Role::findOrFail($role);
-
-        if ($res = $this->permission->assignRole($permission, $role)) {
+        $permission = $this->permission->findOrFail($permission);
+        $role       = $roleRepositoryEloquent->findOrFail($role);
+        if ($res = $permission->assignRole($role)) {
             return $this->suc();
         }
 
         return $this->err();
     }
 
-    public function removeRole($permission, $role)
+    public function removeRole($permission, $role, RoleRepositoryEloquent $roleRepositoryEloquent)
     {
-        $permission = Permission::findOrFail($permission);
-        $role       = Role::findOrFail($role);
-
-        if ($res = $this->permission->removeRole($permission, $role)) {
+        $permission = $this->permission->findOrFail($permission);
+        $role       = $roleRepositoryEloquent->findOrFail($role);
+        if ($res = $permission->removeRole($role)) {
             return $this->suc();
         }
 
         return $this->err();
     }
 
-    public function allMyPermissons()
+    public function allMyPermissons(UserRepositoryEloquent $userRepositoryEloquent)
     {
-        $list = $this->permission->getAllPermissions($this->user());
+        $user = $userRepositoryEloquent->find($this->user()->id);
+        $list = $user->getAllPermissions();
 
         return $this->suc(compact('list'));
     }

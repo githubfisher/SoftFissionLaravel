@@ -1,18 +1,17 @@
 <?php
 namespace App\Http\Controllers\Api\Permission;
 
-use App\Models\User\User;
-use App\Utilities\Constant;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use App\Repositories\User\UserRepositoryEloquent;
+use App\Repositories\Permission\RoleRepositoryEloquent;
 
 class RoleController extends Controller
 {
     protected $guard;
     protected $role;
 
-    public function __construct(\App\Http\Repositories\Permission\Role $role)
+    public function __construct(RoleRepositoryEloquent $role)
     {
         $this->role  = $role;
         $this->guard = Config('auth.defaults.guard');
@@ -20,45 +19,48 @@ class RoleController extends Controller
 
     public function index()
     {
-        $list = $this->role->list(Constant::PAGINATE_MIN, $this->guard);
+        $list = $this->role->findWhere(['guard_name' => $this->guard]);
 
         return $this->suc(compact('list'));
     }
 
     public function create(Request $request)
     {
-        $role = $this->role->create($request->input('name'), $this->guard);
+        $role = $this->role->create([
+            'name'       => $request->input('name'),
+            'guard_name' => $this->guard,
+        ]);
 
         return $this->suc(compact('role'));
     }
 
-    public function assignRole($role, $user)
+    public function assignRole($role, $user, UserRepositoryEloquent $userRepositoryEloquent)
     {
-        $role = Role::findOrFail($role);
-        $user = User::findOrFail($user);
-
-        if ($res = $this->role->assignRole($role, $user)) {
+        $role = $this->role->findOrFail($role);
+        \Log::debug(__FUNCTION__ . ' ' . json_encode(compact('role')));
+        $user = $userRepositoryEloquent->findOrFail($user);
+        if ($res = $user->assignRole($role)) {
             return $this->suc();
         }
 
         return $this->err();
     }
 
-    public function removeRole($role, $user)
+    public function removeRole($role, $user, UserRepositoryEloquent $userRepositoryEloquent)
     {
-        $role = Role::findOrFail($role);
-        $user = User::findOrFail($user);
-
-        if ($res = $this->role->removeRole($role, $user)) {
+        $role = $role->findOrFail($role);
+        $user = $userRepositoryEloquent->findOrFail($user);
+        if ($res = $role->removeRole($user)) {
             return $this->suc();
         }
 
         return $this->err();
     }
 
-    public function allMyRoles()
+    public function allMyRoles(UserRepositoryEloquent $userRepositoryEloquent)
     {
-        $list = $this->role->getAllRoles($this->user());
+        $user = $userRepositoryEloquent->find($this->user()->id);
+        $list = $user->getRoleNames();
 
         return $this->suc(compact('list'));
     }

@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Permission;
 
-use App\Entities\Permission\Role;
+use Spatie\Permission\Models\Role;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Traits\CacheableRepository;
@@ -27,7 +27,7 @@ class RoleRepositoryEloquent extends BaseRepository implements CacheableInterfac
         return Role::class;
     }
 
-    
+
 
     /**
      * Boot up the repository, pushing criteria
