@@ -24,9 +24,9 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'   => 'required|email|unique:user',
             'key'     => 'required|string',
             'captcha' => ['required', new CaptchaRule],
+            'email'   => 'required|email|unique:user',
         ];
     }
 

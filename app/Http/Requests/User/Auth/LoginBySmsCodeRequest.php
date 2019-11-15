@@ -24,8 +24,8 @@ class LoginBySmsCodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'mobile' => 'required|mobile',
             'code'   => ['required', new NumCodeRule],
+            'mobile' => 'required|mobile',
         ];
     }
 

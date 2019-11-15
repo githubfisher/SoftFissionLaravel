@@ -24,9 +24,9 @@ class RegisterBySmsCodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'mobile'  => 'required|mobile',
             'key'     => 'required|string',
             'captcha' => ['required', new CaptchaRule],
+            'mobile'  => 'required|mobile',
         ];
     }
 
