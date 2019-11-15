@@ -136,7 +136,7 @@ class AuthController extends Controller
             $user = $repository->findByField('mobile', $mobile);
             if ($user) {
                 $user = $user->toArray();
-                $pass == Constant::SMS_CODE_SCENE_REGISTER && $repository->update(['id' => $user[0]['id']], ['mobile_verified_at' => Carbon::now()->toDateTimeString()]);
+                $pass == Constant::SMS_CODE_SCENE_REGISTER && $repository->update(['mobile_verified_at' => Carbon::now()->toDateTimeString()], $user[0]['id']);
                 $token = Auth::login($user);
 
                 return $this->suc(compact('token'));
