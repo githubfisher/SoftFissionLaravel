@@ -1,6 +1,7 @@
 <?php
 namespace App\Entities\User;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -76,5 +77,10 @@ class User extends Authenticatable implements JWTSubject, Transformable
     public function scopeMobile($query, $mobile)
     {
         return $query->where('mobile', $mobile);
+    }
+
+    public function apps(): BelongsToMany
+    {
+        return $this->belongsToMany('App\Entities\WeChat\App', 'user_has_apps', 'user_id', 'app_id');
     }
 }
