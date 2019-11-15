@@ -49,7 +49,16 @@ class AuthController extends Controller
     }
 
     /**
-     * 手机验证码登录/注册: 获取短信验证码
+     * @todo 邮件激活
+     */
+    public function activate()
+    {
+
+    }
+
+    /**
+     * 手机验证码登录/注册: 获取短信验证码;
+     * 前端在获取验证码时不清楚用户是否已经注册;
      *
      * @param RegisterRequest        $request
      * @param UserRepositoryEloquent $repository
