@@ -1,10 +1,11 @@
 <?php
 namespace App\Http\Controllers\Api\Permission;
 
-use Illuminate\Http\Request;
+use App\Utilities\FeedBack;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
+use App\Http\Requests\Permission\CreateRequest;
 use App\Repositories\Permission\PermissionRepositoryEloquent;
 
 class PermissionController extends Controller
@@ -25,11 +26,17 @@ class PermissionController extends Controller
         return $this->suc(compact('list'));
     }
 
-    public function create(Request $request)
+    public function create(CreateRequest $request)
     {
-        $role = $this->permission->create($request->input('name'), $this->guard);
+        $role = $this->permission->create([
+            'name'       => $request->input('name'),
+            'guard_name' => $this->guard,
+        ]);
+        if ($role) {
+            return $this->suc(compact('role'));
+        }
 
-        return $this->suc(compact('role'));
+        return $this->err(FeedBack::CREATE_FAIL);
     }
 
     public function assignRole($permission, $role)
