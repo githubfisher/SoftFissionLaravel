@@ -120,17 +120,29 @@ class AuthController extends Controller
      * @param Sms                    $sms
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function loginBySmsCode(LoginBySmsCodeRequest $request, UserRepositoryEloquent $repository, Sms $sms)
     {
         $mobile = $request->get('mobile');
-        if ($sms->check($mobile, $request->get('code'), $request->input('scene'))) {
-            $user = $repository->firstOrCreate(['mobile' => $mobile], [
-                'mobile_verified_at' => Carbon::now()->toDateTimeString(),
-            ]);
-            $token = Auth::login($user);
+        $pass   = false;
+        $scenes = [Constant::SMS_CODE_SCENE_LOGIN, Constant::SMS_CODE_SCENE_REGISTER];
+        foreach ($scenes as $scene) {
+            if ($sms->check($mobile, $request->get('code'), $scene)) {
+                $pass = $scene;
+            }
+        }
 
-            return $this->suc(compact('token'));
+        if ($pass !== false) {
+            $user = $repository->findByField('mobile', $mobile);
+            if ($user) {
+                $pass == Constant::SMS_CODE_SCENE_REGISTER && $repository->update(['id' => $user->id], ['mobile_verified_at' => Carbon::now()->toDateTimeString()]);
+                $token = Auth::login($user);
+
+                return $this->suc(compact('token'));
+            }
+
+            return $this->err(FeedBack::USER_NOT_FOUND);
         }
 
         return $this->err(FeedBack::SMS_CODE_INCORRECT);
