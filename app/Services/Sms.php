@@ -26,7 +26,7 @@ class Sms
     {
         $key = sprintf(Constant::AUTH_SMS_SEND, $scene, $mobile);
         if (Redis::exists($key)) {
-            Log::debug(__FUNCTION__ . ' key: ' . $key . ' 已发送过短信验证码,且未过期!');
+            Log::debug(__FUNCTION__ . ' key(' . $key . ') 已发送过短信验证码,且未过期!');
 
             return true;
         }
@@ -46,7 +46,7 @@ class Sms
             $key = sprintf(Constant::AUTH_SMS_SEND, $scene, $mobile);
             Redis::set($key, $code);
             Redis::expire($key, $config['scene'][$scene]['cache_ttl']);
-            Log::debug(__FUNCTION__ . ' key: ' . $key . ' code:' . $code . ' ttl:' . $config['scene'][$scene]['cache_ttl'] . ' res:' . json_encode($res));
+            Log::debug(__FUNCTION__ . ' key(' . $key . ') code:' . $code . ' ttl:' . $config['scene'][$scene]['cache_ttl'] . ' res:' . json_encode($res));
 
             return true;
         } catch (\Overtrue\EasySms\Exceptions\NoGatewayAvailableException $e) {
@@ -60,7 +60,7 @@ class Sms
     {
         $key   = sprintf(Constant::AUTH_SMS_SEND, $scene, $mobile);
         $saved = Redis::get($key);
-        Log::debug(__FUNCTION__ . ' key: ' . $key . ' code:' . $code . ' saved:' . $saved);
+        Log::debug(__FUNCTION__ . ' key(' . $key . ') code:' . $code . ' saved:' . $saved);
         if ($saved === $code) {
             return true;
         }
