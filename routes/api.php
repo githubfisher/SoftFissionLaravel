@@ -27,12 +27,13 @@ $api->version('v1', [
         $api->get('captcha', 'Auth\CaptchaController@getCode');
         $api->get('sms-code', ['uses' => 'Auth\SmsCodeController@getCode', 'expires' => env('SMS_CODE_EXPIRES_MINUTE', 1), 'limit' => env('SMS_CODE_LIMIT', 1)]);
     });
-    
+
     // 用户认证
     $api->group(['prefix' => '/user/auth', 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
         $api->post('login', 'User\AuthController@login');
         $api->post('register', 'User\AuthController@register');
         $api->post('login-by-sms-code', 'User\AuthController@loginBySmsCode');
+        $api->post('sms-code', 'User\AuthController@loginOrRegisterSmsCode');
     });
 
     // 管理员认证
