@@ -128,13 +128,15 @@ class AuthController extends Controller
         foreach ($scenes as $scene) {
             if ($sms->check($mobile, $request->get('code'), $scene)) {
                 $pass = $scene;
+
+                break;
             }
         }
 
         if ($pass !== false) {
             $user = $repository->mobile($mobile)->first();
             if ($user) {
-                if ($pass == Constant::SMS_CODE_SCENE_REGISTER) {
+                if ($pass === Constant::SMS_CODE_SCENE_REGISTER) {
                     $repository->update(['mobile_verified_at' => Carbon::now()->toDateTimeString()], $user->id);
                 }
                 $token = Auth::login($user);
