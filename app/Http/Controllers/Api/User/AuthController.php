@@ -73,7 +73,6 @@ class AuthController extends Controller
             $mobile = $request->input('mobile');
             $user   = $repository->firstOrCreate(['mobile' => $mobile]);
             if ($user) {
-                Log::debug(__FUNCTION__ . ' user:' . json_encode(compact('user')));
                 // 发送短信验证码
                 $sms   = new Sms();
                 $scene = empty($user->mobile_verified_at) ? Constant::SMS_CODE_SCENE_REGISTER : Constant::SMS_CODE_SCENE_LOGIN;
@@ -136,6 +135,7 @@ class AuthController extends Controller
         if ($pass !== false) {
             $user = $repository->findByField('mobile', $mobile);
             if ($user) {
+                Log::debug(__FUNCTION__ . ' user:' . json_encode(compact('user')));
                 $pass == Constant::SMS_CODE_SCENE_REGISTER && $repository->update(['id' => $user->id], ['mobile_verified_at' => Carbon::now()->toDateTimeString()]);
                 $token = Auth::login($user);
 
