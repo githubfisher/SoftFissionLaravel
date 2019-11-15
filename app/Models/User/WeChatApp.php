@@ -8,7 +8,7 @@ class WeChatApp extends Model
 {
     use SoftDeletes;
 
-    protected $table    = 'wechat_app';
+    protected $table    = 'we_app';
     protected $fillable = [
         'user_id',
         'app_id',

@@ -5,7 +5,7 @@ use App\Models\Model;
 
 class Rule extends Model
 {
-    protected $table    = 'rules';
+    protected $table    = 'we_rules';
     protected $fillable = [
         'user_id', 'app_id', 'scene', 'title', 'reply_rule', 'status', 'start_at', 'end_at',
     ];

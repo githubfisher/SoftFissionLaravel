@@ -5,7 +5,7 @@ use App\Models\Model;
 
 class Reply extends Model
 {
-    protected $table    = 'replies';
+    protected $table    = 'we_replies';
     protected $fillable = [
         'rule_id', 'difference', 'reply_type', 'reply_type_female', 'content', 'content_female', 'material_id', 'material_id_female',
     ];

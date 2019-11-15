@@ -5,7 +5,7 @@ use App\Models\Model;
 
 class QrCode extends Model
 {
-    protected $table    = 'super_qr_code';
+    protected $table    = 'we_qrcode';
     protected $fillable = [
         'user_id',
         'app_id',

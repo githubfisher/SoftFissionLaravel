@@ -5,7 +5,7 @@ use App\Models\Model;
 
 class Keyword extends Model
 {
-    protected $table    = 'keywords';
+    protected $table    = 'we_keywords';
     protected $fillable = [
         'rule_id', 'keyword', 'match_type',
     ];

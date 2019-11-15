@@ -5,7 +5,7 @@ use App\Models\Model;
 
 class News extends Model
 {
-    protected $table    = 'material_news';
+    protected $table    = 'we_news';
     protected $fillable = [
         'user_id',
         'app_id',

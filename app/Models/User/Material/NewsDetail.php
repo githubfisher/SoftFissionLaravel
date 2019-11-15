@@ -5,7 +5,7 @@ use App\Models\Model;
 
 class NewsDetail extends Model
 {
-    protected $table    = 'material_news_detail';
+    protected $table    = 'we_news_detail';
     protected $fillable = [
         'news_id',
         'thumb_media_id',
