@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Auth\LoginRequest;
 use App\Http\Requests\User\Auth\RegisterRequest;
 use App\Repositories\User\UserRepositoryEloquent;
+use App\Http\Requests\Auth\RegisterBySmsCodeRequest;
 use App\Http\Requests\User\Auth\LoginBySmsCodeRequest;
 
 class AuthController extends Controller
@@ -53,20 +54,19 @@ class AuthController extends Controller
      */
     public function activate()
     {
-
     }
 
     /**
      * 手机验证码登录/注册: 获取短信验证码;
      * 前端在获取验证码时不清楚用户是否已经注册;
      *
-     * @param RegisterRequest        $request
+     * @param RegisterBySmsCodeRequest        $request
      * @param UserRepositoryEloquent $repository
      * @param Captcha                $captcha
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function loginOrRegisterSmsCode(RegisterRequest $request, UserRepositoryEloquent $repository, Captcha $captcha)
+    public function loginOrRegisterSmsCode(RegisterBySmsCodeRequest $request, UserRepositoryEloquent $repository, Captcha $captcha)
     {
         if ($captcha->check($request->get('captcha'), $request->get('key'))) {
             $mobile = $request->input('mobile');
