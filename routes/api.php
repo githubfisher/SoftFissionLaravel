@@ -29,7 +29,7 @@ $api->version('v1', [
     });
 
     // 用户认证
-    $api->get('user/auth/sms-code', ['uses' => 'User\AuthController@loginOrRegisterSmsCode', 'expires' => env('SMS_CODE_EXPIRES_MINUTE', 1), 'limit' => env('SMS_CODE_LIMIT', 1)]);
+    $api->get('user/auth/sms-code', ['uses' => 'User\AuthController@getSmsCode', 'expires' => env('SMS_CODE_EXPIRES_MINUTE', 1), 'limit' => env('SMS_CODE_LIMIT', 1)]);
     $api->group(['prefix' => '/user/auth', 'expires' => 1, 'limit' => 60], function (\Dingo\Api\Routing\Router $api) {
         $api->post('login', 'User\AuthController@login');
         $api->post('register', 'User\AuthController@register');

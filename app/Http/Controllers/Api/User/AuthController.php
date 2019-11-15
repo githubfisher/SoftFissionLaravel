@@ -66,7 +66,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function loginOrRegisterSmsCode(RegisterBySmsCodeRequest $request, UserRepositoryEloquent $repository, Captcha $captcha)
+    public function getSmsCode(RegisterBySmsCodeRequest $request, UserRepositoryEloquent $repository, Captcha $captcha)
     {
         if ($captcha->check($request->get('captcha'), $request->get('key'))) {
             $mobile = $request->input('mobile');
