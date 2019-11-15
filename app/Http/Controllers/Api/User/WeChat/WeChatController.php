@@ -85,7 +85,6 @@ EOF;
         $info    = $this->openPlatform->getAuthorizer($oAuth['authorization_info']['authorizer_appid']);
         $appInfo = [
             'app_id'            => $appId,
-            'user_id'           => $userId,
             'refresh_token'     => $oAuth['authorization_info']['authorizer_refresh_token'],
             'nick_name'         => $info['authorizer_info']['nick_name'],
             'head_img'          => $info['authorizer_info']['head_img'] ?? '',

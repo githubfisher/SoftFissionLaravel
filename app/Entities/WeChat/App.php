@@ -17,7 +17,6 @@ class App extends Model implements Transformable
 
     protected $table    = 'we_app';
     protected $fillable = [
-        'user_id',
         'app_id',
         'nick_name',
         'head_img',
