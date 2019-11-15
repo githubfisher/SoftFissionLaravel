@@ -1,18 +1,18 @@
 <?php
 namespace App\Http\Controllers\Api\Permission;
 
-use App\Utilities\Constant;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
+use App\Repositories\Permission\PermissionRepositoryEloquent;
 
 class PermissionController extends Controller
 {
     protected $guard;
     protected $permission;
 
-    public function __construct(\App\Http\Repositories\Permission\Permission $permission)
+    public function __construct(PermissionRepositoryEloquent $permission)
     {
         $this->permission = $permission;
         $this->guard      = Config('auth.defaults.guard');
@@ -20,7 +20,7 @@ class PermissionController extends Controller
 
     public function index()
     {
-        $list = $this->permission->list(Constant::PAGINATE_MIN, $this->guard);
+        $list = $this->permission->findWhere(['guard_name' => $this->guard]);
 
         return $this->suc(compact('list'));
     }
