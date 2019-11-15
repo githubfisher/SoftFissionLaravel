@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api\User;
 
+use Log;
 use Auth;
 use Carbon\Carbon;
 use App\Services\Sms;
@@ -72,6 +73,7 @@ class AuthController extends Controller
             $mobile = $request->input('mobile');
             $user   = $repository->firstOrCreate(['mobile' => $mobile]);
             if ($user) {
+                Log::debug(__FUNCTION__ . ' user:' . json_encode(compact('user')));
                 // 发送短信验证码
                 $sms    = new Sms();
                 $scene  = empty($user->mobile_verified_at) ? Constant::SMS_CODE_SCENE_REGISTER : Constant::SMS_CODE_SCENE_LOGIN;
