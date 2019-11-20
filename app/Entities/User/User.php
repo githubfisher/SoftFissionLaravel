@@ -19,8 +19,6 @@ class User extends Authenticatable implements JWTSubject, Transformable
 {
     use TransformableTrait, Notifiable, HasRoles, SoftDeletes;
 
-    protected $table = 'users';
-    
     /**
      * The attributes that are mass assignable.
      *
