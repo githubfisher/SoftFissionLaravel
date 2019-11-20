@@ -24,7 +24,6 @@ class AppManageController extends Controller
     public function index()
     {
         $list = $this->repository->list($this->user()->id);
-        Log::debug(__FUNCTION__ . ' ' . var_export($list, true));
 
         return $this->suc(compact('list'));
     }
