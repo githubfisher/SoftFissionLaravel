@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Repositories\WeChatApp\App;
 use App\Http\Requests\User\WeChat\AppRequest;
 
-class ManageController extends Controller
+class AppManageController extends Controller
 {
     /**
      * 用户名下公众号列表

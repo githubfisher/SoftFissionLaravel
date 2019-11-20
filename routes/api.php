@@ -55,9 +55,9 @@ $api->version('v1', [
 
     // 公众号授权
     $api->group(['prefix' => 'wechat'], function (\Dingo\Api\Routing\Router $api) {
-        $api->post('serve', 'User\WeChat\WeChatController@serve');
-        $api->get('bind/callback', 'User\WeChat\WeChatController@bindCallBack');
-        $api->post('message/{appId}', 'User\WeChat\WeChatController@message');
+        $api->post('serve', 'User\WeChat\OpenPlatformController@serve');
+        $api->get('bind/callback', 'User\WeChat\OpenPlatformController@bindCallBack');
+        $api->post('message/{appId}', 'User\WeChat\OpenPlatformController@message');
     });
 
 
@@ -106,9 +106,9 @@ $api->version('v1', [
         // 公众号管理
         $api->get('/wechat/binding', 'User\WeChat\WeChatController@binding');
         $api->group(['prefix' => '/wechat/apps'], function (\Dingo\Api\Routing\Router $api) {
-            $api->get('', 'User\WeChat\ManageController@index');
-            $api->get('switch', 'User\WeChat\ManageController@switchApp');
-            $api->get('unbind', 'User\WeChat\ManageController@unbind');
+            $api->get('', 'User\WeChat\AppManageController@index');
+            $api->get('switch', 'User\WeChat\AppManageController@switchApp');
+            $api->get('unbind', 'User\WeChat\AppManageController@unbind');
         });
 
 

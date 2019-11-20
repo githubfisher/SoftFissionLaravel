@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Api\User\WeChat;
 
-use App\Repositories\WeChat\AppRepositoryEloquent;
 use Log;
 use EasyWeChat\Factory;
 use App\Utilities\Constant;
@@ -10,8 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Repositories\WeChatApp\App;
 use EasyWeChat\OpenPlatform\Server\Guard;
 use App\Http\Requests\User\WeChat\BindRequest;
+use App\Repositories\WeChat\AppRepositoryEloquent;
 
-class WeChatController extends Controller
+class OpenPlatformController extends Controller
 {
     protected $openPlatform;
 
