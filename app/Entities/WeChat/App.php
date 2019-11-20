@@ -2,11 +2,10 @@
 namespace App\Entities\WeChat;
 
 use App\Models\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class App.
@@ -40,6 +39,6 @@ class App extends Model implements Transformable
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany('App\Entities\User\User', 'user_has_apps', 'app_id', 'user_id');
+        return $this->belongsToMany('App\Entities\User\User', 'user_app', 'app_id', 'user_id');
     }
 }
