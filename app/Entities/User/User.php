@@ -19,8 +19,6 @@ class User extends Authenticatable implements JWTSubject, Transformable
 {
     use TransformableTrait, Notifiable, HasRoles, SoftDeletes;
 
-    protected $table = 'user';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -45,7 +43,8 @@ class User extends Authenticatable implements JWTSubject, Transformable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at'  => 'datetime',
+        'mobile_verified_at' => 'datetime',
     ];
 
     /**
