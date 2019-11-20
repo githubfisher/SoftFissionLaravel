@@ -13,7 +13,7 @@ class CreateWechatAppTable extends Migration
      */
     public function up()
     {
-        Schema::create('we_app', function (Blueprint $table) {
+        Schema::create('we_apps', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->default(0);
             $table->string('app_id', 20)->default('');
@@ -49,6 +49,6 @@ class CreateWechatAppTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('we_app');
+        Schema::dropIfExists('we_apps');
     }
 }
