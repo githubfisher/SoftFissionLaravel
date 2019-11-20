@@ -18,13 +18,11 @@ class AppManageController extends Controller
     /**
      * 用户名下公众号列表
      *
-     * @param App $apps
-     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(App $apps)
+    public function index()
     {
-        $list = $apps->list($this->user()->id);
+        $list = $this->repository->list($this->user()->id);
 
         return $this->suc(compact('list'));
     }
