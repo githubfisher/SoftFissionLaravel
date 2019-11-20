@@ -82,7 +82,7 @@ class User extends Authenticatable implements JWTSubject, Transformable
 
     /**
      * 一对多 关联 公众号
-     * 
+     *
      * @return HasMany
      */
     public function apps(): HasMany
