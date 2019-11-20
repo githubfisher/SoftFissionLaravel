@@ -86,6 +86,6 @@ class User extends Authenticatable implements JWTSubject, Transformable
      */
     public function apps(): HasMany
     {
-        return $this->hasMany('App\Entities\WeChat\App', 'user_id', 'id');
+        return $this->hasMany('App\Entities\WeChat\WeApp', 'user_id', 'id');
     }
 }
