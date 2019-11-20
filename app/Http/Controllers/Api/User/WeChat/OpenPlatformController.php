@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Repositories\WeChatApp\App;
 use EasyWeChat\OpenPlatform\Server\Guard;
 use App\Http\Requests\User\WeChat\BindRequest;
-use App\Repositories\WeChat\AppRepositoryEloquent;
+use App\Repositories\WeChat\WeAppRepositoryEloquent;
 
 class OpenPlatformController extends Controller
 {
@@ -68,7 +68,7 @@ EOF;
         return response()->make($html);
     }
 
-    public function bindCallBack(BindRequest $request, AppRepositoryEloquent $apps)
+    public function bindCallBack(BindRequest $request, WeAppRepositoryEloquent $apps)
     {
         $oAuth       = $this->openPlatform->handleAuthorize();
         $appId       = $oAuth['authorization_info']['authorizer_appid'];

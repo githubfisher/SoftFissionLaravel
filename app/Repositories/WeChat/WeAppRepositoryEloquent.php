@@ -12,7 +12,7 @@ use Prettus\Repository\Contracts\CacheableInterface;
  *
  * @package namespace App\Repositories\WeChat;
  */
-class AppRepositoryEloquent extends BaseRepository implements CacheableInterface
+class WeAppRepositoryEloquent extends BaseRepository implements CacheableInterface
 {
     use CacheableRepository;
 
