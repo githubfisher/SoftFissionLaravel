@@ -4,10 +4,11 @@ namespace App\Entities\User;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class User.
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class User extends Authenticatable implements JWTSubject, Transformable
 {
-    use TransformableTrait, Notifiable, HasRoles;
+    use TransformableTrait, Notifiable, HasRoles, SoftDeletes;
 
     protected $table = 'user';
 
@@ -79,8 +80,13 @@ class User extends Authenticatable implements JWTSubject, Transformable
         return $query->where('mobile', $mobile);
     }
 
-    public function apps(): BelongsToMany
+    /**
+     * 一对多 关联 公众号
+     * 
+     * @return HasMany
+     */
+    public function apps(): HasMany
     {
-        return $this->belongsToMany('App\Entities\WeChat\App', 'user_app', 'user_id', 'app_id');
+        return $this->hasMany('App\Entities\WeChat\App', 'user_id', 'id');
     }
 }

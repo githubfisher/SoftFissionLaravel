@@ -5,7 +5,7 @@ use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class App.
@@ -18,6 +18,7 @@ class App extends Model implements Transformable
 
     protected $table    = 'we_app';
     protected $fillable = [
+        'user_id',
         'app_id',
         'nick_name',
         'head_img',
@@ -37,8 +38,8 @@ class App extends Model implements Transformable
     protected $guarded = ['id'];
     protected $dates   = ['deleted_at'];
 
-    public function users(): BelongsToMany
+    public function users(): BelongsTo
     {
-        return $this->belongsToMany('App\Entities\User\User', 'user_app', 'app_id', 'user_id');
+        return $this->belongsTo('App\Entities\User\User', 'user_id');
     }
 }
