@@ -25,5 +25,5 @@ trait AppHelper
             return json_encode($list);
         });
     }
-    
+
 }
