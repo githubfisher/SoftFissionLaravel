@@ -73,10 +73,8 @@ EOF;
         $oAuth       = $this->openPlatform->handleAuthorize();
         $appId       = $oAuth['authorization_info']['authorizer_appid'];
         $app         = $apps->where('app_id', $appId, ['user_id'])->first();
-        Log::debug(__FUNCTION__. ' '.var_export($app, true));
         $frontDomain = config('front.url');
-        //判断是否被绑定
-        $userId   = $request->get('user_id');
+        $userId      = $request->get('user_id');
         if ($app && $app->user_id != $userId) {
             Log::debug(__FUNCTION__ . ' ' . $appId . ', 该公众号已绑定到其他账号! userid: ' . $app->user_id);
 
@@ -85,6 +83,7 @@ EOF;
 
         $info    = $this->openPlatform->getAuthorizer($oAuth['authorization_info']['authorizer_appid']);
         $appInfo = [
+            'user_id'           => $userId,
             'app_id'            => $appId,
             'refresh_token'     => $oAuth['authorization_info']['authorizer_refresh_token'],
             'nick_name'         => $info['authorizer_info']['nick_name'],
