@@ -13,7 +13,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('user', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('pid')->default(0);
             $table->string('name', 64)->default('');
@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('ops', function (Blueprint $table) {
+        Schema::create('operations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('pid')->default(0);
             $table->string('name', 64)->default('');
@@ -45,7 +45,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('admin', function (Blueprint $table) {
+        Schema::create('admins', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('pid')->default(0);
             $table->string('name', 64)->default('');
@@ -69,8 +69,8 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user');
-        Schema::dropIfExists('ops');
-        Schema::dropIfExists('admin');
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('operations');
+        Schema::dropIfExists('admins');
     }
 }

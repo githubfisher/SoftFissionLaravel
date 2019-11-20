@@ -34,7 +34,8 @@ class CreateWechatAppTable extends Migration
             $table->softDeletes();
 
             $table->foreign('user_id')
-                  ->references('id')->on('user')
+                  ->references('id')
+                  ->on('users')
                   ->onDelete('cascade');
 
             $table->unique('app_id', 'app_id');

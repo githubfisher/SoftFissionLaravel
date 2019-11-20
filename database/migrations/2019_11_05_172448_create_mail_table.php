@@ -23,6 +23,11 @@ class CreateMailTable extends Migration
             $table->unsignedTinyInteger('status')->default(0);
             $table->timestamps();
 
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
+
             $table->index('user_id');
         });
     }
