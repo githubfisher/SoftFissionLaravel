@@ -13,7 +13,7 @@ class CreateReplyRuleTables extends Migration
      */
     public function up()
     {
-        Schema::create('we_rules', function (Blueprint $table) {
+        Schema::create('we_rule', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('app_id', 20)->default('');
             $table->string('scene', 9)->default('');
@@ -27,7 +27,7 @@ class CreateReplyRuleTables extends Migration
             $table->index('app_id');
         });
 
-        Schema::create('we_keywords', function (Blueprint $table) {
+        Schema::create('we_keyword', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rule_id')->default(0);
             $table->string('keyword', 64);
@@ -41,7 +41,7 @@ class CreateReplyRuleTables extends Migration
             $table->index(['rule_id', 'keyword']);
         });
 
-        Schema::create('we_replies', function (Blueprint $table) {
+        Schema::create('we_reply', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rule_id')->default(0);
             $table->unsignedTinyInteger('difference')->default(1)->comment('是否区分男女: 1不区分 2区分');
@@ -68,8 +68,8 @@ class CreateReplyRuleTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('we_keywords');
-        Schema::dropIfExists('we_replies');
-        Schema::dropIfExists('we_rules');
+        Schema::dropIfExists('we_keyword');
+        Schema::dropIfExists('we_reply');
+        Schema::dropIfExists('we_rule');
     }
 }
