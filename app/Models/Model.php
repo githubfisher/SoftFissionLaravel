@@ -43,7 +43,7 @@ class Model extends EloquentModel
     {
         return $query->where('app_id', $appId);
     }
-    
+
     /*
      * 批量插入
      */
