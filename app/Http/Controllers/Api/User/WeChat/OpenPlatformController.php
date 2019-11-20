@@ -73,6 +73,7 @@ EOF;
         $oAuth       = $this->openPlatform->handleAuthorize();
         $appId       = $oAuth['authorization_info']['authorizer_appid'];
         $app         = $apps->findWhere(['app_id' => $appId]);
+        Log::debug(__FUNCTION__. ' '.var_export($app, true));
         $frontDomain = config('front.url');
         //判断是否被绑定
         $userId   = $request->get('user_id');
