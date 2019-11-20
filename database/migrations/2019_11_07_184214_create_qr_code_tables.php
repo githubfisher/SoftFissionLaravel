@@ -43,7 +43,8 @@ class CreateQrCodeTables extends Migration
             $table->timestamps();
 
             $table->foreign('qrcode_id')
-                  ->references('id')->on('we_qrcode')
+                  ->references('id')
+                  ->on('we_qrcode')
                   ->onDelete('cascade');
 
             $table->index(['qrcode_id', 'scene_str']);

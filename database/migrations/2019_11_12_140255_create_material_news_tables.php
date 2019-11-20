@@ -40,7 +40,8 @@ class CreateMaterialNewsTables extends Migration
             $table->timestamps();
 
             $table->foreign('news_id')
-                  ->references('id')->on('we_news')
+                  ->references('id')
+                  ->on('we_news')
                   ->onDelete('cascade');
 
             $table->index(['news_id', 'thumb_media_id']);

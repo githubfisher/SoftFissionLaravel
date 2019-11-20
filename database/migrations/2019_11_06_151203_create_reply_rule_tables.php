@@ -35,7 +35,8 @@ class CreateReplyRuleTables extends Migration
             $table->timestamps();
 
             $table->foreign('rule_id')
-                  ->references('id')->on('we_rule')
+                  ->references('id')
+                  ->on('we_rule')
                   ->onDelete('cascade');
 
             $table->index(['rule_id', 'keyword']);
@@ -54,7 +55,8 @@ class CreateReplyRuleTables extends Migration
             $table->timestamps();
 
             $table->foreign('rule_id')
-                  ->references('id')->on('we_rule')
+                  ->references('id')
+                  ->on('we_rule')
                   ->onDelete('cascade');
 
             $table->index('rule_id');
