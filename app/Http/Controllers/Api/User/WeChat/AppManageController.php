@@ -4,9 +4,17 @@ namespace App\Http\Controllers\Api\User\WeChat;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\WeChatApp\App;
 use App\Http\Requests\User\WeChat\AppRequest;
+use App\Repositories\WeChat\WeAppRepositoryEloquent;
 
 class AppManageController extends Controller
 {
+    protected $repository;
+
+    public function __construct(WeAppRepositoryEloquent $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * 用户名下公众号列表
      *
