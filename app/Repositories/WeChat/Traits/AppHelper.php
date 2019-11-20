@@ -2,9 +2,12 @@
 namespace App\Repositories\WeChat\Traits;
 
 use App\Utilities\Constant;
+use Prettus\Repository\Traits\CacheableRepository;
 
 trait AppHelper
 {
+    use CacheableRepository;
+
     // 用户名下公众号列表
     public function list(int $userId, $columns = ['*'])
     {

@@ -5,7 +5,6 @@ use App\Entities\WeChat\WeApp;
 use App\Repositories\WeChat\Traits\AppHelper;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Prettus\Repository\Traits\CacheableRepository;
 use Prettus\Repository\Contracts\CacheableInterface;
 
 /**
@@ -15,7 +14,7 @@ use Prettus\Repository\Contracts\CacheableInterface;
  */
 class WeAppRepositoryEloquent extends BaseRepository implements CacheableInterface
 {
-    use CacheableRepository, AppHelper;
+    use AppHelper;
 
     /**
      * Specify Model class name
