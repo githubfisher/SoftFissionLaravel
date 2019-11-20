@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api\User\WeChat;
 
+use Log;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\WeChatApp\App;
 use App\Http\Requests\User\WeChat\AppRequest;
@@ -23,6 +24,7 @@ class AppManageController extends Controller
     public function index()
     {
         $list = $this->repository->list($this->user()->id);
+        Log::debug(__FUNCTION__ . ' ' . var_export($list, true));
 
         return $this->suc(compact('list'));
     }
