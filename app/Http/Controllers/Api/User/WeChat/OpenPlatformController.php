@@ -71,6 +71,7 @@ EOF;
     public function bindCallBack(BindRequest $request, WeAppRepositoryEloquent $apps)
     {
         $oAuth       = $this->openPlatform->handleAuthorize();
+        Log::debug(__FUNCTION__ . ' oAuthInfo: ' . json_encode($oAuth));
         $appId       = $oAuth['authorization_info']['authorizer_appid'];
         $app         = $apps->where('app_id', $appId)->first();
         $frontDomain = config('front.url');
@@ -82,6 +83,7 @@ EOF;
         }
 
         $info    = $this->openPlatform->getAuthorizer($oAuth['authorization_info']['authorizer_appid']);
+        Log::debug(__FUNCTION__ . ' appInfo: ' . json_encode($oAuth));
         $appInfo = [
             'user_id'           => $userId,
             'app_id'            => $appId,
@@ -100,7 +102,9 @@ EOF;
             'anytype_reply'     => 0,
             'subscribe_reply'   => 0,
         ];
-        if ($res = $apps->updateOrCreate(['app_id' => $appId], $appInfo)) {
+        $res = $apps->updateOrCreate(['app_id' => $appId], $appInfo);
+        Log::debug(__FUNCTION__ . ' res: ' . json_encode($res));
+        if ($res) {
             // 更新绑定公众号列表
             $apps->refreshAppList($userId);
             $apps->refreshAppInfo($appId);

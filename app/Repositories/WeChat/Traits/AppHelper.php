@@ -132,6 +132,7 @@ trait AppHelper
 
     public function updateOrCreate(array $attributes, array $values = [])
     {
+        \Illuminate\Support\Facades\Log::debug(__FUNCTION__ . ' ' . __FUNCTION__);
         if ( ! is_null($this->validator)) {
             $this->validator->with(array_merge($attributes, $values))->passesOrFail(ValidatorInterface::RULE_CREATE);
         }
