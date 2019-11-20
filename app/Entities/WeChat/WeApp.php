@@ -2,7 +2,6 @@
 namespace App\Entities\WeChat;
 
 use App\Models\Model;
-use App\Entities\WeChat\Traits\AppHelper;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
@@ -15,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class WeApp extends Model implements Transformable
 {
-    use TransformableTrait, SoftDeletes, AppHelper;
+    use TransformableTrait, SoftDeletes;
 
     protected $fillable = [
         'user_id',
