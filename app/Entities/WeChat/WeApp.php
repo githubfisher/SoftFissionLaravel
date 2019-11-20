@@ -12,11 +12,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @package namespace App\Entities\WeChat;
  */
-class App extends Model implements Transformable
+class WeApp extends Model implements Transformable
 {
     use TransformableTrait, SoftDeletes;
 
-    protected $table    = 'we_app';
     protected $fillable = [
         'user_id',
         'app_id',

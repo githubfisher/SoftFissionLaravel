@@ -1,7 +1,7 @@
 <?php
 namespace App\Repositories\WeChat;
 
-use App\Entities\WeChat\App;
+use App\Entities\WeChat\WeApp;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Traits\CacheableRepository;
@@ -23,7 +23,7 @@ class AppRepositoryEloquent extends BaseRepository implements CacheableInterface
      */
     public function model()
     {
-        return App::class;
+        return WeApp::class;
     }
 
     /**
