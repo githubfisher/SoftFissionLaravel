@@ -72,7 +72,7 @@ EOF;
     {
         $oAuth       = $this->openPlatform->handleAuthorize();
         $appId       = $oAuth['authorization_info']['authorizer_appid'];
-        $app         = $apps->where('app_id', $appId, ['user_id'])->first();
+        $app         = $apps->where('app_id', $appId)->first();
         $frontDomain = config('front.url');
         $userId      = $request->get('user_id');
         if ($app && $app->user_id != $userId) {
