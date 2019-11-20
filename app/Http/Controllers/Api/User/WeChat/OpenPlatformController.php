@@ -83,7 +83,7 @@ EOF;
         }
 
         $info    = $this->openPlatform->getAuthorizer($oAuth['authorization_info']['authorizer_appid']);
-        Log::debug(__FUNCTION__ . ' appInfo: ' . json_encode($oAuth));
+        Log::debug(__FUNCTION__ . ' appInfo: ' . json_encode($info));
         $appInfo = [
             'user_id'           => $userId,
             'app_id'            => $appId,
