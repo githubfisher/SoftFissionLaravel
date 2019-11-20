@@ -27,21 +27,9 @@ class Model extends EloquentModel
      * @param $userId
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeLocal($query, $userId)
+    public function scopeUser($query, $userId)
     {
         return $query->where('user_id', $userId);
-    }
-
-    /*
-     * 批量插入
-     */
-    public function addAll(array $data)
-    {
-        $now = Carbon::now()->toDateTimeString();
-        data_fill($data, '*.created_at', $now);
-        data_fill($data, '*.updated_at', $now);
-
-        return DB::table($this->getTable())->insert($data);
     }
 
     /**
@@ -54,5 +42,17 @@ class Model extends EloquentModel
     public function scopeApp($query, $appId)
     {
         return $query->where('app_id', $appId);
+    }
+    
+    /*
+     * 批量插入
+     */
+    public function addAll(array $data)
+    {
+        $now = Carbon::now()->toDateTimeString();
+        data_fill($data, '*.created_at', $now);
+        data_fill($data, '*.updated_at', $now);
+
+        return DB::table($this->getTable())->insert($data);
     }
 }
