@@ -100,7 +100,7 @@ EOF;
             'anytype_reply'     => 0,
             'subscribe_reply'   => 0,
         ];
-        $id = $apps->updateOrCreate(['app_id' => $appId], $appInfo);
+        $id = $apps->withTrashed()->updateOrCreate(['app_id' => $appId], $appInfo);
         if ($id) {
             $appInfo['id'] = $id;
             // 更新绑定公众号列表
