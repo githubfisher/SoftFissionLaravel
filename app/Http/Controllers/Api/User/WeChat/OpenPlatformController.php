@@ -100,14 +100,12 @@ EOF;
             'anytype_reply'     => 0,
             'subscribe_reply'   => 0,
         ];
-        $id = $apps->withTrashed()->updateOrCreate(['app_id' => $appId], $appInfo);
-        if ($id) {
-            $appInfo['id'] = $id;
+        if ($res = $apps->updateOrCreate(['app_id' => $appId], $appInfo)) {
             // 更新绑定公众号列表
-            //$apps->refreshAppList($userId, $appInfo);
-            //$apps->refreshAppInfo($appInfo);
+            $apps->refreshAppList($userId);
+            $apps->refreshAppInfo($appId);
             // 若之前解绑过, 从已解绑集合中去除
-            //$apps->remUnbindSet($appId);
+            $apps->remUnbindSet($appId);
             // TODO
             // 发送绑定成功的消息
             // 甄别赠送体验优惠券
