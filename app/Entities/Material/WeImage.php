@@ -10,7 +10,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  *
  * @package namespace App\Entities\Material;
  */
-class Image extends Model implements Transformable
+class WeImage extends Model implements Transformable
 {
     use TransformableTrait;
 

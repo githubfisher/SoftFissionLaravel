@@ -1,7 +1,7 @@
 <?php
 namespace App\Repositories\Material;
 
-use App\Entities\Material\MaterialNews;
+use App\Entities\Material\WeNews;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 
@@ -19,7 +19,7 @@ class NewsRepositoryEloquent extends BaseRepository
      */
     public function model()
     {
-        return MaterialNews::class;
+        return WeNews::class;
     }
 
     /**

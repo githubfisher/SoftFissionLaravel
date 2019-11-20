@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Material;
 
-use App\Entities\Material\Image;
+use App\Entities\Material\WeImage;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 
@@ -20,10 +20,10 @@ class ImageRepositoryEloquent extends BaseRepository
      */
     public function model()
     {
-        return Image::class;
+        return WeImage::class;
     }
 
-    
+
 
     /**
      * Boot up the repository, pushing criteria

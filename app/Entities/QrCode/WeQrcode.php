@@ -11,7 +11,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  *
  * @package namespace App\Entities\QrCode;
  */
-class WeQrCode extends Model implements Transformable
+class WeQrcode extends Model implements Transformable
 {
     use TransformableTrait;
 

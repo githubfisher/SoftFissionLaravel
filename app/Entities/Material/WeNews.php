@@ -10,11 +10,10 @@ use Prettus\Repository\Traits\TransformableTrait;
  *
  * @package namespace App\Entities\Material;
  */
-class MaterialNews extends Model implements Transformable
+class WeNews extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $table    = 'material_news';
     protected $fillable = [
         'user_id',
         'app_id',
@@ -25,6 +24,6 @@ class MaterialNews extends Model implements Transformable
 
     public function details()
     {
-        return $this->hasMany('App\Entities\Material\MaterialNewsDetail', 'news_id', 'id');
+        return $this->hasMany('App\Entities\Material\WeNewsDetail', 'news_id', 'id');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Repositories\QrCode;
 
-use App\Entities\QrCode\WeQrCode;
+use App\Entities\QrCode\WeQrcode;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 
@@ -20,7 +20,7 @@ class WeQrCodeRepositoryEloquent extends BaseRepository
      */
     public function model()
     {
-        return WeQrCode::class;
+        return WeQrcode::class;
     }
 
 
