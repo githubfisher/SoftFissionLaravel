@@ -107,7 +107,7 @@ $api->version('v1', [
         $api->get('/wechat/binding', 'User\WeChat\OpenPlatformController@binding');
         $api->group(['prefix' => '/wechat/apps'], function (\Dingo\Api\Routing\Router $api) {
             $api->get('', 'User\WeChat\AppManageController@index');
-            $api->get('switch', 'User\WeChat\AppManageController@switchApp');
+            $api->get('switch', 'User\WeChat\AppManageController@switch');
             $api->get('unbind', 'User\WeChat\AppManageController@unbind');
         });
 
