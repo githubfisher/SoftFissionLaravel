@@ -5,9 +5,9 @@ use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
 use App\Models\User\SuperQrCode\QrCode;
 use App\Repositories\QrCode\WeQrcodeRepositoryEloquent;
-use App\Http\Requests\User\OpenPlatform\SuperQrCode\QrCodeRequest;
-use App\Http\Requests\User\OpenPlatform\SuperQrCode\CreateQrCodeRequest;
-use App\Http\Requests\User\OpenPlatform\SuperQrCode\UpdateQrCodeRequest;
+use App\Http\Requests\User\OpenPlatform\QrCode\QrCodeRequest;
+use App\Http\Requests\User\OpenPlatform\QrCode\CreateQrCodeRequest;
+use App\Http\Requests\User\OpenPlatform\QrCode\UpdateQrCodeRequest;
 
 /**
  * 超级二维码
