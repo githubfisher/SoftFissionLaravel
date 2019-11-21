@@ -1,11 +1,10 @@
 <?php
-
-namespace App\Policies\User\SuperQrCode;
+namespace App\Policies\User\OpenPlatfrom\Reply;
 
 use App\Models\User\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class QrCodePolicy
+class RulePolicy
 {
     use HandlesAuthorization;
 
@@ -22,7 +21,7 @@ class QrCodePolicy
             return false;
         }
 
-        if ($user->can('view qrcode')) {
+        if ($user->can('view rules')) {
             return true;
         }
 
@@ -42,7 +41,7 @@ class QrCodePolicy
             return false;
         }
 
-        if ($user->can('create qrcode')) {
+        if ($user->can('create rules')) {
             return true;
         }
 
@@ -62,7 +61,7 @@ class QrCodePolicy
             return false;
         }
 
-        if ($user->can('edit own qrcode')) {
+        if ($user->can('edit own rules')) {
             return true;
         }
 
@@ -82,7 +81,7 @@ class QrCodePolicy
             return false;
         }
 
-        if ($user->can('delete own qrcode')) {
+        if ($user->can('delete own rules')) {
             return true;
         }
 
