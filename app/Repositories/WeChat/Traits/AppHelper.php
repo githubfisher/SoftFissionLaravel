@@ -88,7 +88,12 @@ trait AppHelper
     // 切换公众号
     public function switchApp(int $userId, string $appId)
     {
-        $list            = $this->list($userId);
+        $list = $this->list($userId);
+
+        if (isset($list['current']) && $list['current'] == $appId) {
+            return true;
+        }
+        
         $list['current'] = $appId;
 
         return $this->getCacheRepository()->put(sprintf(Constant::BIND_APP_LIST, $userId), $list);
