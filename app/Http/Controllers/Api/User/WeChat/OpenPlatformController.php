@@ -21,9 +21,10 @@ class OpenPlatformController extends Controller
         $this->openPlatform = Factory::openPlatform(config('wechat.open_platform.default'));
     }
 
-    public function serve(App $apps)
+    public function serve(WeAppRepositoryEloquent $repository)
     {
         $server = $this->openPlatform->server;
+        
         // 处理授权成功事件
         $server->push(function ($message) {
             Log::debug('Authorized ' . json_encode($message));
@@ -35,11 +36,11 @@ class OpenPlatformController extends Controller
         }, Guard::EVENT_UPDATE_AUTHORIZED);
 
         // 处理授权取消事件
-        $server->push(function ($message) use ($apps) {
+        $server->push(function ($message) use ($repository) {
             Log::debug('Unauthorized ' . json_encode($message));
 
             // 删除公众号信息 // 加入到已解绑公众号集合中
-            $apps->unbind($message['AuthorizerAppid']);
+            $repository->unbind($message['AuthorizerAppid']);
         }, Guard::EVENT_UNAUTHORIZED);
 
         // 处理VerifyTicket推送事件
@@ -69,11 +70,11 @@ EOF;
         return response()->make($html);
     }
 
-    public function bindCallBack(BindRequest $request, WeAppRepositoryEloquent $apps)
+    public function bindCallBack(BindRequest $request, WeAppRepositoryEloquent $repository)
     {
         $oAuth       = $this->openPlatform->handleAuthorize();
         $appId       = $oAuth['authorization_info']['authorizer_appid'];
-        $app         = $apps->where('app_id', $appId)->first();
+        $app         = $repository->where('app_id', $appId)->first();
         $frontDomain = config('front.url');
         $userId      = $request->get('user_id');
         if ($app && $app->user_id != $userId) {
@@ -99,12 +100,12 @@ EOF;
             'deleted_at'         => null,
             'funcscope_category' => Arr::sort(Arr::pluck($oAuth['authorization_info']['func_info'], 'funcscope_category.id')),
         ];
-        if ($res = $apps->updateOrCreate(['app_id' => $appId], $appInfo)) {
+        if ($res = $repository->updateOrCreate(['app_id' => $appId], $appInfo)) {
             // 更新绑定公众号列表
-            $apps->refreshAppList($userId);
-            $apps->refreshAppInfo($appId);
+            $repository->refreshAppList($userId);
+            $repository->refreshAppInfo($appId);
             // 若之前解绑过, 从已解绑集合中去除
-            $apps->remUnbindSet($appId);
+            $repository->remUnbindSet($appId);
             // TODO
             // 发送绑定成功的消息
             // 甄别赠送体验优惠券
