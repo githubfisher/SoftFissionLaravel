@@ -5,7 +5,7 @@ use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
 use App\Models\User\SuperQrCode\QrCode;
 use App\Http\Requests\User\SuperQrCode\QrCodeRequest;
-use App\Http\Repositories\SuperQrCode\QrCode as QrCodes;
+use App\Repositories\QrCode\WeQrcodeRepositoryEloquent;
 use App\Http\Requests\User\SuperQrCode\CreateQrCodeRequest;
 use App\Http\Requests\User\SuperQrCode\UpdateQrCodeRequest;
 
@@ -16,11 +16,11 @@ use App\Http\Requests\User\SuperQrCode\UpdateQrCodeRequest;
  */
 class WeQrcodeController extends Controller
 {
-    protected $qrcode;
+    protected $repository;
 
-    public function __construct(QrCodes $qrCode)
+    public function __construct(WeQrcodeRepositoryEloquent $repository)
     {
-        $this->qrcode = $qrCode;
+        $this->repository = $repository;
     }
 
     /**
@@ -34,7 +34,7 @@ class WeQrcodeController extends Controller
         $this->authorize('view', QrCode::class);
 
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $list  = $this->qrcode->list($this->user()->id, $request->input('app_id'), $limit);
+        $list  = $this->repository->local($this->user()->id)->app($request->input('app_id'))->recent()->simplePaginate($limit);
 
         return $this->suc(compact('list'));
     }
@@ -57,7 +57,7 @@ class WeQrcodeController extends Controller
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
         $params['scene']   = Constant::REPLY_RULE_SCENE_SCAN;
-        $res               = $this->qrcode->store($params);
+        $res               = $this->repository->store($params);
         if (is_numeric($res)) {
             return $this->suc(['id' => $res]);
         }
@@ -75,7 +75,7 @@ class WeQrcodeController extends Controller
     {
         $this->authorize('view', QrCode::class);
 
-        $data = $this->qrcode->get($id);
+        $data = $this->repository->get($id);
 
         return $this->suc(compact('data'));
     }
@@ -96,7 +96,7 @@ class WeQrcodeController extends Controller
     {
         $this->authorize('update', QrCode::class);
 
-        $res = $this->qrcode->update($id, $request->all());
+        $res = $this->repository->update($id, $request->all());
         if ($res === true) {
             return $this->suc();
         }
@@ -115,7 +115,7 @@ class WeQrcodeController extends Controller
     {
         $this->authorize('delete', QrCode::class);
 
-        $res = $this->qrcode->destroy($this->user()->id, $request->input('app_id'), $id);
+        $res = $this->repository->destroy($this->user()->id, $request->input('app_id'), $id);
         if ($res === true) {
             return $this->suc();
         }
