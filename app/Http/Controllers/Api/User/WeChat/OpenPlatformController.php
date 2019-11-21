@@ -5,6 +5,7 @@ use Log;
 use EasyWeChat\Factory;
 use App\Utilities\Constant;
 use App\Utilities\FeedBack;
+use Illuminate\Support\Arr;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\WeChatApp\App;
 use EasyWeChat\OpenPlatform\Server\Guard;
@@ -83,26 +84,22 @@ EOF;
 
         $info    = $this->openPlatform->getAuthorizer($oAuth['authorization_info']['authorizer_appid']);
         $appInfo = [
-            'user_id'           => $userId,
-            'app_id'            => $appId,
-            'refresh_token'     => $oAuth['authorization_info']['authorizer_refresh_token'],
-            'nick_name'         => $info['authorizer_info']['nick_name'],
-            'head_img'          => $info['authorizer_info']['head_img'] ?? '',
-            'user_name'         => $info['authorizer_info']['user_name'],
-            'alias'             => (int) $info['authorizer_info']['alias'],
-            'qrcode_url'        => $info['authorizer_info']['qrcode_url'],
-            'principal_name'    => $info['authorizer_info']['principal_name'],
-            'signature'         => $info['authorizer_info']['signature'],
-            'service_type_info' => $info['authorizer_info']['service_type_info']['id'],
-            'verify_type_info'  => $info['authorizer_info']['verify_type_info']['id'],
-            'deleted_at'        => null,
-            'keyword_reply'     => 0,
-            'anytype_reply'     => 0,
-            'subscribe_reply'   => 0,
+            'user_id'            => $userId,
+            'app_id'             => $appId,
+            'refresh_token'      => $oAuth['authorization_info']['authorizer_refresh_token'],
+            'nick_name'          => $info['authorizer_info']['nick_name'],
+            'head_img'           => $info['authorizer_info']['head_img'] ?? '',
+            'user_name'          => $info['authorizer_info']['user_name'],
+            'alias'              => (int) $info['authorizer_info']['alias'],
+            'qrcode_url'         => $info['authorizer_info']['qrcode_url'],
+            'principal_name'     => $info['authorizer_info']['principal_name'],
+            'signature'          => $info['authorizer_info']['signature'],
+            'service_type_info'  => $info['authorizer_info']['service_type_info']['id'],
+            'verify_type_info'   => $info['authorizer_info']['verify_type_info']['id'],
+            'deleted_at'         => null,
+            'funcscope_category' => Arr::sort(Arr::pluck($oAuth['func_info'], 'funcscope_category.id')),
         ];
-        $res = $apps->updateOrCreate(['app_id' => $appId], $appInfo);
-        Log::debug(__FUNCTION__ . ' res: ' . json_encode($res));
-        if ($res) {
+        if ($res = $apps->updateOrCreate(['app_id' => $appId], $appInfo)) {
             // 更新绑定公众号列表
             $apps->refreshAppList($userId);
             $apps->refreshAppInfo($appId);
