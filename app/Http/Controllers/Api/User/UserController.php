@@ -4,28 +4,34 @@ namespace App\Http\Controllers\Api\User;
 use Auth;
 use Hash;
 use App\Services\Sms;
-use App\Models\User\User;
 use App\Utilities\Constant;
 use App\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Auth\ResetNameRequest;
+use App\Repositories\User\UserRepositoryEloquent;
 use App\Http\Requests\User\Auth\ResetMobileRequest;
 use App\Http\Requests\User\Auth\ResetPasswordRequest;
 
 class UserController extends Controller
 {
+    protected $repository;
+
+    public function __construct(UserRepositoryEloquent $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * 修改用户名
      *
      * @param ResetNameRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function resetName(ResetNameRequest $request)
     {
-        $user       = User::find($this->user()->id);
-        $user->name = $request->input('name');
-        if ($user->update()) {
+        if ($res = $this->repository->update(['name' => $request->input('name')], $this->user()->id)) {
             return $this->suc();
         }
 
@@ -39,14 +45,13 @@ class UserController extends Controller
      * @param Sms                $sms
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function resetMobile(ResetMobileRequest $request, Sms $sms)
     {
         $mobile = $request->get('mobile');
         if ($sms->check($mobile, $request->get('code'), Constant::SMS_CODE_SCENE_RESET)) {
-            $user         = User::find($this->user()->id);
-            $user->mobile = $mobile;
-            if ($user->update()) {
+            if ($res = $this->repository->update(['mobile' => $mobile], $this->user()->id)) {
                 return $this->suc();
             }
 
@@ -62,13 +67,13 @@ class UserController extends Controller
      * @param ResetPasswordRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function resetPassword(ResetPasswordRequest $request)
     {
         if ($token = Auth::attempt(['mobile' => $this->user()->mobile, 'password' => $request->input('password')])) {
-            $user           = User::find($this->user()->id);
-            $user->password = Hash::make($request->get('new_password'));
-            if ($user->update()) {
+            $password = Hash::make($request->get('new_password'));
+            if ($res = $this->repository->update(['password' => $password], $this->user()->id)) {
                 Auth::logout();
 
                 return $this->suc();
