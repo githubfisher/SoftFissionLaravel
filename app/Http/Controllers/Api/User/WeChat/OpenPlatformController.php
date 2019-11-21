@@ -26,15 +26,30 @@ class OpenPlatformController extends Controller
         $server = $this->openPlatform->server;
 
         // 处理授权更新事件
-        $server->push(function ($message) {
+        $server->push(function ($message) use ($repository) {
             Log::debug('UpdateAuthorized ' . json_encode($message));
+
+            $authorizer = $this->openPlatform->getAuthorizer($message['AuthorizerAppid']);
+            $appInfo = [
+                'nick_name'          => $authorizer['authorizer_info']['nick_name'],
+                'head_img'           => $authorizer['authorizer_info']['head_img'] ?? '',
+                'user_name'          => $authorizer['authorizer_info']['user_name'],
+                'alias'              => (int) $authorizer['authorizer_info']['alias'],
+                'qrcode_url'         => $authorizer['authorizer_info']['qrcode_url'],
+                'principal_name'     => $authorizer['authorizer_info']['principal_name'],
+                'signature'          => $authorizer['authorizer_info']['signature'],
+                'service_type_info'  => $authorizer['authorizer_info']['service_type_info']['id'],
+                'verify_type_info'   => $authorizer['authorizer_info']['verify_type_info']['id'],
+                'deleted_at'         => null,
+                'funcscope_category' => Arr::sort(Arr::pluck($authorizer['authorization_info']['func_info'], 'funcscope_category.id')),
+            ];
+            $repository->updateOrCreate(['app_id' => $message['AuthorizerAppid']], $appInfo);
         }, Guard::EVENT_UPDATE_AUTHORIZED);
 
         // 处理授权取消事件
         $server->push(function ($message) use ($repository) {
             Log::debug('Unauthorized ' . json_encode($message));
 
-            // 删除公众号信息 // 加入到已解绑公众号集合中
             $repository->unbind($message['AuthorizerAppid']);
         }, Guard::EVENT_UNAUTHORIZED);
 
