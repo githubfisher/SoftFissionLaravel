@@ -1,7 +1,6 @@
 <?php
 namespace App\Repositories\WeChat\Traits;
 
-use App\Entities\WeChat\WeApp;
 use App\Utilities\Constant;
 use Illuminate\Support\Facades\Redis;
 use Prettus\Repository\Traits\CacheableRepository;
@@ -133,13 +132,12 @@ trait AppHelper
 
     public function updateOrCreate(array $attributes, array $values = [])
     {
-        \Illuminate\Support\Facades\Log::debug(__FUNCTION__ . ' ' . __FUNCTION__);
         if ( ! is_null($this->validator)) {
             $this->validator->with(array_merge($attributes, $values))->passesOrFail(ValidatorInterface::RULE_CREATE);
         }
+        
         $modelName = trim($this->model(), '::class');
-        $modelName = '\\'.$modelName;
-        \Illuminate\Support\Facades\Log::debug(__FUNCTION__ . ' ' . $modelName);
+        $modelName = '\\' . $modelName;
 
         return $modelName::withTrashed()->updateOrCreate($attributes, $values);
     }
