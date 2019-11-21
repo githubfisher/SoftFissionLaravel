@@ -52,9 +52,9 @@ $api->version('v1', [
 
     // 公众号授权
     $api->group(['prefix' => 'wechat'], function (\Dingo\Api\Routing\Router $api) {
-        $api->post('serve', 'User\WeChat\OpenPlatformController@serve');
-        $api->get('bind/callback', 'User\WeChat\OpenPlatformController@bindCallBack');
-        $api->post('message/{appId}', 'User\WeChat\OpenPlatformController@message');
+        $api->post('serve', 'User\OpenPlatform\WeChat\OpenPlatformController@serve');
+        $api->get('bind/callback', 'User\OpenPlatform\WeChat\OpenPlatformController@bindCallBack');
+        $api->post('message/{appId}', 'User\OpenPlatform\WeChat\OpenPlatformController@message');
     });
 
     /**
