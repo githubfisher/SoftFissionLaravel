@@ -22,7 +22,7 @@ class UserValidator extends LaravelValidator
             'mobile'     => ['sometimes', 'required', 'mobile'],
             'openid'     => ['sometimes', 'required', 'string', 'alpha_dash'],
             'nickname'   => ['sometimes', 'required', 'string'],
-            'headimgurl' => ['sometimes', 'required', 'url'],
+            'headimgurl' => ['sometimes', 'nullable', 'required', 'url'],
         ],
         ValidatorInterface::RULE_UPDATE => [
             'email'              => ['sometimes', 'required', 'email'],
@@ -33,7 +33,7 @@ class UserValidator extends LaravelValidator
             'name'               => ['sometimes', 'required', 'string', 'max:64', 'alpha_dash'],
             'openid'             => ['sometimes', 'required', 'string', 'alpha_dash'],
             'nickname'           => ['sometimes', 'required', 'string'],
-            'headimgurl'         => ['sometimes', 'required', 'url'],
+            'headimgurl'         => ['sometimes', 'nullable', 'required', 'url'],
         ],
     ];
 }
