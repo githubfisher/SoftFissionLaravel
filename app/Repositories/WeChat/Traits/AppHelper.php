@@ -5,6 +5,7 @@ use App\Utilities\Constant;
 use Illuminate\Support\Facades\Redis;
 use Prettus\Repository\Traits\CacheableRepository;
 use Prettus\Validator\Contracts\ValidatorInterface;
+use Prettus\Repository\Events\RepositoryEntityUpdated;
 
 trait AppHelper
 {
@@ -135,10 +136,19 @@ trait AppHelper
         if ( ! is_null($this->validator)) {
             $this->validator->with(array_merge($attributes, $values))->passesOrFail(ValidatorInterface::RULE_CREATE);
         }
-        
+
+        $temporarySkipPresenter = $this->skipPresenter;
+        $this->skipPresenter(true);
+
         $modelName = trim($this->model(), '::class');
         $modelName = '\\' . $modelName;
+        $model     = $modelName::withTrashed()->updateOrCreate($attributes, $values);
 
-        return $modelName::withTrashed()->updateOrCreate($attributes, $values);
+        $this->skipPresenter($temporarySkipPresenter);
+        $this->resetModel();
+
+        event(new RepositoryEntityUpdated($this, $model));
+
+        return $this->parserResult($model);
     }
 }
