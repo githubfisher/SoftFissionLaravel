@@ -24,7 +24,7 @@ class CreateWechatAppTable extends Migration
             $table->string('refresh_token', 64)->default('');
             $table->unsignedTinyInteger('service_type_info')->default(0)->comment('公众号类型: 0订阅号 1由历史老帐号升级后的订阅号 2服务号 ');
             $table->tinyInteger('verify_type_info')->default(0)->comment('认证类型: -1未认证，0微信认证 1新浪微博认证 2腾讯微博认证 3已资质认证通过但还未通过名称认证 4已资质认证通过，还未通过名称认证，但通过了新浪微博认证 5已资质认证通过，还未通过名称认证，但通过了腾讯微博认证');
-            $table->integer('alias')->default(0);
+            $table->string('alias')->nullable();
             $table->string('principal_name', 60)->default('')->comment('主体');
             $table->string('signature')->default('')->comment('签名');
             $table->unsignedTinyInteger('keyword_reply')->default(0)->comment('关键词回复, 0未开启');
