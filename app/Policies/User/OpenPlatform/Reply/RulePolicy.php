@@ -1,7 +1,7 @@
 <?php
 namespace App\Policies\User\OpenPlatfrom\Reply;
 
-use App\Models\User\User;
+use App\Entities\User\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RulePolicy
@@ -11,7 +11,7 @@ class RulePolicy
     /**
      * Determine whether the user can view the post.
      *
-     * @param  \App\Models\User\User $user
+     * @param  \App\Entities\User\User $user
      * @return mixed
      */
     public function view(User $user)
@@ -31,7 +31,7 @@ class RulePolicy
     /**
      * Determine whether the user can create posts.
      *
-     * @param  \App\Models\User\User $user
+     * @param  \App\Entities\User\User $user
      * @return mixed
      */
     public function create(User $user)
@@ -51,7 +51,7 @@ class RulePolicy
     /**
      * Determine whether the user can update the post.
      *
-     * @param  \App\Models\User\User $user
+     * @param  \App\Entities\User\User $user
      * @return mixed
      */
     public function update(User $user)
@@ -71,7 +71,7 @@ class RulePolicy
     /**
      * Determine whether the user can delete the post.
      *
-     * @param  \App\Models\User\User $user
+     * @param  \App\Entities\User\User $user
      * @return mixed
      */
     public function delete(User $user)
