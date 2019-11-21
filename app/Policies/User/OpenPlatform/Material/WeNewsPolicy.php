@@ -1,10 +1,10 @@
 <?php
-namespace App\Policies\User\OpenPlatform\Reply;
+namespace App\Policies\User\OpenPlatform\Material;
 
 use App\Entities\User\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class RulePolicy
+class WeNewsPolicy
 {
     use HandlesAuthorization;
 
@@ -21,7 +21,7 @@ class RulePolicy
             return false;
         }
 
-        if ($user->can('view-we_rule')) {
+        if ($user->can('view-we_news')) {
             return true;
         }
 
@@ -41,7 +41,7 @@ class RulePolicy
             return false;
         }
 
-        if ($user->can('create-we_rule')) {
+        if ($user->can('create-we_news')) {
             return true;
         }
 
@@ -61,7 +61,7 @@ class RulePolicy
             return false;
         }
 
-        if ($user->can('edit-own-we_rule')) {
+        if ($user->can('edit-own-we_news')) {
             return true;
         }
 
@@ -81,7 +81,7 @@ class RulePolicy
             return false;
         }
 
-        if ($user->can('delete-own-we_rule')) {
+        if ($user->can('delete-own-we_news')) {
             return true;
         }
 
