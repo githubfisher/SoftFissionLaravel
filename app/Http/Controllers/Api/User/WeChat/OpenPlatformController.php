@@ -21,6 +21,17 @@ class OpenPlatformController extends Controller
         $this->openPlatform = Factory::openPlatform(config('wechat.open_platform.default'));
     }
 
+    /**
+     * 接收并处理微信平台推送事件
+     *
+     * @param WeAppRepositoryEloquent $repository
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \ReflectionException
+     */
     public function serve(WeAppRepositoryEloquent $repository)
     {
         $server = $this->openPlatform->server;
@@ -69,6 +80,13 @@ class OpenPlatformController extends Controller
         return $server->serve();
     }
 
+    /**
+     * 跳转微信授权页面
+     *
+     * @param BindRequest $request
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function binding(BindRequest $request)
     {
         $domain = config('api.domain');
@@ -88,6 +106,14 @@ EOF;
         return response()->make($html);
     }
 
+    /**
+     * 授权成功CallBack
+     *
+     * @param BindRequest             $request
+     * @param WeAppRepositoryEloquent $repository
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function bindCallBack(BindRequest $request, WeAppRepositoryEloquent $repository)
     {
         $oAuth       = $this->openPlatform->handleAuthorize();
@@ -136,6 +162,15 @@ EOF;
         return redirect($frontDomain . '/#/bind/fail?message=' . FeedBack::BIND_FAIL['message']);
     }
 
+    /**
+     * 代微信公众号处理消息
+     * 测试专用, 非正式处理
+     *
+     * @param     $appId
+     * @param App $apps
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function message($appId, App $apps)
     {
         try {
@@ -218,7 +253,12 @@ EOF;
         return response('SUCCESS')->send();
     }
 
-    // 记录消息信息入日志
+    /**
+     * 记录消息信息入日志
+     *
+     * @param     $message
+     * @param int $msgType
+     */
     private function logMsg($message, $msgType = Constant::MSG_TYPE_OTHER)
     {
         $endfix = chr(27) . '[0m';
