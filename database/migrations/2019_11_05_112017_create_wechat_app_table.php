@@ -30,6 +30,7 @@ class CreateWechatAppTable extends Migration
             $table->unsignedTinyInteger('keyword_reply')->default(0)->comment('关键词回复, 0未开启');
             $table->unsignedTinyInteger('anytype_reply')->default(0)->comment('任意回复: 0未开启');
             $table->unsignedTinyInteger('subscribe_reply')->default(0)->comment('关注回复: 0未开启');
+            $table->string('funcscope_category')->comment('授权权限集');
             $table->timestamps();
             $table->softDeletes();
 
