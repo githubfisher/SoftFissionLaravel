@@ -5,9 +5,9 @@ use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
 use App\Models\User\SuperQrCode\QrCode;
 use App\Repositories\QrCode\WeQrcodeRepositoryEloquent;
-use App\Http\Requests\User\OpenPlatform\QrCode\QrCodeRequest;
-use App\Http\Requests\User\OpenPlatform\QrCode\CreateQrCodeRequest;
-use App\Http\Requests\User\OpenPlatform\QrCode\UpdateQrCodeRequest;
+use App\Http\Requests\User\OpenPlatform\QrCode\WeQrcodeRequest;
+use App\Http\Requests\User\OpenPlatform\QrCode\CreateWeQrcodeRequest;
+use App\Http\Requests\User\OpenPlatform\QrCode\UpdateWeQrcodeRequest;
 
 /**
  * 超级二维码
@@ -24,12 +24,12 @@ class WeQrcodeController extends Controller
     }
 
     /**
-     * @param QrCodeRequest $request
+     * @param WeQrcodeRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(QrCodeRequest $request)
+    public function index(WeQrcodeRequest $request)
     {
         $this->authorize('view', QrCode::class);
 
@@ -45,12 +45,12 @@ class WeQrcodeController extends Controller
     }
 
     /**
-     * @param CreateQrCodeRequest $request
+     * @param CreateWeQrcodeRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(CreateQrCodeRequest $request)
+    public function store(CreateWeQrcodeRequest $request)
     {
         $this->authorize('create', QrCode::class);
 
@@ -86,13 +86,13 @@ class WeQrcodeController extends Controller
     }
 
     /**
-     * @param UpdateQrCodeRequest $request
+     * @param UpdateWeQrcodeRequest $request
      * @param                     $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(UpdateQrCodeRequest $request, $id)
+    public function update(UpdateWeQrcodeRequest $request, $id)
     {
         $this->authorize('update', QrCode::class);
 
@@ -105,13 +105,13 @@ class WeQrcodeController extends Controller
     }
 
     /**
-     * @param QrCodeRequest $request
+     * @param WeQrcodeRequest $request
      * @param               $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy(QrCodeRequest $request, $id)
+    public function destroy(WeQrcodeRequest $request, $id)
     {
         $this->authorize('delete', QrCode::class);
 
