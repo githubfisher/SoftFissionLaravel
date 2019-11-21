@@ -112,7 +112,7 @@ trait AppHelper
         $condition                                = ['app_id' => $appId];
         ! empty($userId) && $condition['user_id'] = $userId;
 
-        return parent::where($condition)->delete();
+        return parent::deleteWhere($condition);
     }
 
     // 解绑公众号
