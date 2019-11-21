@@ -21,7 +21,7 @@ class WeQrcodePolicy
             return false;
         }
 
-        if ($user->can('view qrcode')) {
+        if ($user->can('view-we_qrcode')) {
             return true;
         }
 
@@ -41,7 +41,7 @@ class WeQrcodePolicy
             return false;
         }
 
-        if ($user->can('create qrcode')) {
+        if ($user->can('create-we_qrcode')) {
             return true;
         }
 
@@ -61,7 +61,7 @@ class WeQrcodePolicy
             return false;
         }
 
-        if ($user->can('edit own qrcode')) {
+        if ($user->can('edit-own-we_qrcode')) {
             return true;
         }
 
@@ -81,7 +81,7 @@ class WeQrcodePolicy
             return false;
         }
 
-        if ($user->can('delete own qrcode')) {
+        if ($user->can('delete-own-we_qrcode')) {
             return true;
         }
 
