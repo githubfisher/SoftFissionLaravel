@@ -32,6 +32,7 @@ class WeApp extends Model implements Transformable
         'keyword_reply',
         'anytype_reply',
         'subscribe_reply',
+        'deleted_at',
     ];
     protected $hidden  = ['alias','principal_name','signature'];
     protected $guarded = ['id'];
