@@ -50,7 +50,7 @@ class AppManageController extends Controller
      */
     public function unbind(AppRequest $request)
     {
-        $res = $this->repository->unbind($this->user()->id, $request->input('app_id'));
+        $res = $this->repository->unbind($request->input('app_id'), $this->user()->id);
 
         return $res ? $this->suc() : $this->err($res);
     }
