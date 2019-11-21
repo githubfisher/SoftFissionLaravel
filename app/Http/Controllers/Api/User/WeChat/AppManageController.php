@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api\User\WeChat;
 
+use App\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\WeChat\AppRequest;
 use App\Repositories\WeChat\WeAppRepositoryEloquent;
@@ -37,7 +38,7 @@ class AppManageController extends Controller
     {
         $res = $this->repository->switchApp($this->user()->id, $request->input('app_id'));
 
-        return $res ? $this->suc() : $this->err($res);
+        return $res ? $this->suc() : $this->err(FeedBack::SWITCH_FAIL);
     }
 
     /**

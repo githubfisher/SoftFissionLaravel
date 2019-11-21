@@ -93,7 +93,7 @@ trait AppHelper
         if (isset($list['current']) && $list['current'] == $appId) {
             return true;
         }
-        
+
         $list['current'] = $appId;
 
         return $this->getCacheRepository()->put(sprintf(Constant::BIND_APP_LIST, $userId), $list);
