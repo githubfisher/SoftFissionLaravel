@@ -97,7 +97,7 @@ EOF;
             'service_type_info'  => $info['authorizer_info']['service_type_info']['id'],
             'verify_type_info'   => $info['authorizer_info']['verify_type_info']['id'],
             'deleted_at'         => null,
-            'funcscope_category' => Arr::sort(Arr::pluck($oAuth['func_info'], 'funcscope_category.id')),
+            'funcscope_category' => Arr::sort(Arr::pluck($oAuth['authorization_info']['func_info'], 'funcscope_category.id')),
         ];
         if ($res = $apps->updateOrCreate(['app_id' => $appId], $appInfo)) {
             // 更新绑定公众号列表
