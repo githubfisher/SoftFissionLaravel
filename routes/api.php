@@ -132,7 +132,7 @@ $api->version('v1', [
         });
 
         // 超级二维码
-        $api->resource('qrcode', 'User\SuperQrCode\QrCodeController');
+        $api->resource('we_qrcode', 'User\SuperQrCode\WeQrcodeController');
         $api->resource('/material/news', 'User\Material\NewsController');
         $api->resource('/material/image', 'User\Material\ImageController');
         $api->resource('/material/voice', 'User\Material\VoiceController');

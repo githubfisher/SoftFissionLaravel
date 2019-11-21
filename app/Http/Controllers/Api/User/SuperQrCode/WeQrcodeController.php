@@ -14,7 +14,7 @@ use App\Http\Requests\User\SuperQrCode\UpdateQrCodeRequest;
  * Class QrCodeController
  * @package App\Http\Controllers\Api\User\SuperQrCode
  */
-class QrCodeController extends Controller
+class WeQrcodeController extends Controller
 {
     protected $qrcode;
 
