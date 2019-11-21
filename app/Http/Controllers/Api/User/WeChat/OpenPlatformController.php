@@ -71,7 +71,6 @@ EOF;
     public function bindCallBack(BindRequest $request, WeAppRepositoryEloquent $apps)
     {
         $oAuth       = $this->openPlatform->handleAuthorize();
-        Log::debug(__FUNCTION__ . ' oAuthInfo: ' . json_encode($oAuth));
         $appId       = $oAuth['authorization_info']['authorizer_appid'];
         $app         = $apps->where('app_id', $appId)->first();
         $frontDomain = config('front.url');
@@ -83,7 +82,6 @@ EOF;
         }
 
         $info    = $this->openPlatform->getAuthorizer($oAuth['authorization_info']['authorizer_appid']);
-        Log::debug(__FUNCTION__ . ' appInfo: ' . json_encode($info));
         $appInfo = [
             'user_id'           => $userId,
             'app_id'            => $appId,
