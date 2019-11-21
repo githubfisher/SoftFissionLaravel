@@ -24,11 +24,6 @@ class OpenPlatformController extends Controller
     public function serve(WeAppRepositoryEloquent $repository)
     {
         $server = $this->openPlatform->server;
-        
-        // 处理授权成功事件
-        $server->push(function ($message) {
-            Log::debug('Authorized ' . json_encode($message));
-        }, Guard::EVENT_AUTHORIZED);
 
         // 处理授权更新事件
         $server->push(function ($message) {
