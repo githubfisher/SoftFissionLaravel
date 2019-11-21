@@ -21,7 +21,7 @@ class NewsPolicy
             return false;
         }
 
-        if ($user->can('view wechat news')) {
+        if ($user->can('view-we_news')) {
             return true;
         }
 
@@ -41,7 +41,7 @@ class NewsPolicy
             return false;
         }
 
-        if ($user->can('create wechat news')) {
+        if ($user->can('create-we_news')) {
             return true;
         }
 
@@ -61,7 +61,7 @@ class NewsPolicy
             return false;
         }
 
-        if ($user->can('edit own wechat news')) {
+        if ($user->can('edit-own-we_news')) {
             return true;
         }
 
@@ -81,7 +81,7 @@ class NewsPolicy
             return false;
         }
 
-        if ($user->can('delete own wechat news')) {
+        if ($user->can('delete-own-we_news')) {
             return true;
         }
 

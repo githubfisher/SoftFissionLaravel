@@ -21,7 +21,7 @@ class RulePolicy
             return false;
         }
 
-        if ($user->can('view rules')) {
+        if ($user->can('view-we_rule')) {
             return true;
         }
 
@@ -41,7 +41,7 @@ class RulePolicy
             return false;
         }
 
-        if ($user->can('create rules')) {
+        if ($user->can('create-we_rule')) {
             return true;
         }
 
@@ -61,7 +61,7 @@ class RulePolicy
             return false;
         }
 
-        if ($user->can('edit own rules')) {
+        if ($user->can('edit-own-we_rule')) {
             return true;
         }
 
@@ -81,7 +81,7 @@ class RulePolicy
             return false;
         }
 
-        if ($user->can('delete own rules')) {
+        if ($user->can('delete-own-we_rule')) {
             return true;
         }
 
