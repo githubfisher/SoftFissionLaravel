@@ -1,10 +1,9 @@
 <?php
-
-namespace App\Http\Requests\User\Material;
+namespace App\Http\Requests\User\OpenPlatform\SuperQrCode;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VideoRequest extends FormRequest
+class QrCodeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +12,7 @@ class VideoRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +23,8 @@ class VideoRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'app_id' => 'required|string|min:18',
+            'limit'  => 'sometimes|required|integer|min:10',
         ];
     }
 }

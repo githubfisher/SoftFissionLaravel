@@ -3,8 +3,8 @@ namespace App\Http\Controllers\Api\User\OpenPlatform\WeChat;
 
 use App\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\WeChat\AppRequest;
 use App\Repositories\WeChat\WeAppRepositoryEloquent;
+use App\Http\Requests\User\OpenPlatform\WeChat\AppRequest;
 
 class AppManageController extends Controller
 {

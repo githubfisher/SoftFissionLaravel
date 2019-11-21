@@ -1,9 +1,9 @@
 <?php
-namespace App\Http\Requests\User\SuperQrCode;
+namespace App\Http\Requests\User\OpenPlatform\AutoReply;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class QrCodeRequest extends FormRequest
+class RuleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

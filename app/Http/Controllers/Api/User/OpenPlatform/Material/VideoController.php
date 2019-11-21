@@ -5,8 +5,8 @@ use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Material\Video;
 use App\Models\User\Material\Video as Videos;
-use App\Http\Requests\User\Material\VideoRequest;
-use App\Http\Requests\User\Material\CreateVideoRequest;
+use App\Http\Requests\User\OpenPlatform\Material\VideoRequest;
+use App\Http\Requests\User\OpenPlatform\Material\CreateVideoRequest;
 
 /**
  * 视频素材

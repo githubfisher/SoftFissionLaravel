@@ -5,8 +5,8 @@ use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Material\Thumb;
 use App\Models\User\Material\Thumb as Thumbs;
-use App\Http\Requests\User\Material\ThumbsRequest;
-use App\Http\Requests\User\Material\CreateThumbsRequest;
+use App\Http\Requests\User\OpenPlatform\Material\ThumbsRequest;
+use App\Http\Requests\User\OpenPlatform\Material\CreateThumbsRequest;
 
 /**
  * 缩略图素材

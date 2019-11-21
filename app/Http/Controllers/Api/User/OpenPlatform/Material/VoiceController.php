@@ -5,8 +5,8 @@ use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Material\Voice;
 use App\Models\User\Material\Voice as Voices;
-use App\Http\Requests\User\Material\VoiceRequest;
-use App\Http\Requests\User\Material\CreateVoiceRequest;
+use App\Http\Requests\User\OpenPlatform\Material\VoiceRequest;
+use App\Http\Requests\User\OpenPlatform\Material\CreateVoiceRequest;
 
 /**
  * 音频素材

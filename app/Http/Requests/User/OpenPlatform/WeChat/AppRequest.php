@@ -1,10 +1,10 @@
 <?php
-namespace App\Http\Requests\User\Material;
 
-use App\Rules\LimitRule;
+namespace App\Http\Requests\User\OpenPlatform\WeChat;
+
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewsRequest extends FormRequest
+class AppRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class NewsRequest extends FormRequest
     public function rules()
     {
         return [
-            'app_id' => 'required|string|min:18',
-            'limit'  => new LimitRule,
+            'app_id' => 'required|string'
         ];
     }
 }

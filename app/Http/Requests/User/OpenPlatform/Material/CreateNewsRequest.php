@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Requests\User\Material;
+namespace App\Http\Requests\User\OpenPlatform\Material;
 
 use Illuminate\Foundation\Http\FormRequest;
 

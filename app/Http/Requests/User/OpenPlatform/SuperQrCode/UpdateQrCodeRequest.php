@@ -1,9 +1,9 @@
 <?php
-namespace App\Http\Requests\User\AutoReply;
+namespace App\Http\Requests\User\OpenPlatform\SuperQrCode;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRuleRequest extends FormRequest
+class UpdateQrCodeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,6 @@ class CreateRuleRequest extends FormRequest
         return [
             'app_id'                       => 'required|string|min:18',
             'title'                        => 'sometimes|required|string',
-            'keywords'                     => 'sometimes|required|array',
-            'keywords.*.keyword'           => 'required_with:keywords|string|min:1|max:64',
-            'keywords.*.match_type'        => 'required_with:keywords|integer|in:1,2',
             'replies'                      => 'required|array|min:1',
             'replies.*.difference'         => 'required|integer|in:1,2',
             'replies.*.reply_type'         => 'sometimes|nullable|integer|in:1,2,3,4,5,6',
@@ -39,6 +36,10 @@ class CreateRuleRequest extends FormRequest
             'reply_rule'                   => 'required|in:1,2',
             'start_at'                     => 'nullable|date',
             'end_at'                       => 'nullable|date',
+            'target_num'                   => 'sometimes|required|integer|min:1',
+            'expire_type'                  => 'sometimes|required|integer|in:1,2',
+            'expire_in'                    => 'required_if:expire_type,1|integer|min:1',
+            'expire_at'                    => 'required_if:expire_type,2|date',
         ];
     }
 }

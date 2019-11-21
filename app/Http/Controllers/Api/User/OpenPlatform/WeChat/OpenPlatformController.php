@@ -8,8 +8,8 @@ use App\Utilities\FeedBack;
 use Illuminate\Support\Arr;
 use App\Http\Controllers\Controller;
 use EasyWeChat\OpenPlatform\Server\Guard;
-use App\Http\Requests\User\WeChat\BindRequest;
 use App\Repositories\WeChat\WeAppRepositoryEloquent;
+use App\Http\Requests\User\OpenPlatform\WeChat\BindRequest;
 
 class OpenPlatformController extends Controller
 {

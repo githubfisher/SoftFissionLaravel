@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User\Material;
+namespace App\Http\Requests\User\OpenPlatform\Material;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateImagesRequest extends FormRequest
+class VoiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

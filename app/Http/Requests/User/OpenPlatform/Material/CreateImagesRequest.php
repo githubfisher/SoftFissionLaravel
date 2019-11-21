@@ -1,9 +1,10 @@
 <?php
-namespace App\Http\Requests\User\AutoReply;
+
+namespace App\Http\Requests\User\OpenPlatform\Material;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RuleRequest extends FormRequest
+class CreateImagesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,7 +13,7 @@ class RuleRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -23,8 +24,7 @@ class RuleRequest extends FormRequest
     public function rules()
     {
         return [
-            'app_id' => 'required|string|min:18',
-            'limit'  => 'sometimes|required|integer|min:10',
+            //
         ];
     }
 }

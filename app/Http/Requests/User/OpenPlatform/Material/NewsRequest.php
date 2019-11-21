@@ -1,10 +1,10 @@
 <?php
+namespace App\Http\Requests\User\OpenPlatform\Material;
 
-namespace App\Http\Requests\User\Material;
-
+use App\Rules\LimitRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ThumbsRequest extends FormRequest
+class NewsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class ThumbsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class ThumbsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'app_id' => 'required|string|min:18',
+            'limit'  => new LimitRule,
         ];
     }
 }

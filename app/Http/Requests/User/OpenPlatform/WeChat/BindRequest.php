@@ -1,10 +1,9 @@
 <?php
-
-namespace App\Http\Requests\User\Material;
+namespace App\Http\Requests\User\OpenPlatform\WeChat;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateVideoRequest extends FormRequest
+class BindRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +12,7 @@ class CreateVideoRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +23,8 @@ class CreateVideoRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'user_id'   => 'sometimes|required|integer|min:1',
+            'is_mobile' => 'required|integer|in:1,0',
         ];
     }
 }

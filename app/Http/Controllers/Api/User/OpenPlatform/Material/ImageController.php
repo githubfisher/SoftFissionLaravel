@@ -5,8 +5,8 @@ use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Material\Image;
 use App\Models\User\Material\Image as Images;
-use App\Http\Requests\User\Material\ImagesRequest;
-use App\Http\Requests\User\Material\CreateImagesRequest;
+use App\Http\Requests\User\OpenPlatform\Material\ImagesRequest;
+use App\Http\Requests\User\OpenPlatform\Material\CreateImagesRequest;
 
 /**
  * 图片素材

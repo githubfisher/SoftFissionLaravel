@@ -1,9 +1,10 @@
 <?php
-namespace App\Http\Requests\User\WeChat;
+
+namespace App\Http\Requests\User\OpenPlatform\Material;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BindRequest extends FormRequest
+class ThumbsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,7 +13,7 @@ class BindRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -23,8 +24,7 @@ class BindRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'   => 'sometimes|required|integer|min:1',
-            'is_mobile' => 'required|integer|in:1,0',
+            //
         ];
     }
 }

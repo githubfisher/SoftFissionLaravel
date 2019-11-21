@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Requests\User\SuperQrCode;
+namespace App\Http\Requests\User\OpenPlatform\SuperQrCode;
 
 use Illuminate\Foundation\Http\FormRequest;
 

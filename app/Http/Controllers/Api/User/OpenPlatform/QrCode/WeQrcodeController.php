@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api\User\OpenPlatform\QrCode;
 use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
 use App\Models\User\SuperQrCode\QrCode;
-use App\Http\Requests\User\SuperQrCode\QrCodeRequest;
 use App\Repositories\QrCode\WeQrcodeRepositoryEloquent;
-use App\Http\Requests\User\SuperQrCode\CreateQrCodeRequest;
-use App\Http\Requests\User\SuperQrCode\UpdateQrCodeRequest;
+use App\Http\Requests\User\OpenPlatform\SuperQrCode\QrCodeRequest;
+use App\Http\Requests\User\OpenPlatform\SuperQrCode\CreateQrCodeRequest;
+use App\Http\Requests\User\OpenPlatform\SuperQrCode\UpdateQrCodeRequest;
 
 /**
  * 超级二维码

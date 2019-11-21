@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User\WeChat;
+namespace App\Http\Requests\User\OpenPlatform\Material;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AppRequest extends FormRequest
+class VideoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class AppRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,7 +24,7 @@ class AppRequest extends FormRequest
     public function rules()
     {
         return [
-            'app_id' => 'required|string'
+            //
         ];
     }
 }
