@@ -1,5 +1,5 @@
 <?php
-namespace App\Policies\User\OpenPlatfrom\QrCode;
+namespace App\Policies\User\OpenPlatform\QrCode;
 
 use App\Entities\User\User;
 use Illuminate\Auth\Access\HandlesAuthorization;

@@ -1,5 +1,5 @@
 <?php
-namespace App\Policies\User\OpenPlatfrom\Reply;
+namespace App\Policies\User\OpenPlatform\Reply;
 
 use App\Entities\User\User;
 use Illuminate\Auth\Access\HandlesAuthorization;

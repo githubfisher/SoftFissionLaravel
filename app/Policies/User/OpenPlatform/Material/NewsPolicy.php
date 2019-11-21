@@ -1,5 +1,5 @@
 <?php
-namespace App\Policies\User\OpenPlatfrom\Material;
+namespace App\Policies\User\OpenPlatform\Material;
 
 use App\Entities\User\User;
 use Illuminate\Auth\Access\HandlesAuthorization;

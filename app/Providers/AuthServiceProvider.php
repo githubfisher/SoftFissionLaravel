@@ -4,9 +4,9 @@ namespace App\Providers;
 use App\Models\User\Reply\Rule;
 use App\Entities\QrCode\WeQrcode;
 use App\Models\User\Material\News;
-use App\Policies\User\OpenPlatfrom\Reply\RulePolicy;
-use App\Policies\User\OpenPlatfrom\Material\NewsPolicy;
-use App\Policies\User\OpenPlatfrom\QrCode\WeQrcodePolicy;
+use App\Policies\User\OpenPlatform\Reply\RulePolicy;
+use App\Policies\User\OpenPlatform\Material\NewsPolicy;
+use App\Policies\User\OpenPlatform\QrCode\WeQrcodePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
