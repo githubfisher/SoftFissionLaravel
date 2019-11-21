@@ -1,18 +1,22 @@
 <?php
 
-namespace App\Repositories\QrCode;
+namespace App\Repositories\Reply;
 
-use App\Entities\QrCode\WeQrcode;
+use App\Entities\Reply\WeRule;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
+use Prettus\Repository\Traits\CacheableRepository;
+use Prettus\Repository\Contracts\CacheableInterface;
 
 /**
- * Class QrCodeRepositoryEloquent.
+ * Class RuleRepositoryEloquent.
  *
- * @package namespace App\Repositories\QrCode;
+ * @package namespace App\Repositories\Reply;
  */
-class WeQrCodeRepositoryEloquent extends BaseRepository
+class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterface
 {
+    use CacheableRepository;
+
     /**
      * Specify Model class name
      *
@@ -20,7 +24,7 @@ class WeQrCodeRepositoryEloquent extends BaseRepository
      */
     public function model()
     {
-        return WeQrcode::class;
+        return WeRule::class;
     }
 
 
@@ -40,6 +44,6 @@ class WeQrCodeRepositoryEloquent extends BaseRepository
      */
     public function validator()
     {
-        return 'App\\Validators\\QrCode\\WeQrCodeValidator';
+        return 'App\\Validators\\Reply\\WeRuleValidator';
     }
 }

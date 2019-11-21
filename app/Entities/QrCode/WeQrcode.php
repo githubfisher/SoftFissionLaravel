@@ -15,11 +15,28 @@ class WeQrcode extends Model implements Transformable
 {
     use TransformableTrait;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [];
+    protected $fillable = [
+        'user_id',
+        'app_id',
+        'rule_id',
+        'title',
+        'target_num',
+        'num',
+        'expire_type',
+        'expire_at',
+        'expire_in',
+        'status',
+    ];
+    protected $hidden  = [];
+    protected $guarded = ['id'];
 
+    public function details()
+    {
+        return $this->hasMany('App\Entities\QrCode\WeQrcodeDetail', 'qrcode_id', 'id');
+    }
+
+    public function rule()
+    {
+        return $this->hasOne('App\Entities\Reply\WeRule', 'id', 'rule_id');
+    }
 }
