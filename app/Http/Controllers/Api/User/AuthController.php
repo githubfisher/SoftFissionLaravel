@@ -9,10 +9,10 @@ use App\Utilities\Constant;
 use App\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Auth\LoginRequest;
-use App\Http\Requests\User\Auth\RegisterRequest;
+use App\Http\Requests\User\Auth\RegisterByEmailRequest;
 use App\Repositories\User\UserRepositoryEloquent;
 use App\Http\Requests\Auth\RegisterBySmsCodeRequest;
-use App\Http\Requests\User\Auth\LoginBySmsCodeRequest;
+use App\Http\Requests\User\Auth\LoginBySmsRequest;
 
 class AuthController extends Controller
 {
@@ -26,14 +26,14 @@ class AuthController extends Controller
     /**
      * 邮箱注册 todo 邮箱验证码
      *
-     * @param RegisterRequest        $request
+     * @param RegisterByEmailRequest $request
      * @param UserRepositoryEloquent $repository
      * @param Captcha                $captcha
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function register(RegisterRequest $request, UserRepositoryEloquent $repository, Captcha $captcha)
+    public function register(RegisterByEmailRequest $request, UserRepositoryEloquent $repository, Captcha $captcha)
     {
         if ($captcha->check($request->get('captcha'), $request->get('key'))) {
             $user = $repository->create(['email' => $request->get('email')]);
@@ -113,14 +113,14 @@ class AuthController extends Controller
     /**
      * 登录/注册: 手机号+验证码
      *
-     * @param LoginBySmsCodeRequest  $request
+     * @param LoginBySmsRequest      $request
      * @param UserRepositoryEloquent $repository
      * @param Sms                    $sms
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function loginBySmsCode(LoginBySmsCodeRequest $request, UserRepositoryEloquent $repository, Sms $sms)
+    public function loginBySmsCode(LoginBySmsRequest $request, UserRepositoryEloquent $repository, Sms $sms)
     {
         $mobile = $request->get('mobile');
         $pass   = false;

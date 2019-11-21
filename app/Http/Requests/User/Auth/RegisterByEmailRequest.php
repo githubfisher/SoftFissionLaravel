@@ -1,10 +1,10 @@
 <?php
 namespace App\Http\Requests\User\Auth;
 
-use App\Rules\NumCodeRule;
+use App\Rules\CaptchaRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginBySmsCodeRequest extends FormRequest
+class RegisterByEmailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,9 @@ class LoginBySmsCodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'code'   => ['required', new NumCodeRule],
-            'mobile' => 'required|mobile',
+            'key'     => 'required|string',
+            'captcha' => ['required', new CaptchaRule],
+            'email'   => 'required|email|unique:user',
         ];
     }
 
@@ -37,8 +38,9 @@ class LoginBySmsCodeRequest extends FormRequest
     public function messages()
     {
         return [
-            'mobile.required' => '手机号必须填写',
-            'code.required'   => '验证码必须填写',
+            'email.required'   => '邮箱必须填写',
+            'email.unique'     => '邮箱已注册',
+            'captcha.required' => '验证码必须填写',
         ];
     }
 }
