@@ -10,7 +10,7 @@ use \Prettus\Validator\LaravelValidator;
  *
  * @package namespace App\Validators\WeChat;
  */
-class AppValidator extends LaravelValidator
+class WeAppValidator extends LaravelValidator
 {
     /**
      * Validation Rules

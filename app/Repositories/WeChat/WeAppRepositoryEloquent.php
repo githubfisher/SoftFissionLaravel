@@ -41,6 +41,6 @@ class WeAppRepositoryEloquent extends BaseRepository implements CacheableInterfa
      */
     public function validator()
     {
-        return 'App\\Validators\\WeChat\\AppValidator';
+        return 'App\\Validators\\WeChat\\WeAppValidator';
     }
 }
