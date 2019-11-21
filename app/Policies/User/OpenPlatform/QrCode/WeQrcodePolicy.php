@@ -1,10 +1,10 @@
 <?php
-namespace App\Policies\User\OpenPlatfrom\SuperQrCode;
+namespace App\Policies\User\OpenPlatfrom\QrCode;
 
 use App\Entities\User\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class QrCodePolicy
+class WeQrcodePolicy
 {
     use HandlesAuthorization;
 

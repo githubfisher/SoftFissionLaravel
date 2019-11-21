@@ -2,11 +2,11 @@
 namespace App\Providers;
 
 use App\Models\User\Reply\Rule;
+use App\Entities\QrCode\WeQrcode;
 use App\Models\User\Material\News;
-use App\Models\User\SuperQrCode\QrCode;
 use App\Policies\User\OpenPlatfrom\Reply\RulePolicy;
 use App\Policies\User\OpenPlatfrom\Material\NewsPolicy;
-use App\Policies\User\OpenPlatfrom\SuperQrCode\QrCodePolicy;
+use App\Policies\User\OpenPlatfrom\QrCode\WeQrcodePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -18,9 +18,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
-        Rule::class   => RulePolicy::class,
-        QrCode::class => QrCodePolicy::class,
-        News::class   => NewsPolicy::class,
+        Rule::class     => RulePolicy::class,
+        WeQrcode::class => WeQrcodePolicy::class,
+        News::class     => NewsPolicy::class,
     ];
 
     /**

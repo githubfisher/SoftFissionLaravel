@@ -2,8 +2,8 @@
 namespace App\Http\Controllers\Api\User\OpenPlatform\QrCode;
 
 use App\Utilities\Constant;
+use App\Entities\QrCode\WeQrcode;
 use App\Http\Controllers\Controller;
-use App\Models\User\SuperQrCode\QrCode;
 use App\Repositories\QrCode\WeQrcodeRepositoryEloquent;
 use App\Http\Requests\User\OpenPlatform\QrCode\WeQrcodeRequest;
 use App\Http\Requests\User\OpenPlatform\QrCode\CreateWeQrcodeRequest;
@@ -31,7 +31,7 @@ class WeQrcodeController extends Controller
      */
     public function index(WeQrcodeRequest $request)
     {
-        $this->authorize('view', QrCode::class);
+        $this->authorize('view', WeQrcode::class);
 
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
         $list  = $this->repository->local($this->user()->id)->app($request->input('app_id'))->recent()->simplePaginate($limit);
@@ -52,7 +52,7 @@ class WeQrcodeController extends Controller
      */
     public function store(CreateWeQrcodeRequest $request)
     {
-        $this->authorize('create', QrCode::class);
+        $this->authorize('create', WeQrcode::class);
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
@@ -73,7 +73,7 @@ class WeQrcodeController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('view', QrCode::class);
+        $this->authorize('view', WeQrcode::class);
 
         $data = $this->repository->get($id);
 
@@ -94,7 +94,7 @@ class WeQrcodeController extends Controller
      */
     public function update(UpdateWeQrcodeRequest $request, $id)
     {
-        $this->authorize('update', QrCode::class);
+        $this->authorize('update', WeQrcode::class);
 
         $res = $this->repository->update($id, $request->all());
         if ($res === true) {
@@ -113,7 +113,7 @@ class WeQrcodeController extends Controller
      */
     public function destroy(WeQrcodeRequest $request, $id)
     {
-        $this->authorize('delete', QrCode::class);
+        $this->authorize('delete', WeQrcode::class);
 
         $res = $this->repository->destroy($this->user()->id, $request->input('app_id'), $id);
         if ($res === true) {
