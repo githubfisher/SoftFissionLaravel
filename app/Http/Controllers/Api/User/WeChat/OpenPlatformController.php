@@ -29,21 +29,29 @@ class OpenPlatformController extends Controller
         $server->push(function ($message) use ($repository) {
             Log::debug('UpdateAuthorized ' . json_encode($message));
 
-            $authorizer = $this->openPlatform->getAuthorizer($message['AuthorizerAppid']);
-            $appInfo = [
-                'nick_name'          => $authorizer['authorizer_info']['nick_name'],
-                'head_img'           => $authorizer['authorizer_info']['head_img'] ?? '',
-                'user_name'          => $authorizer['authorizer_info']['user_name'],
-                'alias'              => (int) $authorizer['authorizer_info']['alias'],
-                'qrcode_url'         => $authorizer['authorizer_info']['qrcode_url'],
-                'principal_name'     => $authorizer['authorizer_info']['principal_name'],
-                'signature'          => $authorizer['authorizer_info']['signature'],
-                'service_type_info'  => $authorizer['authorizer_info']['service_type_info']['id'],
-                'verify_type_info'   => $authorizer['authorizer_info']['verify_type_info']['id'],
-                'deleted_at'         => null,
-                'funcscope_category' => Arr::sort(Arr::pluck($authorizer['authorization_info']['func_info'], 'funcscope_category.id')),
-            ];
-            $repository->updateOrCreate(['app_id' => $message['AuthorizerAppid']], $appInfo);
+            $app = $repository->where('app_id', $message['AuthorizerAppid'])->first();
+            if ($app) {
+                $authorizer = $this->openPlatform->getAuthorizer($message['AuthorizerAppid']);
+                $appInfo = [
+                    'nick_name'          => $authorizer['authorizer_info']['nick_name'],
+                    'head_img'           => $authorizer['authorizer_info']['head_img'] ?? '',
+                    'user_name'          => $authorizer['authorizer_info']['user_name'],
+                    'alias'              => $authorizer['authorizer_info']['alias'],
+                    'qrcode_url'         => $authorizer['authorizer_info']['qrcode_url'],
+                    'principal_name'     => $authorizer['authorizer_info']['principal_name'],
+                    'signature'          => $authorizer['authorizer_info']['signature'],
+                    'service_type_info'  => $authorizer['authorizer_info']['service_type_info']['id'],
+                    'verify_type_info'   => $authorizer['authorizer_info']['verify_type_info']['id'],
+                    'deleted_at'         => null,
+                    'funcscope_category' => isset($authorizer['authorization_info']['func_info']) ? Arr::sort(Arr::pluck($authorizer['authorization_info']['func_info'], 'funcscope_category.id')) : '[]',
+                ];
+                $repository->update($appInfo, $app->id);
+                $repository->refreshAppList($app->user_id);
+                $repository->refreshAppInfo($message['AuthorizerAppid']);
+                $repository->remUnbindSet($message['AuthorizerAppid']);
+            } else {
+                Log::warning('APPID not found! ' . $message['AuthorizerAppid']);
+            }
         }, Guard::EVENT_UPDATE_AUTHORIZED);
 
         // 处理授权取消事件
@@ -101,14 +109,14 @@ EOF;
             'nick_name'          => $info['authorizer_info']['nick_name'],
             'head_img'           => $info['authorizer_info']['head_img'] ?? '',
             'user_name'          => $info['authorizer_info']['user_name'],
-            'alias'              => (int) $info['authorizer_info']['alias'],
+            'alias'              => $info['authorizer_info']['alias'],
             'qrcode_url'         => $info['authorizer_info']['qrcode_url'],
             'principal_name'     => $info['authorizer_info']['principal_name'],
             'signature'          => $info['authorizer_info']['signature'],
             'service_type_info'  => $info['authorizer_info']['service_type_info']['id'],
             'verify_type_info'   => $info['authorizer_info']['verify_type_info']['id'],
             'deleted_at'         => null,
-            'funcscope_category' => Arr::sort(Arr::pluck($oAuth['authorization_info']['func_info'], 'funcscope_category.id')),
+            'funcscope_category' => isset($oAuth['authorization_info']['func_info']) ? Arr::sort(Arr::pluck($oAuth['authorization_info']['func_info'], 'funcscope_category.id')) : '[]',
         ];
         if ($res = $repository->updateOrCreate(['app_id' => $appId], $appInfo)) {
             // 更新绑定公众号列表
