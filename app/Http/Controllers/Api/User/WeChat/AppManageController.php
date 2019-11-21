@@ -1,9 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api\User\WeChat;
 
-use Log;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\WeChatApp\App;
 use App\Http\Requests\User\WeChat\AppRequest;
 use App\Repositories\WeChat\WeAppRepositoryEloquent;
 
@@ -32,13 +30,12 @@ class AppManageController extends Controller
      * 切换公众号
      *
      * @param AppRequest $request
-     * @param App        $apps
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function switch(AppRequest $request, App $apps)
+    public function switch(AppRequest $request)
     {
-        $res = $apps->switchApp($this->user()->id, $request->input('app_id'));
+        $res = $this->repository->switchApp($this->user()->id, $request->input('app_id'));
 
         return $res ? $this->suc() : $this->err($res);
     }
@@ -47,13 +44,12 @@ class AppManageController extends Controller
      * 解绑公众号
      *
      * @param AppRequest $request
-     * @param App        $apps
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function unbind(AppRequest $request, App $apps)
+    public function unbind(AppRequest $request)
     {
-        $res = $apps->unbind($this->user()->id, $request->input('app_id'));
+        $res = $this->repository->unbind($this->user()->id, $request->input('app_id'));
 
         return $res ? $this->suc() : $this->err($res);
     }

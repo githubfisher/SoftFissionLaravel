@@ -7,7 +7,6 @@ use App\Utilities\Constant;
 use App\Utilities\FeedBack;
 use Illuminate\Support\Arr;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\WeChatApp\App;
 use EasyWeChat\OpenPlatform\Server\Guard;
 use App\Http\Requests\User\WeChat\BindRequest;
 use App\Repositories\WeChat\WeAppRepositoryEloquent;
@@ -15,16 +14,16 @@ use App\Repositories\WeChat\WeAppRepositoryEloquent;
 class OpenPlatformController extends Controller
 {
     protected $openPlatform;
+    protected $repository;
 
-    public function __construct()
+    public function __construct(WeAppRepositoryEloquent $repository)
     {
         $this->openPlatform = Factory::openPlatform(config('wechat.open_platform.default'));
+        $this->repository   = $repository;
     }
 
     /**
      * 接收并处理微信平台推送事件
-     *
-     * @param WeAppRepositoryEloquent $repository
      *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
@@ -32,9 +31,10 @@ class OpenPlatformController extends Controller
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \ReflectionException
      */
-    public function serve(WeAppRepositoryEloquent $repository)
+    public function serve()
     {
-        $server = $this->openPlatform->server;
+        $server     = $this->openPlatform->server;
+        $repository = $this->repository;
 
         // 处理授权更新事件
         $server->push(function ($message) use ($repository) {
@@ -110,15 +110,14 @@ EOF;
      * 授权成功CallBack
      *
      * @param BindRequest             $request
-     * @param WeAppRepositoryEloquent $repository
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function bindCallBack(BindRequest $request, WeAppRepositoryEloquent $repository)
+    public function bindCallBack(BindRequest $request)
     {
         $oAuth       = $this->openPlatform->handleAuthorize();
         $appId       = $oAuth['authorization_info']['authorizer_appid'];
-        $app         = $repository->where('app_id', $appId)->first();
+        $app         = $this->repository->where('app_id', $appId)->first();
         $frontDomain = config('front.url');
         $userId      = $request->get('user_id');
         if ($app && $app->user_id != $userId) {
@@ -144,12 +143,12 @@ EOF;
             'deleted_at'         => null,
             'funcscope_category' => isset($oAuth['authorization_info']['func_info']) ? Arr::sort(Arr::pluck($oAuth['authorization_info']['func_info'], 'funcscope_category.id')) : '[]',
         ];
-        if ($res = $repository->updateOrCreate(['app_id' => $appId], $appInfo)) {
+        if ($res = $this->repository->updateOrCreate(['app_id' => $appId], $appInfo)) {
             // 更新绑定公众号列表
-            $repository->refreshAppList($userId);
-            $repository->refreshAppInfo($appId);
+            $this->repository->refreshAppList($userId);
+            $this->repository->refreshAppInfo($appId);
             // 若之前解绑过, 从已解绑集合中去除
-            $repository->remUnbindSet($appId);
+            $this->repository->remUnbindSet($appId);
             // TODO
             // 发送绑定成功的消息
             // 甄别赠送体验优惠券
@@ -167,11 +166,10 @@ EOF;
      * 测试专用, 非正式处理
      *
      * @param     $appId
-     * @param App $apps
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function message($appId, App $apps)
+    public function message($appId)
     {
         try {
             if (empty($appId)) {
@@ -179,13 +177,13 @@ EOF;
             }
 
             // 判断公众号是否已解绑(1灵猴后台解绑, 2微信公众后台解绑)
-            if ( ! $apps->isBinded($appId)) {
+            if ( ! $this->repository->isBinded($appId)) {
                 return $this->success();
             }
 
-            $appInfo = $apps->getAppInfo($appId);
+            $appInfo = $this->repository->getAppInfo($appId);
             if (empty($appInfo)) {
-                $apps->unbind($appId);
+                $this->repository->unbind($appId);
 
                 return $this->success();
             }
