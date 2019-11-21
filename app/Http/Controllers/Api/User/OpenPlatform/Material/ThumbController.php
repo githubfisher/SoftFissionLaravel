@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Api\User\Material;
+namespace App\Http\Controllers\Api\User\OpenPlatform\Material;
 
 use App\Utilities\Constant;
 use App\Http\Controllers\Controller;

@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Api\User\Material;
+namespace App\Http\Controllers\Api\User\OpenPlatform\Material;
 
 use DB;
 use Log;

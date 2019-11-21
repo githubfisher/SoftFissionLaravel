@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Api\User\AutoReply;
+namespace App\Http\Controllers\Api\User\OpenPlatform\AutoReply;
 
 use App\Utilities\Constant;
 use App\Http\Controllers\Controller;

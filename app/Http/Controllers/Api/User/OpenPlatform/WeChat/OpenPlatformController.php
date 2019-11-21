@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Api\User\WeChat;
+namespace App\Http\Controllers\Api\User\OpenPlatform\WeChat;
 
 use Log;
 use EasyWeChat\Factory;

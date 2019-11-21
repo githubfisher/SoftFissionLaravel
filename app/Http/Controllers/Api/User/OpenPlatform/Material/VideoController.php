@@ -1,39 +1,39 @@
 <?php
-namespace App\Http\Controllers\Api\User\Material;
+namespace App\Http\Controllers\Api\User\OpenPlatform\Material;
 
 use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\Material\Voice;
-use App\Models\User\Material\Voice as Voices;
-use App\Http\Requests\User\Material\VoiceRequest;
-use App\Http\Requests\User\Material\CreateVoiceRequest;
+use App\Http\Repositories\Material\Video;
+use App\Models\User\Material\Video as Videos;
+use App\Http\Requests\User\Material\VideoRequest;
+use App\Http\Requests\User\Material\CreateVideoRequest;
 
 /**
- * 音频素材
- * Class VoiceController
+ * 视频素材
+ * Class VideoController
  * @package App\Http\Controllers\Api\User\Material
  */
-class VoiceController extends Controller
+class VideoController extends Controller
 {
-    protected $voice;
+    protected $videos;
 
-    public function __construct(Voice $voice)
+    public function __construct(Video $videos)
     {
-        $this->voice = $voice;
+        $this->videos = $videos;
     }
 
     /**
-     * @param VoiceRequest $request
+     * @param VideoRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(VoiceRequest $request)
+    public function index(VideoRequest $request)
     {
-        $this->authorize('view', Voices::class);
+        $this->authorize('view', Videos::class);
 
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $list  = $this->voice->list($this->user()->id, $request->input('app_id'), $limit);
+        $list  = $this->videos->list($this->user()->id, $request->input('app_id'), $limit);
 
         return $this->suc(compact('list'));
     }
@@ -44,18 +44,18 @@ class VoiceController extends Controller
     }
 
     /**
-     * @param CreateVoiceRequest $request
+     * @param CreateVideoRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(CreateVoiceRequest $request)
+    public function store(CreateVideoRequest $request)
     {
-        $this->authorize('create', Voices::class);
+        $this->authorize('create', Videos::class);
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
-        $res               = $this->voice->store($params);
+        $res               = $this->videos->store($params);
         if (is_numeric($res)) {
             return $this->suc(['id' => $res]);
         }
@@ -64,17 +64,17 @@ class VoiceController extends Controller
     }
 
     /**
-     * @param VoiceRequest $request
+     * @param VideoRequest $request
      * @param              $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(VoiceRequest $request, $id)
+    public function show(VideoRequest $request, $id)
     {
-        $this->authorize('view', Voices::class);
+        $this->authorize('view', Videos::class);
 
-        $data = $this->voice->get($id, $this->user()->id, $request->input('app_id'));
+        $data = $this->videos->get($id, $this->user()->id, $request->input('app_id'));
 
         return $this->suc(compact('data'));
     }
@@ -85,19 +85,19 @@ class VoiceController extends Controller
     }
 
     /**
-     * @param CreateVoiceRequest $request
+     * @param CreateVideoRequest $request
      * @param                    $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(CreateVoiceRequest $request, $id)
+    public function update(CreateVideoRequest $request, $id)
     {
-        $this->authorize('update', Voices::class);
+        $this->authorize('update', Videos::class);
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
-        $res               = $this->voice->update($id, $params);
+        $res               = $this->videos->update($id, $params);
         if ($res === true) {
             return $this->suc();
         }
@@ -106,17 +106,17 @@ class VoiceController extends Controller
     }
 
     /**
-     * @param VoiceRequest $request
+     * @param VideoRequest $request
      * @param              $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy(VoiceRequest $request, $id)
+    public function destroy(VideoRequest $request, $id)
     {
-        $this->authorize('delete', Voices::class);
+        $this->authorize('delete', Videos::class);
 
-        $res = $this->voice->destroy($this->user()->id, $request->input('app_id'), $id);
+        $res = $this->videos->destroy($this->user()->id, $request->input('app_id'), $id);
         if ($res === true) {
             return $this->suc();
         }

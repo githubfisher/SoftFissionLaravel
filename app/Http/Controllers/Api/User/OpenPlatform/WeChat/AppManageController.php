@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Api\User\WeChat;
+namespace App\Http\Controllers\Api\User\OpenPlatform\WeChat;
 
 use App\Utilities\FeedBack;
 use App\Http\Controllers\Controller;

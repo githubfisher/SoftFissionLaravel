@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Api\User\Menu;
+namespace App\Http\Controllers\Api\User\OpenPlatform\Menu;
 
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Material\Voice;

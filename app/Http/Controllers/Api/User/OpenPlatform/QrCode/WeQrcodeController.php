@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Api\User\SuperQrCode;
+namespace App\Http\Controllers\Api\User\OpenPlatform\QrCode;
 
 use App\Utilities\Constant;
 use App\Http\Controllers\Controller;

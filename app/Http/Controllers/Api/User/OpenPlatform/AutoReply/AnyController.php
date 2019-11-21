@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Api\User\AutoReply;
+namespace App\Http\Controllers\Api\User\OpenPlatform\AutoReply;
 
 use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
@@ -8,7 +8,7 @@ use App\Models\User\Reply\Rule as Rules;
 use App\Http\Requests\User\AutoReply\RuleRequest;
 use App\Http\Requests\User\AutoReply\CreateRuleRequest;
 
-class SubscribeController extends Controller
+class AnyController extends Controller
 {
     protected $rule;
 
@@ -23,8 +23,8 @@ class SubscribeController extends Controller
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
-        $params['scene']   = Constant::REPLY_RULE_SCENE_SUBSCRIBE;
-        $res               = $this->rule->storeSubscribeRule($params);
+        $params['scene']   = Constant::REPLY_RULE_SCENE_ANY;
+        $res               = $this->rule->storeAnyRule($params);
         if (is_numeric($res)) {
             return $this->suc(['id' => $res]);
         }
@@ -36,7 +36,7 @@ class SubscribeController extends Controller
     {
         $this->authorize('view', Rules::class);
 
-        $data = $this->rule->getSubscribeRule($this->user()->id, $request->input('app_id'));
+        $data = $this->rule->getAnyRule($this->user()->id, $request->input('app_id'));
 
         return $this->suc(compact('data'));
     }
