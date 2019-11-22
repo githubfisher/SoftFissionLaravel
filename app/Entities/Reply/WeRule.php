@@ -27,11 +27,6 @@ class WeRule extends Model implements Transformable
     protected $hidden  = [];
     protected $guarded = ['id'];
 
-    public function maker()
-    {
-        return $this->belongsTo('App\Entities\User\User', 'user_id');
-    }
-
     public function keywords()
     {
         return $this->hasMany('App\Entities\Reply\WeKeyword', 'rule_id', 'id');

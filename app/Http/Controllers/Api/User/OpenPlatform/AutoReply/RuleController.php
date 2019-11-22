@@ -76,7 +76,7 @@ class RuleController extends Controller
     {
         $this->authorize('view', WeRule::class);
 
-        $data = $this->repository->get($id);
+        $data = $this->repository->with(['keywords', 'replies'])->find($id);
 
         return $this->suc(compact('data'));
     }
