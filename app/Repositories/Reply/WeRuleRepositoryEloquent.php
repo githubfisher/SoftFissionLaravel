@@ -104,7 +104,7 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
     {
         $keywords = isset($params['keywords']) ? $params['keywords'] : [];
         $replies  = $params['replies'];
-        $rule     = $this->find($id);
+        $rule     = $this->with(['keywords', 'replies'])->find($id);
         if ( ! $rule) {
             Log::error(__FUNCTION__ . ' rule not found: ' . $id);
 
