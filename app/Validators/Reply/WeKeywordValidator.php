@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Validators\Reply;
 
-use \Prettus\Validator\Contracts\ValidatorInterface;
 use \Prettus\Validator\LaravelValidator;
+use \Prettus\Validator\Contracts\ValidatorInterface;
 
 /**
  * Class WeKeywordValidator.
@@ -18,7 +17,13 @@ class WeKeywordValidator extends LaravelValidator
      * @var array
      */
     protected $rules = [
-        ValidatorInterface::RULE_CREATE => [],
-        ValidatorInterface::RULE_UPDATE => [],
+        ValidatorInterface::RULE_CREATE => [
+            'keyword'    => ['required', 'string', 'max:64', 'alpha_dash'],
+            'match_type' => ['required', 'integer', 'in:1,2'],
+        ],
+        ValidatorInterface::RULE_UPDATE => [
+            'keyword'    => ['sometimes', 'required', 'string', 'max:64', 'alpha_dash'],
+            'match_type' => ['sometimes', 'required', 'integer', 'in:1,2'],
+        ],
     ];
 }
