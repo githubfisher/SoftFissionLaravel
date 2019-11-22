@@ -3,7 +3,7 @@ namespace App\Http\Requests\User\OpenPlatform\AutoReply;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RuleRequest extends FormRequest
+class WeRuleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,7 @@ class RuleRequest extends FormRequest
     public function rules()
     {
         return [
-            'app_id' => 'required|string|min:18',
-            'limit'  => 'sometimes|required|integer|min:10',
+            'limit' => 'sometimes|required|integer|min:10',
         ];
     }
 }

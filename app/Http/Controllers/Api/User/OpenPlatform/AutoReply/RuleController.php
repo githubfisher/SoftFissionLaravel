@@ -5,7 +5,7 @@ use App\Utilities\Constant;
 use App\Entities\Reply\WeRule;
 use App\Http\Controllers\Controller;
 use App\Repositories\Reply\WeRuleRepositoryEloquent;
-use App\Http\Requests\User\OpenPlatform\AutoReply\RuleRequest;
+use App\Http\Requests\User\OpenPlatform\AutoReply\WeRuleRequest;
 use App\Http\Requests\User\OpenPlatform\AutoReply\CreateRuleRequest;
 
 class RuleController extends Controller
@@ -20,12 +20,12 @@ class RuleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param RuleRequest $request
+     * @param WeRuleRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(RuleRequest $request)
+    public function index(WeRuleRequest $request)
     {
         $this->authorize('view', WeRule::class);
 
@@ -111,13 +111,13 @@ class RuleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param RuleRequest $request
+     * @param WeRuleRequest $request
      * @param             $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy(RuleRequest $request, $id)
+    public function destroy(WeRuleRequest $request, $id)
     {
         $this->authorize('delete', WeRule::class);
 
