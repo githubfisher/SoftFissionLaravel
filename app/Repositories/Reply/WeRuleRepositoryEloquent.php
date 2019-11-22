@@ -73,8 +73,8 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
             data_fill($replies, '*.rule_id', $rule->id);
             app()->make(WeReplyRepositoryEloquent::class)->addAll($replies);
         } catch (\Exception $e) {
-            Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
             DB::rollBack();
+            Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
 
             return false;
         }
