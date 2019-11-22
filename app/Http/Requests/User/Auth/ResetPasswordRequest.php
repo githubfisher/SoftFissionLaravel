@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Requests\User\Auth;
 
+use App\Rules\PasswordRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ResetPasswordRequest extends FormRequest
@@ -23,8 +24,8 @@ class ResetPasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'password'     => 'required|string|min:6|max:20',
-            'new_password' => 'required|string|min:6|max:20',
+            'password'     => ['required', new PasswordRule],
+            'new_password' => ['required', new PasswordRule],
         ];
     }
 }

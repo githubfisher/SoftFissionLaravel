@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Requests\User\Auth;
 
+use App\Rules\NumCodeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ResetMobileRequest extends FormRequest
@@ -24,7 +25,7 @@ class ResetMobileRequest extends FormRequest
     {
         return [
             'mobile' => 'required|mobile|unique:user',
-            'code'   => 'required|string|min:4|max:4',
+            'code'   => ['required', new NumCodeRule],
         ];
     }
 }

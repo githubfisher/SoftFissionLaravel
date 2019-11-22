@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Requests\User\Auth;
 
+use App\Rules\UsernameRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ResetNameRequest extends FormRequest
@@ -23,7 +24,7 @@ class ResetNameRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:64',
+            'name' => ['required', new UsernameRule],
         ];
     }
 }
