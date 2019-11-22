@@ -23,11 +23,11 @@ class Model extends EloquentModel
     /**
      * 查询特定账户的
      *
-     * @param $query
+     * @param Builder $query
      * @param $userId
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeUser($query, $userId)
+    public function scopeUser(Builder $query, $userId)
     {
         return $query->where('user_id', $userId);
     }
@@ -35,11 +35,11 @@ class Model extends EloquentModel
     /**
      * 查询特定公众号的
      *
-     * @param $query
+     * @param Builder $query
      * @param $appId
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeApp($query, $appId)
+    public function scopeApp(Builder $query, $appId)
     {
         return $query->where('app_id', $appId);
     }
