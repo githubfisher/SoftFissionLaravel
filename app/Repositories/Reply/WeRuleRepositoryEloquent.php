@@ -49,10 +49,9 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
 
     public function store($params)
     {
-        // {keyword:, match_type:}
         $keywords = isset($params['keywords']) ? $params['keywords'] : [];
-        // {difference:, reply_type:, reply_type_female:, content:, content_female:, material_id:, material_id_female}
         $replies  = $params['replies'];
+
         DB::beginTransaction();
 
         try {
