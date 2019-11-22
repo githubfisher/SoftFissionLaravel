@@ -1,6 +1,17 @@
 <?php
 namespace App\Http\Requests\User\OpenPlatform\AutoReply;
 
+use App\Rules\AppIdRule;
+use App\Rules\Reply\ContentRule;
+use App\Rules\Reply\KeywordRule;
+use App\Rules\Reply\RepliesRule;
+use App\Rules\Reply\StartAtRule;
+use App\Rules\Reply\KeywordsRule;
+use App\Rules\Reply\MatchTypeRule;
+use App\Rules\Reply\ReplyRuleRule;
+use App\Rules\Reply\ReplyTypeRule;
+use App\Rules\Reply\DifferenceRule;
+use App\Rules\Reply\MaterialIdRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateWeRuleRequest extends FormRequest
@@ -23,22 +34,22 @@ class CreateWeRuleRequest extends FormRequest
     public function rules()
     {
         return [
-            'app_id'                       => 'required|string|min:18',
+            'app_id'                       => ['required', new AppIdRule],
             'title'                        => 'sometimes|required|string',
-            'keywords'                     => 'sometimes|required|array',
-            'keywords.*.keyword'           => 'required_with:keywords|string|min:1|max:64',
-            'keywords.*.match_type'        => 'required_with:keywords|integer|in:1,2',
-            'replies'                      => 'required|array|min:1',
-            'replies.*.difference'         => 'required|integer|in:1,2',
-            'replies.*.reply_type'         => 'sometimes|nullable|integer|in:1,2,3,4,5,6',
-            'replies.*.reply_type_female'  => 'sometimes|nullable|integer|in:1,2,3,4,5,6',
-            'replies.*.content'            => 'sometimes|nullable|string|max:2048',
-            'replies.*.content_female'     => 'sometimes|nullable|string|max:2048',
-            'replies.*.material_id'        => 'sometimes|nullable|integer|min:1',
-            'replies.*.material_id_female' => 'sometimes|nullable|integer|min:1',
-            'reply_rule'                   => 'required|in:1,2',
-            'start_at'                     => 'nullable|date',
-            'end_at'                       => 'nullable|date',
+            'keywords'                     => ['sometimes|required', new KeywordsRule],
+            'keywords.*.keyword'           => ['required_with:keywords', new KeywordRule],
+            'keywords.*.match_type'        => ['required_with:keywords', new MatchTypeRule],
+            'replies'                      => ['required', new RepliesRule],
+            'replies.*.difference'         => ['required', new DifferenceRule],
+            'replies.*.reply_type'         => ['sometimes', 'nullable', new ReplyTypeRule],
+            'replies.*.reply_type_female'  => ['sometimes', 'nullable', new ReplyTypeRule],
+            'replies.*.content'            => ['sometimes', 'nullable', new ContentRule],
+            'replies.*.content_female'     => ['sometimes', 'nullable', new ContentRule],
+            'replies.*.material_id'        => ['sometimes', 'nullable', new MaterialIdRule],
+            'replies.*.material_id_female' => ['sometimes', 'nullable', new MaterialIdRule],
+            'reply_rule'                   => ['required', new ReplyRuleRule],
+            'start_at'                     => [new StartAtRule],
+            'end_at'                       => [new StartAtRule],
         ];
     }
 }
