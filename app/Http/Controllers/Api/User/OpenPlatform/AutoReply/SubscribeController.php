@@ -38,7 +38,7 @@ class SubscribeController extends Controller
         $this->authorize('view', WeRule::class);
 
         if ($id = $this->repository->getIdByScene(current_weapp()['app_id'], Constant::REPLY_RULE_SCENE_SUBSCRIBE)) {
-            $data = $this->repository->find($id);
+            $data = $this->repository->with(['keywords', 'replies'])->find($id);
 
             return $this->suc(compact('data'));
         }
