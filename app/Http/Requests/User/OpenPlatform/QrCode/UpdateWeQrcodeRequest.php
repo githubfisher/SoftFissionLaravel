@@ -1,6 +1,17 @@
 <?php
 namespace App\Http\Requests\User\OpenPlatform\QrCode;
 
+use App\Rules\AppIdRule;
+use App\Rules\Reply\ContentRule;
+use App\Rules\Reply\RepliesRule;
+use App\Rules\Reply\StartAtRule;
+use App\Rules\QrCode\ExpireInRule;
+use App\Rules\Reply\ReplyRuleRule;
+use App\Rules\Reply\ReplyTypeRule;
+use App\Rules\QrCode\TargetNumRule;
+use App\Rules\Reply\DifferenceRule;
+use App\Rules\Reply\MaterialIdRule;
+use App\Rules\QrCode\ExpireTypeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateWeQrcodeRequest extends FormRequest
@@ -23,22 +34,22 @@ class UpdateWeQrcodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'app_id'                       => 'required|string|min:18',
+            'app_id'                       => ['required', new AppIdRule],
             'title'                        => 'sometimes|required|string',
-            'replies'                      => 'required|array|min:1',
-            'replies.*.difference'         => 'required|integer|in:1,2',
-            'replies.*.reply_type'         => 'sometimes|nullable|integer|in:1,2,3,4,5,6',
-            'replies.*.reply_type_female'  => 'sometimes|nullable|integer|in:1,2,3,4,5,6',
-            'replies.*.content'            => 'sometimes|nullable|string|max:2048',
-            'replies.*.content_female'     => 'sometimes|nullable|string|max:2048',
-            'replies.*.material_id'        => 'sometimes|nullable|integer|min:1',
-            'replies.*.material_id_female' => 'sometimes|nullable|integer|min:1',
-            'reply_rule'                   => 'required|in:1,2',
-            'start_at'                     => 'nullable|date',
-            'end_at'                       => 'nullable|date',
-            'target_num'                   => 'sometimes|required|integer|min:1',
-            'expire_type'                  => 'sometimes|required|integer|in:1,2',
-            'expire_in'                    => 'required_if:expire_type,1|integer|min:1',
+            'replies'                      => ['required', new RepliesRule],
+            'replies.*.difference'         => ['required', new DifferenceRule],
+            'replies.*.reply_type'         => ['sometimes', 'nullable', new ReplyTypeRule],
+            'replies.*.reply_type_female'  => ['sometimes', 'nullable', new ReplyTypeRule],
+            'replies.*.content'            => ['sometimes', 'nullable', new ContentRule],
+            'replies.*.content_female'     => ['sometimes', 'nullable', new ContentRule],
+            'replies.*.material_id'        => ['sometimes', 'nullable', new MaterialIdRule],
+            'replies.*.material_id_female' => ['sometimes', 'nullable', new MaterialIdRule],
+            'reply_rule'                   => ['required', new ReplyRuleRule],
+            'start_at'                     => [new StartAtRule],
+            'end_at'                       => [new StartAtRule],
+            'target_num'                   => ['sometimes|required', new TargetNumRule],
+            'expire_type'                  => ['sometimes', 'required', new ExpireTypeRule],
+            'expire_in'                    => ['required_if:expire_type,1', new ExpireInRule],
             'expire_at'                    => 'required_if:expire_type,2|date',
         ];
     }

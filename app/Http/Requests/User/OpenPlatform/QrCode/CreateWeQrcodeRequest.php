@@ -2,17 +2,17 @@
 namespace App\Http\Requests\User\OpenPlatform\QrCode;
 
 use App\Rules\AppIdRule;
-use App\Rules\QrCode\ExpireInRule;
-use App\Rules\QrCode\ExpireTypeRule;
-use App\Rules\QrCode\TargetNumRule;
 use App\Rules\QrCode\TypeRule;
 use App\Rules\Reply\ContentRule;
-use App\Rules\Reply\DifferenceRule;
-use App\Rules\Reply\MaterialIdRule;
 use App\Rules\Reply\RepliesRule;
+use App\Rules\Reply\StartAtRule;
+use App\Rules\QrCode\ExpireInRule;
 use App\Rules\Reply\ReplyRuleRule;
 use App\Rules\Reply\ReplyTypeRule;
-use App\Rules\Reply\StartAtRule;
+use App\Rules\QrCode\TargetNumRule;
+use App\Rules\Reply\DifferenceRule;
+use App\Rules\Reply\MaterialIdRule;
+use App\Rules\QrCode\ExpireTypeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateWeQrcodeRequest extends FormRequest
@@ -48,7 +48,7 @@ class CreateWeQrcodeRequest extends FormRequest
             'reply_rule'                   => ['required', new ReplyRuleRule],
             'start_at'                     => [new StartAtRule],
             'end_at'                       => [new StartAtRule],
-            'target_num'                   => ['sometimes|required', new TargetNumRule],
+            'target_num'                   => ['required', new TargetNumRule],
             'type'                         => ['required', new TypeRule],
             'expire_type'                  => ['required_if:type,1', new ExpireTypeRule],
             'expire_in'                    => ['required_if:expire_type,1', new ExpireInRule],

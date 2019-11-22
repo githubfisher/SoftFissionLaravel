@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Http\Requests\User\OpenPlatform\WeChat;
 
+use App\Rules\AppIdRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AppRequest extends FormRequest
@@ -24,7 +24,7 @@ class AppRequest extends FormRequest
     public function rules()
     {
         return [
-            'app_id' => 'required|string'
+            'app_id' => ['required', new AppIdRule],
         ];
     }
 }
