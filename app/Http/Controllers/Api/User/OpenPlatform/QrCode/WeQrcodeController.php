@@ -34,7 +34,7 @@ class WeQrcodeController extends Controller
         $this->authorize('view', WeQrcode::class);
 
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $list  = $this->repository->local($this->user()->id)->app($request->input('app_id'))->recent()->simplePaginate($limit);
+        $list  = $this->repository->user($this->user()->id)->app($request->input('app_id'))->recent()->simplePaginate($limit);
 
         return $this->suc(compact('list'));
     }
@@ -75,7 +75,7 @@ class WeQrcodeController extends Controller
     {
         $this->authorize('view', WeQrcode::class);
 
-        $data = $this->repository->get($id);
+        $data = $this->repository->with('details')->find($id);
 
         return $this->suc(compact('data'));
     }
