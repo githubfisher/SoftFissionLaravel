@@ -3,8 +3,8 @@ namespace App\Http\Controllers\Api\User\OpenPlatform\AutoReply;
 
 use App\Utilities\Constant;
 use App\Utilities\FeedBack;
+use App\Entities\Reply\WeRule;
 use App\Http\Controllers\Controller;
-use App\Models\User\Reply\Rule as Rules;
 use App\Repositories\Reply\WeRuleRepositoryEloquent;
 use App\Http\Requests\User\OpenPlatform\AutoReply\CreateWeRuleRequest;
 
@@ -31,7 +31,7 @@ class AnyController extends Controller
      */
     public function store(CreateWeRuleRequest $request)
     {
-        $this->authorize('create', Rules::class);
+        $this->authorize('create', WeRule::class);
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
@@ -50,7 +50,7 @@ class AnyController extends Controller
      */
     public function show()
     {
-        $this->authorize('view', Rules::class);
+        $this->authorize('view', WeRule::class);
 
         if ($id = $this->repository->getIdByScene(current_weapp()['app_id'])) {
             $data = $this->repository->find($id);

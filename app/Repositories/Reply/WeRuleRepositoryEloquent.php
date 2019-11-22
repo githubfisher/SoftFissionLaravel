@@ -218,7 +218,7 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
 
         return $this->store($params);
     }
-    
+
     // 点击回复
     // 扫码回复
 }
