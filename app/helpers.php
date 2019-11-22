@@ -49,3 +49,12 @@ if ( ! function_exists('str_contains')) {
         return \Illuminate\Support\Str::contains($haystack, $needles);
     }
 }
+
+if ( ! function_exists('current_weapp')) {
+    function current_weapp()
+    {
+        $repository = app()->make(\App\Repositories\WeChat\WeAppRepositoryEloquent::class);
+
+        return $repository->currentApp(Auth::user()->id);
+    }
+}
