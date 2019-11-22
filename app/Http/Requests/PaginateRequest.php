@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User\OpenPlatform\Material;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ThumbsRequest extends FormRequest
+class PaginateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class ThumbsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'limit' => 'sometimes|required|integer|min:10',
         ];
     }
 }

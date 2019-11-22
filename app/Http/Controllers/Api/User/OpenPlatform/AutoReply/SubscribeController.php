@@ -6,7 +6,6 @@ use App\Utilities\FeedBack;
 use App\Entities\Reply\WeRule;
 use App\Http\Controllers\Controller;
 use App\Repositories\Reply\WeRuleRepositoryEloquent;
-use App\Http\Requests\User\OpenPlatform\AutoReply\WeRuleRequest;
 use App\Http\Requests\User\OpenPlatform\AutoReply\CreateWeRuleRequest;
 
 class SubscribeController extends Controller
@@ -33,7 +32,7 @@ class SubscribeController extends Controller
         return $this->err($res);
     }
 
-    public function show(WeRuleRequest $request)
+    public function show()
     {
         $this->authorize('view', WeRule::class);
 

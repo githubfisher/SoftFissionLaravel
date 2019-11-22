@@ -5,8 +5,8 @@ use App\Utilities\Constant;
 use App\Utilities\FeedBack;
 use App\Entities\Reply\WeRule;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PaginateRequest;
 use App\Repositories\Reply\WeRuleRepositoryEloquent;
-use App\Http\Requests\User\OpenPlatform\AutoReply\WeRuleRequest;
 use App\Http\Requests\User\OpenPlatform\AutoReply\CreateWeRuleRequest;
 
 class RuleController extends Controller
@@ -21,12 +21,12 @@ class RuleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param WeRuleRequest $request
+     * @param PaginateRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(WeRuleRequest $request)
+    public function index(PaginateRequest $request)
     {
         $this->authorize('view', WeRule::class);
 

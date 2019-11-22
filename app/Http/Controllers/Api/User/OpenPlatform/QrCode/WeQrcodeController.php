@@ -6,8 +6,8 @@ use App\Utilities\Constant;
 use App\Utilities\FeedBack;
 use App\Entities\QrCode\WeQrcode;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PaginateRequest;
 use App\Repositories\QrCode\WeQrcodeRepositoryEloquent;
-use App\Http\Requests\User\OpenPlatform\QrCode\WeQrcodeRequest;
 use App\Http\Requests\User\OpenPlatform\QrCode\CreateWeQrcodeRequest;
 use App\Http\Requests\User\OpenPlatform\QrCode\UpdateWeQrcodeRequest;
 
@@ -26,12 +26,12 @@ class WeQrcodeController extends Controller
     }
 
     /**
-     * @param WeQrcodeRequest $request
+     * @param PaginateRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(WeQrcodeRequest $request)
+    public function index(PaginateRequest $request)
     {
         $this->authorize('view', WeQrcode::class);
 
