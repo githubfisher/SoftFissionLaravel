@@ -2,29 +2,30 @@
 namespace App\Http\Controllers\Api\User\OpenPlatform\AutoReply;
 
 use App\Utilities\Constant;
+use App\Utilities\FeedBack;
+use App\Entities\Reply\WeRule;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\Reply\Rule;
-use App\Models\User\Reply\Rule as Rules;
+use App\Repositories\Reply\WeRuleRepositoryEloquent;
 use App\Http\Requests\User\OpenPlatform\AutoReply\WeRuleRequest;
 use App\Http\Requests\User\OpenPlatform\AutoReply\CreateWeRuleRequest;
 
 class SubscribeController extends Controller
 {
-    protected $rule;
+    protected $repository;
 
-    public function __construct(Rule $rule)
+    public function __construct(WeRuleRepositoryEloquent $repository)
     {
-        $this->rule = $rule;
+        $this->repository = $repository;
     }
 
     public function store(CreateWeRuleRequest $request)
     {
-        $this->authorize('create', Rules::class);
+        $this->authorize('create', WeRule::class);
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
         $params['scene']   = Constant::REPLY_RULE_SCENE_SUBSCRIBE;
-        $res               = $this->rule->storeSubscribeRule($params);
+        $res               = $this->repository->storeSubscribeRule($params);
         if (is_numeric($res)) {
             return $this->suc(['id' => $res]);
         }
@@ -34,10 +35,14 @@ class SubscribeController extends Controller
 
     public function show(WeRuleRequest $request)
     {
-        $this->authorize('view', Rules::class);
+        $this->authorize('view', WeRule::class);
 
-        $data = $this->rule->getSubscribeRule($this->user()->id, $request->input('app_id'));
+        if ($id = $this->repository->getIdByScene(current_weapp()['app_id'], Constant::REPLY_RULE_SCENE_SUBSCRIBE)) {
+            $data = $this->repository->find($id);
 
-        return $this->suc(compact('data'));
+            return $this->suc(compact('data'));
+        }
+
+        return $this->err(FeedBack::RULE_NOT_FOUND);
     }
 }
