@@ -52,7 +52,7 @@ class AnyController extends Controller
     {
         $this->authorize('view', WeRule::class);
 
-        if ($id = $this->repository->getIdByScene(current_weapp()['app_id'])) {
+        if ($id = $this->repository->getIdByScene(current_weapp()['app_id'], Constant::REPLY_RULE_SCENE_ANY)) {
             $data = $this->repository->find($id);
 
             return $this->suc(compact('data'));
