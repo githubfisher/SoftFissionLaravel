@@ -1,9 +1,9 @@
 <?php
 namespace App\Providers;
 
-use App\Models\User\Reply\Rule;
+use App\Entities\Reply\WeRule;
+use App\Entities\Material\WeNews;
 use App\Entities\QrCode\WeQrcode;
-use App\Models\User\Material\News;
 use App\Policies\User\OpenPlatform\Reply\WeRulePolicy;
 use App\Policies\User\OpenPlatform\Material\WeNewsPolicy;
 use App\Policies\User\OpenPlatform\QrCode\WeQrcodePolicy;
@@ -18,9 +18,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
-        Rule::class     => WeRulePolicy::class,
+        WeRule::class   => WeRulePolicy::class,
         WeQrcode::class => WeQrcodePolicy::class,
-        News::class     => WeNewsPolicy::class,
+        WeNews::class   => WeNewsPolicy::class,
     ];
 
     /**
