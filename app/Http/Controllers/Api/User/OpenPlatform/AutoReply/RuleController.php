@@ -2,19 +2,19 @@
 namespace App\Http\Controllers\Api\User\OpenPlatform\AutoReply;
 
 use App\Utilities\Constant;
+use App\Entities\Reply\WeRule;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\Reply\Rule;
-use App\Models\User\Reply\Rule as Rules;
+use App\Repositories\Reply\WeRuleRepositoryEloquent;
 use App\Http\Requests\User\OpenPlatform\AutoReply\RuleRequest;
 use App\Http\Requests\User\OpenPlatform\AutoReply\CreateRuleRequest;
 
 class RuleController extends Controller
 {
-    protected $rule;
+    protected $repository;
 
-    public function __construct(Rule $rule)
+    public function __construct(WeRuleRepositoryEloquent $repository)
     {
-        $this->rule = $rule;
+        $this->repository = $repository;
     }
 
     /**
@@ -27,10 +27,11 @@ class RuleController extends Controller
      */
     public function index(RuleRequest $request)
     {
-        $this->authorize('view', Rules::class);
+        $this->authorize('view', WeRule::class);
 
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $list  = $this->rule->list($this->user()->id, $request->input('app_id'), Constant::REPLY_RULE_SCENE_KEYWORD, $limit);
+        $list  = $this->repository->user($this->user()->id)->app($request->input('app_id'))
+            ->scene(Constant::REPLY_RULE_SCENE_KEYWORD)->simplePaginate($limit);
 
         return $this->suc(compact('list'));
     }
@@ -51,12 +52,12 @@ class RuleController extends Controller
      */
     public function store(CreateRuleRequest $request)
     {
-        $this->authorize('create', Rules::class);
+        $this->authorize('create', WeRule::class);
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
         $params['scene']   = Constant::REPLY_RULE_SCENE_KEYWORD;
-        $res               = $this->rule->store($params);
+        $res               = $this->repository->store($params);
         if (is_numeric($res)) {
             return $this->suc(['id' => $res]);
         }
@@ -72,9 +73,9 @@ class RuleController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('view', Rules::class);
+        $this->authorize('view', WeRule::class);
 
-        $data = $this->rule->get($id);
+        $data = $this->repository->get($id);
 
         return $this->suc(compact('data'));
     }
@@ -98,9 +99,9 @@ class RuleController extends Controller
      */
     public function update(CreateRuleRequest $request, $id)
     {
-        $this->authorize('update', Rules::class);
+        $this->authorize('update', WeRule::class);
 
-        if ($this->rule->update($id, $request->all())) {
+        if ($this->repository->update($id, $request->all())) {
             return $this->suc();
         }
 
@@ -118,9 +119,9 @@ class RuleController extends Controller
      */
     public function destroy(RuleRequest $request, $id)
     {
-        $this->authorize('delete', Rules::class);
+        $this->authorize('delete', WeRule::class);
 
-        if ($this->rule->destroy($this->user()->id, $request->input('app_id'), $id, Constant::REPLY_RULE_SCENE_KEYWORD)) {
+        if ($this->repository->destroy($this->user()->id, $request->input('app_id'), $id, Constant::REPLY_RULE_SCENE_KEYWORD)) {
             return $this->suc();
         }
 
