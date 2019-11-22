@@ -29,9 +29,9 @@ class RuleController extends Controller
     {
         $this->authorize('view', WeRule::class);
 
-        $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $list  = $this->repository->app($request->input('app_id'))
-            ->scene(Constant::REPLY_RULE_SCENE_KEYWORD)->simplePaginate($limit);
+        $list  = $this->repository->app(current_weapp()['app_id'])
+            ->scene(Constant::REPLY_RULE_SCENE_KEYWORD)
+            ->simplePaginate($request->input('limit', Constant::PAGINATE_MIN));
 
         return $this->suc(compact('list'));
     }
