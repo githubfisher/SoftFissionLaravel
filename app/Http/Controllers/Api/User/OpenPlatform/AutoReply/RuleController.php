@@ -102,7 +102,7 @@ class RuleController extends Controller
     {
         $this->authorize('update', WeRule::class);
 
-        if ($this->repository->update($id, $request->all())) {
+        if ($this->repository->updateRule($id, $request->all())) {
             return $this->suc();
         }
 
@@ -112,20 +112,19 @@ class RuleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param WeRuleRequest $request
      * @param             $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy(WeRuleRequest $request, $id)
+    public function destroy($id)
     {
         $this->authorize('delete', WeRule::class);
 
-        if ($this->repository->destroy($this->user()->id, $request->input('app_id'), $id, Constant::REPLY_RULE_SCENE_KEYWORD)) {
+        if ($this->repository->app(current_weapp()['app_id'])->scene(Constant::REPLY_RULE_SCENE_KEYWORD)->delete($id)) {
             return $this->suc();
         }
 
-        return $this->err();
+        return $this->err(FeedBack::DELETE_FAIL);
     }
 }

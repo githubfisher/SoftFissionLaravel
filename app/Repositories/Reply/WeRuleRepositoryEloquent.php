@@ -4,6 +4,7 @@ namespace App\Repositories\Reply;
 use DB;
 use Log;
 use App\Utilities\Constant;
+use Illuminate\Support\Arr;
 use App\Entities\Reply\WeRule;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -47,6 +48,13 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
         return 'App\\Validators\\Reply\\WeRuleValidator';
     }
 
+    /**
+     * 创建回复规则
+     *
+     * @param $params
+     *
+     * @return bool
+     */
     public function store($params)
     {
         $keywords = isset($params['keywords']) ? $params['keywords'] : [];
@@ -82,5 +90,91 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
         DB::commit();
 
         return $rule->id;
+    }
+
+    /**
+     * 更新回复规则
+     *
+     * @param $id
+     * @param $params
+     *
+     * @return bool
+     */
+    public function updateRule($id, $params)
+    {
+        $keywords = isset($params['keywords']) ? $params['keywords'] : [];
+        $replies  = $params['replies'];
+        $rule     = $this->find($id);
+        if ( ! $rule) {
+            Log::error(__FUNCTION__ . ' rule not found: ' . $id);
+
+            return false;
+        }
+        $rule = $rule->toArray();
+
+        DB::beginTransaction();
+
+        try {
+            // 更新规则表
+            $ruleCol  = ['title', 'reply_rule', 'start_at', 'end_at'];
+            $ruleInfo = Arr::only($params, $ruleCol);
+            $diff     = array_diff_assoc($ruleInfo, Arr::only($rule, array_keys($ruleInfo)));
+            ! empty($diff) && $this->update($diff, $id);
+
+            // 更新关键词表
+            $keywordRepository = app()->make(WeKeywordRepositoryEloquent::class);
+            $ks                = array_column($rule['keywords'], null, 'id');
+            if (count($keywords)) {
+                $still             = [];
+                foreach ($keywords as $k => $keyword) {
+                    if (isset($keyword['id']) && $keyword['id']) {
+                        $still[] = $keyword['id'];
+                        $diff    = array_diff_assoc($keyword, Arr::only($ks[$keyword['id']], ['keyword', 'match_type']));
+                        if ( ! empty($diff)) {
+                            $keywordRepository->update($keyword, $keyword['id']);
+                        }
+                    } else {
+                        $keyword['rule_id'] = $id;
+                        $keywordRepository->create($keyword);
+                    }
+                }
+                // 清理旧关键词
+                $del = array_diff(array_keys($ks), $still);
+            } else {
+                $del = array_keys($ks);
+            }
+            count($del) && $keywordRepository->deleteWhereIn('id', $del);
+
+            // 更新回复内容表
+            $replyRepository = app()->make(WeReplyRepositoryEloquent::class);
+            $rp              = array_column($rule['replies'], null, 'id');
+            $still           = [];
+            foreach ($replies as $k => $reply) {
+                if (isset($reply['id']) && $reply['id']) {
+                    $still[] = $reply['id'];
+                    $diff    = array_diff_assoc($reply, Arr::only($rp[$reply['id']], ['difference', 'reply_type', 'reply_type_female', 'content', 'content_female', 'material_id', 'material_id_female']));
+                    if ( ! empty($diff)) {
+                        $replyRepository->update($reply, $reply['id']);
+                        // 引用计数 TODO
+                    }
+                } else {
+                    $reply['rule_id'] = $id;
+                    $replyRepository->create($reply);
+                }
+            }
+            // 清理旧回复内容
+            $del = array_diff(array_keys($rp), $still);
+            count($del) && $replyRepository->deleteWhereIn('id', $del);
+            // 引用计数 TODO
+        } catch (\Exception $e) {
+            Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+            DB::rollBack();
+
+            return false;
+        }
+
+        DB::commit();
+
+        return true;
     }
 }
