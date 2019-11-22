@@ -27,7 +27,7 @@ class WeRule extends Model implements Transformable
     protected $hidden  = [];
     protected $guarded = ['id'];
 
-    public function user()
+    public function maker()
     {
         return $this->belongsTo('App\Entities\User\User', 'user_id');
     }
