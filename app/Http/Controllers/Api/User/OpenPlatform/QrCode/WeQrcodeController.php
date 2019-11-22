@@ -1,9 +1,15 @@
 <?php
 namespace App\Http\Controllers\Api\User\OpenPlatform\QrCode;
 
+use DB;
+use Carbon\Carbon;
 use App\Utilities\Constant;
+use App\Utilities\FeedBack;
 use App\Entities\QrCode\WeQrcode;
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\Reply\Rule;
+use App\Jobs\User\SuperQrCode\DetailCreateJob;
+use App\Models\User\SuperQrCode\QrCode as QrCodes;
 use App\Repositories\QrCode\WeQrcodeRepositoryEloquent;
 use App\Http\Requests\User\OpenPlatform\QrCode\WeQrcodeRequest;
 use App\Http\Requests\User\OpenPlatform\QrCode\CreateWeQrcodeRequest;
@@ -54,9 +60,57 @@ class WeQrcodeController extends Controller
     {
         $this->authorize('create', WeQrcode::class);
 
-        $params            = $request->all();
-        $params['user_id'] = $this->user()->id;
-        $params['scene']   = Constant::REPLY_RULE_SCENE_SCAN;
+        $params                            = $request->all();
+        $params['user_id']                 = $this->user()->id;
+        $params['scene']                   = Constant::REPLY_RULE_SCENE_SCAN;
+        list($expireAt, $expireIn, $error) = $this->repository->getExpire($params);
+        if ( ! is_null($error)) {
+            return $this->err($error);
+        }
+
+        DB::beginTransaction();
+
+        try {
+
+            // 创建回复规则
+            $params['keywords'] = [];
+            $params['status']   = Constant::TRUE_ONE;
+            $ruleId             = (new Rule)->store($params);
+
+            // 创建二维码记录
+            $now      = Carbon::now()->toDateTimeString();
+            $qrCodeId = QrCodes::insertGetId([
+                'user_id'     => $params['user_id'],
+                'app_id'      => $params['app_id'],
+                'rule_id'     => $ruleId,
+                'title'       => $params['title'],
+                'type'        => $params['type'],
+                'target_num'  => $params['target_num'],
+                'expire_type' => $params['expire_type'],
+                'expire_at'   => date('Y-m-d H:i:s', $expireAt),
+                'expire_in'   => $expireIn,
+                'created_at'  => $now,
+                'updated_at'  => $now,
+            ]);
+
+            // 发布任务-生成微信二维码
+            dispatch(new DetailCreateJob([
+                'id'          => $qrCodeId,
+                'type'        => $params['type'],
+                'target_num'  => $params['target_num'],
+                'expire_type' => isset($params['expire_type']) ? $params['expire_type'] : Constant::FLASE_ZERO,
+                'expire_at'   => $expireAt,
+                'expire_in'   => $expireIn,
+            ]));
+        } catch (\Exception $e) {
+            Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+            DB::rollBack();
+
+            return FeedBack::CREATE_FAIL;
+        }
+
+        DB::commit();
+
         $res               = $this->repository->store($params);
         if (is_numeric($res)) {
             return $this->suc(['id' => $res]);
@@ -76,6 +130,21 @@ class WeQrcodeController extends Controller
         $this->authorize('view', WeQrcode::class);
 
         $data = $this->repository->with('details')->find($id);
+
+        return $this->suc(compact('data'));
+    }
+
+    /**
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function showRule($id)
+    {
+        $this->authorize('view', WeQrcode::class);
+
+        $data = $this->repository->with('rule.replies')->find($id);
 
         return $this->suc(compact('data'));
     }
