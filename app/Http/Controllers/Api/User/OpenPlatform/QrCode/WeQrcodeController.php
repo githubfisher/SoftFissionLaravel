@@ -40,7 +40,7 @@ class WeQrcodeController extends Controller
         $this->authorize('view', WeQrcode::class);
 
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $list  = $this->repository->recent()->app($request->input('app_id'))->simplePaginate($limit);
+        $list  = $this->repository->app($request->input('app_id'))->recent()->simplePaginate($limit);
 
         return $this->suc(compact('list'));
     }
