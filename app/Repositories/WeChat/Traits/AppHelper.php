@@ -156,4 +156,25 @@ trait AppHelper
 
         return $this->parserResult($model);
     }
+
+    /**
+     * 获取当前公众号
+     *
+     * @param int $userid
+     *
+     * @return bool|mixed
+     */
+    public function currentApp(int $userid)
+    {
+        $list = $this->list($userid);
+        if ( ! empty($list['current'])) {
+            if (isset($list['list'][$list['current']])) {
+                return $list['list'][$list['current']];
+            } else {
+                return $this->getAppInfo($list['current']);
+            }
+        }
+
+        return false;
+    }
 }
