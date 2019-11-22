@@ -2,21 +2,33 @@
 namespace App\Http\Controllers\Api\User\OpenPlatform\AutoReply;
 
 use App\Utilities\Constant;
+use App\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\Reply\Rule;
 use App\Models\User\Reply\Rule as Rules;
-use App\Http\Requests\User\OpenPlatform\AutoReply\WeRuleRequest;
+use App\Repositories\Reply\WeRuleRepositoryEloquent;
 use App\Http\Requests\User\OpenPlatform\AutoReply\CreateWeRuleRequest;
 
+/**
+ * 任意回复
+ *
+ * Class AnyController
+ * @package App\Http\Controllers\Api\User\OpenPlatform\AutoReply
+ */
 class AnyController extends Controller
 {
-    protected $rule;
+    protected $repository;
 
-    public function __construct(Rule $rule)
+    public function __construct(WeRuleRepositoryEloquent $repository)
     {
-        $this->rule = $rule;
+        $this->repository = $repository;
     }
 
+    /**
+     * @param CreateWeRuleRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function store(CreateWeRuleRequest $request)
     {
         $this->authorize('create', Rules::class);
@@ -24,7 +36,7 @@ class AnyController extends Controller
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
         $params['scene']   = Constant::REPLY_RULE_SCENE_ANY;
-        $res               = $this->rule->storeAnyRule($params);
+        $res               = $this->repository->storeAnyRule($params);
         if (is_numeric($res)) {
             return $this->suc(['id' => $res]);
         }
@@ -32,12 +44,20 @@ class AnyController extends Controller
         return $this->err($res);
     }
 
-    public function show(WeRuleRequest $request)
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function show()
     {
         $this->authorize('view', Rules::class);
 
-        $data = $this->rule->getAnyRule($this->user()->id, $request->input('app_id'));
+        if ($id = $this->repository->getIdByScene(current_weapp()['app_id'])) {
+            $data = $this->repository->find($id);
 
-        return $this->suc(compact('data'));
+            return $this->suc(compact('data'));
+        }
+
+        return $this->err(FeedBack::RULE_NOT_FOUND);
     }
 }

@@ -177,4 +177,48 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
 
         return true;
     }
+
+    public function getIdByScene(string $appId, string $scene = Constant::REPLY_RULE_SCENE_ANY)
+    {
+        $rule = $this->app($appId)->scene($scene)->first(['id']);
+        if ($rule) {
+            return $rule['id'];
+        }
+
+        return false;
+    }
+
+    /**
+     * 存储-任意回复
+     *
+     * @param $params
+     *
+     * @return bool
+     */
+    public function storeAnyRule($params)
+    {
+        $params['title']  = '任意回复规则';
+        $params['status'] = Constant::TRUE_ONE;
+
+        return $this->store($params);
+    }
+
+
+    /**
+     * 存储-关注回复
+     *
+     * @param $params
+     *
+     * @return bool
+     */
+    public function storeSubscribeRule($params)
+    {
+        $params['title']  = '关注回复规则';
+        $params['status'] = Constant::TRUE_ONE;
+
+        return $this->store($params);
+    }
+    
+    // 点击回复
+    // 扫码回复
 }
