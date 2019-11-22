@@ -16,7 +16,6 @@ class WeQrcode extends Model implements Transformable
     use TransformableTrait;
 
     protected $fillable = [
-        'user_id',
         'app_id',
         'rule_id',
         'title',
