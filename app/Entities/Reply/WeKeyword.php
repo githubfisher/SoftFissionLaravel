@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entities\Reply;
 
 use App\Models\Model;
@@ -6,7 +7,7 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * Class Rule.
+ * Class WeKeyword.
  *
  * @package namespace App\Entities\Reply;
  */
@@ -26,4 +27,5 @@ class WeKeyword extends Model implements Transformable
     {
         return $this->belongsTo('App\Entities\Reply\WeRule', 'rule_id');
     }
+
 }

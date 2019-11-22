@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api\User\OpenPlatform\AutoReply;
 
 use App\Utilities\Constant;
+use App\Utilities\FeedBack;
 use App\Entities\Reply\WeRule;
 use App\Http\Controllers\Controller;
 use App\Repositories\Reply\WeRuleRepositoryEloquent;
@@ -62,7 +63,7 @@ class RuleController extends Controller
             return $this->suc(['id' => $res]);
         }
 
-        return $this->err($res);
+        return $this->err(FeedBack::CREATE_FAIL);
     }
 
     /**

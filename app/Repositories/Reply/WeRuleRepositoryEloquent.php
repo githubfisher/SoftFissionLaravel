@@ -1,7 +1,9 @@
 <?php
-
 namespace App\Repositories\Reply;
 
+use DB;
+use Log;
+use App\Utilities\Constant;
 use App\Entities\Reply\WeRule;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -27,8 +29,6 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
         return WeRule::class;
     }
 
-
-
     /**
      * Boot up the repository, pushing criteria
      */
@@ -45,5 +45,44 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
     public function validator()
     {
         return 'App\\Validators\\Reply\\WeRuleValidator';
+    }
+
+    public function store($params)
+    {
+        // {keyword:, match_type:}
+        $keywords = isset($params['keywords']) ? $params['keywords'] : [];
+        // {difference:, reply_type:, reply_type_female:, content:, content_female:, material_id:, material_id_female}
+        $replies  = $params['replies'];
+        DB::beginTransaction();
+
+        try {
+            $rule = $this->create([
+                'user_id'    => $params['user_id'],
+                'app_id'     => $params['app_id'],
+                'scene'      => $params['scene'],
+                'title'      => $params['title'],
+                'reply_rule' => $params['reply_rule'],
+                'start_at'   => isset($params['start_at']) ? $params['start_at'] : null,
+                'end_at'     => isset($params['end_at']) ? $params['end_at'] : null,
+                'status'     => isset($params['status']) ? $params['status'] : Constant::FLASE_ZERO,
+            ]);
+
+            if (count($keywords)) {
+                data_fill($keywords, '*.rule_id', $rule->id);
+                app()->make(WeKeywordRepositoryEloquent::class)->addAll($keywords);
+            }
+
+            data_fill($replies, '*.rule_id', $rule->id);
+            app()->make(WeReplyRepositoryEloquent::class)->addAll($replies);
+        } catch (\Exception $e) {
+            Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+            DB::rollBack();
+
+            return false;
+        }
+
+        DB::commit();
+
+        return $rule->id;
     }
 }
