@@ -23,8 +23,7 @@ class WeQrcodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'app_id' => 'required|string|min:18',
-            'limit'  => 'sometimes|required|integer|min:10',
+            'limit' => 'sometimes|required|integer|min:10',
         ];
     }
 }
