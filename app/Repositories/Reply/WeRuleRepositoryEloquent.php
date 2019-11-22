@@ -57,7 +57,6 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
 
         try {
             $rule = $this->create([
-                'user_id'    => $params['user_id'],
                 'app_id'     => $params['app_id'],
                 'scene'      => $params['scene'],
                 'title'      => $params['title'],
