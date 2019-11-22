@@ -12,12 +12,11 @@ class Model extends EloquentModel
      * 最近的
      *
      * @param Builder $query
-     * @param $sort
      * @return Builder
      */
-    public function scopeRecent(Builder $query, $sort = 'desc')
+    public function scopeRecent(Builder $query)
     {
-        return $query->orderBy('id', $sort);
+        return $query->orderBy('id', 'desc');
     }
 
     /**
@@ -25,7 +24,7 @@ class Model extends EloquentModel
      *
      * @param Builder $query
      * @param $userId
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeUser(Builder $query, $userId)
     {
@@ -37,7 +36,7 @@ class Model extends EloquentModel
      *
      * @param Builder $query
      * @param $appId
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeApp(Builder $query, $appId)
     {
