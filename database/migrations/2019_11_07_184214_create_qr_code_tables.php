@@ -13,7 +13,7 @@ class CreateQrCodeTables extends Migration
      */
     public function up()
     {
-        Schema::create('we_qrcode', function (Blueprint $table) {
+        Schema::create('we_qrcodes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('app_id', 20)->default('');
             $table->unsignedBigInteger('rule_id')->default(0);
@@ -30,7 +30,7 @@ class CreateQrCodeTables extends Migration
             $table->index(['app_id', 'rule_id']);
         });
 
-        Schema::create('we_qrcode_detail', function (Blueprint $table) {
+        Schema::create('we_qrcode_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('qrcode_id')->default(0)->comment('二维码ID');
             $table->string('batch', 12)->default('')->comment('批次号: ymdHi');
@@ -44,7 +44,7 @@ class CreateQrCodeTables extends Migration
 
             $table->foreign('qrcode_id')
                   ->references('id')
-                  ->on('we_qrcode')
+                  ->on('we_qrcodes')
                   ->onDelete('cascade');
 
             $table->index(['qrcode_id', 'scene_str']);
@@ -58,7 +58,7 @@ class CreateQrCodeTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('we_qrcode_detail');
-        Schema::dropIfExists('we_qrcode');
+        Schema::dropIfExists('we_qrcode_details');
+        Schema::dropIfExists('we_qrcodes');
     }
 }
