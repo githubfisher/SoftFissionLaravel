@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Repositories\Reply\Rule;
 use App\Models\User\Reply\Rule as Rules;
 use App\Http\Requests\User\OpenPlatform\AutoReply\WeRuleRequest;
-use App\Http\Requests\User\OpenPlatform\AutoReply\CreateRuleRequest;
+use App\Http\Requests\User\OpenPlatform\AutoReply\CreateWeRuleRequest;
 
 class AnyController extends Controller
 {
@@ -17,7 +17,7 @@ class AnyController extends Controller
         $this->rule = $rule;
     }
 
-    public function store(CreateRuleRequest $request)
+    public function store(CreateWeRuleRequest $request)
     {
         $this->authorize('create', Rules::class);
 

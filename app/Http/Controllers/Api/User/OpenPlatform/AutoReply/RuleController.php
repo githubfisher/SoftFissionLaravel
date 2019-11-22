@@ -6,7 +6,7 @@ use App\Entities\Reply\WeRule;
 use App\Http\Controllers\Controller;
 use App\Repositories\Reply\WeRuleRepositoryEloquent;
 use App\Http\Requests\User\OpenPlatform\AutoReply\WeRuleRequest;
-use App\Http\Requests\User\OpenPlatform\AutoReply\CreateRuleRequest;
+use App\Http\Requests\User\OpenPlatform\AutoReply\CreateWeRuleRequest;
 
 class RuleController extends Controller
 {
@@ -45,12 +45,12 @@ class RuleController extends Controller
     }
 
     /**
-     * @param CreateRuleRequest $request
+     * @param CreateWeRuleRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(CreateRuleRequest $request)
+    public function store(CreateWeRuleRequest $request)
     {
         $this->authorize('create', WeRule::class);
 
@@ -91,13 +91,13 @@ class RuleController extends Controller
     }
 
     /**
-     * @param CreateRuleRequest $request
+     * @param CreateWeRuleRequest $request
      * @param         $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(CreateRuleRequest $request, $id)
+    public function update(CreateWeRuleRequest $request, $id)
     {
         $this->authorize('update', WeRule::class);
 

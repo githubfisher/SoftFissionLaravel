@@ -3,7 +3,7 @@ namespace App\Http\Requests\User\OpenPlatform\AutoReply;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRuleRequest extends FormRequest
+class CreateWeRuleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
