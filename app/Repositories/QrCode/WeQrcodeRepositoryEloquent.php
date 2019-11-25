@@ -51,6 +51,7 @@ class WeQrcodeRepositoryEloquent extends BaseRepository
      * @param $params
      *
      * @return bool
+     * @throws \Exception
      */
     public function store($params)
     {
@@ -100,6 +101,7 @@ class WeQrcodeRepositoryEloquent extends BaseRepository
      * @param       $params
      *
      * @return array|bool|mixed
+     * @throws \Exception
      */
     public function updateQrCode($id, $params)
     {
@@ -155,6 +157,7 @@ class WeQrcodeRepositoryEloquent extends BaseRepository
      * @param $id
      *
      * @return array|bool
+     * @throws \Exception
      */
     public function destroy(int $id)
     {
