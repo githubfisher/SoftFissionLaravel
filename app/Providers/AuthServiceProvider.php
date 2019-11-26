@@ -1,9 +1,11 @@
 <?php
 namespace App\Providers;
 
+use App\Entities\Menu\WeMenu;
 use App\Entities\Reply\WeRule;
 use App\Entities\Material\WeNews;
 use App\Entities\QrCode\WeQrcode;
+use App\Policies\User\OpenPlatform\Menu\WeMenuPolicy;
 use App\Policies\User\OpenPlatform\Reply\WeRulePolicy;
 use App\Policies\User\OpenPlatform\Material\WeNewsPolicy;
 use App\Policies\User\OpenPlatform\QrCode\WeQrcodePolicy;
@@ -21,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
         WeRule::class   => WeRulePolicy::class,
         WeQrcode::class => WeQrcodePolicy::class,
         WeNews::class   => WeNewsPolicy::class,
+        WeMenu::class   => WeMenuPolicy::class,
     ];
 
     /**

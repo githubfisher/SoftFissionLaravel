@@ -1,9 +1,8 @@
 <?php
 namespace App\Http\Controllers\Api\User\OpenPlatform\Menu;
 
-use App\Utilities\Constant;
 use App\Utilities\FeedBack;
-use App\Entities\Reply\WeRule;
+use App\Entities\Menu\WeMenu;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateMenuRequest;
 use App\Repositories\Menu\WeMenuRepositoryEloquent;
@@ -23,7 +22,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $this->authorize('view', WeRule::class);
+        $this->authorize('view', WeMenu::class);
 
         $list  = $this->repository->app(current_weapp()['app_id'])->with(['details', 'details.rule', 'details.rule.replies'])->get();
 
@@ -38,7 +37,7 @@ class MenuController extends Controller
      */
     public function store(CreateMenuRequest $request)
     {
-        $this->authorize('create', WeRule::class);
+        $this->authorize('create', WeMenu::class);
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
@@ -59,7 +58,7 @@ class MenuController extends Controller
      */
     public function update(CreateMenuRequest $request, $id)
     {
-        $this->authorize('update', WeRule::class);
+        $this->authorize('update', WeMenu::class);
 
         if ($this->repository->updateMenu($id, $request->all())) {
             return $this->suc();
