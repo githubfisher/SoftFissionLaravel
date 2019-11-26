@@ -179,8 +179,4 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
 
         return $weBtns;
     }
-
-    public function updateMenu(int $id, array $params)
-    {
-    }
 }
