@@ -52,8 +52,8 @@ class CreateReplyRuleTables extends Migration
             $table->text('content_female')->nullable();
             $table->unsignedInteger('material_id')->nullable()->default(0)->comment('素材ID或活动ID');
             $table->unsignedInteger('material_id_female')->nullable()->default(0);
-            $table->string('app_id')->nullable()->comment('小程序APPID');
-            $table->string('app_id_female')->nullable();
+            $table->string('mini_app_id')->nullable()->comment('小程序APPID');
+            $table->string('mini_app_id_female')->nullable();
             $table->string('url')->nullable()->comment('URL或小程序页面地址');
             $table->string('url_female')->nullable();
             $table->timestamps();
