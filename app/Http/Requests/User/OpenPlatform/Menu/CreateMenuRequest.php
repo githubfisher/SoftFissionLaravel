@@ -28,7 +28,7 @@ class CreateMenuRequest extends FormRequest
         return [
             'menus'                                   => ['required', 'array', 'min:1'],
             'menus.*.type'                            => ['required', 'integer', 'in:1,2'],
-            'menus.*.filter'                          => ['nullable', 'array'],
+            'menus.*.filter'                          => ['required_if:menus.*.type,2', 'array'],
             'menus.*.buttons'                         => ['required', 'array', 'min:1'],
             'menus.*.buttons.*.name'                  => ['required', 'string'],
             'menus.*.buttons.*.type'                  => ['required', 'integer', 'in:1,2,3,4,5,6,7,8,9,10,11,12,13'],
