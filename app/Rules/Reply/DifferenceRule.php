@@ -8,7 +8,7 @@ class DifferenceRule extends CompositeRule
 {
     protected function rules(): array
     {
-        return ['integer', 'in:1,2'];
+        return ['integer', 'in:0,1'];
     }
 
     public function message()
