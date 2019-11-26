@@ -10,20 +10,26 @@ use Prettus\Repository\Traits\TransformableTrait;
  *
  * @package namespace App\Entities\Menu;
  */
-class WeMenu extends Model implements Transformable
+class WeMenuDetail extends Model implements Transformable
 {
     use TransformableTrait;
 
     protected $fillable = [
-        'app_id',
-        'type',
-        'filter',
+        'menu_id',
+        'pid',
+        'rule_id',
+        'name',
     ];
     protected $hidden  = [];
     protected $guarded = ['id'];
 
-    public function details()
+    public function menu()
     {
-        return $this->hasMany('App\Entities\Menu\WeMenuDetail', 'menu_id');
+        return $this->belongsTo('App\Entities\Menu\WeMenu', 'menu_id');
+    }
+
+    public function rule()
+    {
+        return $this->hasOne('App\Entities\Reply\WeRule', 'rule_id');
     }
 }
