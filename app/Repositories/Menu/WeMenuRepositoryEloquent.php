@@ -1,7 +1,6 @@
 <?php
 namespace App\Repositories\Menu;
 
-use App\Repositories\Reply\WeRuleRepositoryEloquent;
 use DB;
 use Log;
 use App\Utilities\Constant;
@@ -9,8 +8,8 @@ use App\Entities\Menu\WeMenu;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Traits\CacheableRepository;
+use App\Repositories\Reply\WeRuleRepositoryEloquent;
 use Prettus\Repository\Contracts\CacheableInterface;
-use App\Repositories\Reply\WeReplyRepositoryEloquent;
 
 /**
  * Class MenuRepositoryEloquent.
@@ -138,7 +137,8 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                         $weBtns[$key] = array_merge($weBtns[$key], $weBtnSetting);
 
                         if (in_array($button['type'], Constant::MENU_NEED_EVENT_TYPES)) {
-                            $ruleId = $ruleRepository->store($this->getRuleParams($params['appInfo']['app_id'], $button));
+                            $button['scene'] = Constant::REPLY_RULE_SCENE_CLICK;
+                            $ruleId          = $ruleRepository->store($this->getRuleParams($params['appInfo']['app_id'], $button));
                             $detailRepository->update(['rule_id' => $ruleId], $theDetail->id);
                         }
                     } else {
@@ -163,7 +163,8 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                             $weBtns[$key]['sub_button'][$k]['name'] = $sub['name'];
 
                             if (in_array($sub['type'], Constant::MENU_NEED_EVENT_TYPES)) {
-                                $ruleId = $ruleRepository->store($this->getRuleParams($params['appInfo']['app_id'], $sub));
+                                $sub['scene'] = Constant::REPLY_RULE_SCENE_CLICK;
+                                $ruleId       = $ruleRepository->store($this->getRuleParams($params['appInfo']['app_id'], $sub));
                                 $detailRepository->update(['rule_id' => $ruleId], $theDetail->id);
                             }
                         }
