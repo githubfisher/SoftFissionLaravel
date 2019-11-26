@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\User\OpenPlatform\Menu;
 use App\Utilities\FeedBack;
 use App\Entities\Menu\WeMenu;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateMenuRequest;
 use App\Repositories\Menu\WeMenuRepositoryEloquent;
+use App\Http\Requests\User\OpenPlatform\Menu\CreateMenuRequest;
 
 class MenuController extends Controller
 {
