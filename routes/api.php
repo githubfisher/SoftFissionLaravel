@@ -122,11 +122,17 @@ $api->version('v1', [
 
         // 超级二维码
         $api->resource('open/qrcode', 'User\OpenPlatform\QrCode\WeQrcodeController');
+
+        // 自定义菜单 // 个性化菜单
+        $api->resource('open/menu', 'User\OpenPlatform\Menu\MenuController');
+
+        // 素材库
         $api->resource('open/material/news', 'User\OpenPlatform\Material\NewsController');
         $api->resource('open/material/image', 'User\OpenPlatform\Material\ImageController');
         $api->resource('open/material/voice', 'User\OpenPlatform\Material\VoiceController');
         $api->resource('open/material/video', 'User\OpenPlatform\Material\VideoController');
         $api->resource('open/material/thumb', 'User\OpenPlatform\Material\ThumbController');
+
     });
 
     // 管理后台
