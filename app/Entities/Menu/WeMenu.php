@@ -26,4 +26,20 @@ class WeMenu extends Model implements Transformable
     {
         return $this->hasMany('App\Entities\Menu\WeMenuDetail', 'menu_id');
     }
+
+    public function setFilterAttribute($value)
+    {
+        if (is_array($value)) {
+            $this->attributes['filter'] = json_encode($value);
+        } else {
+            $this->attributes['filter'] = null;
+        }
+    }
+
+    public function getFilterAttribute($value)
+    {
+        if ( ! empty($value)) {
+            $this->attributes['filter'] = json_decode($value, true);
+        }
+    }
 }
