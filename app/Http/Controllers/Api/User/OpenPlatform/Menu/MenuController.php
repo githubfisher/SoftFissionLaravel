@@ -25,7 +25,7 @@ class MenuController extends Controller
     {
         $this->authorize('view', WeRule::class);
 
-        $list  = $this->repository->app(current_weapp()['app_id'])->get();
+        $list  = $this->repository->app(current_weapp()['app_id'])->with(['details', 'details.rule', 'details.rule.replies'])->get();
 
         return $this->suc(compact('list'));
     }
@@ -42,7 +42,6 @@ class MenuController extends Controller
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
-        $params['scene']   = Constant::REPLY_RULE_SCENE_KEYWORD;
         $res               = $this->repository->store($params);
         if (is_numeric($res)) {
             return $this->suc(['id' => $res]);
