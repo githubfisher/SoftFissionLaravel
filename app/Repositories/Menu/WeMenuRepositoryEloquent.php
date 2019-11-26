@@ -55,7 +55,7 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
             'title'      => '自定义菜单',
             'scene'      => Constant::REPLY_RULE_SCENE_CLICK,
             'keywords'   => [],
-            'replies'    => [
+            'replies'    => [[
                 'difference'         => $button['difference'],
                 'reply_type'         => $button['type'],
                 'reply_type_female'  => $button['type'],
@@ -65,7 +65,7 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                 'mini_app_id_female' => $button['type'] == Constant::MENU_TYPE_MINIAPP && $button['difference'] == Constant::TRUE_ONE ? $button['mini_app_id_female'] : null,
                 'mini_path'          => $button['type'] == Constant::MENU_TYPE_MINIAPP ? $button['mini_path'] : null,
                 'mini_path_female'   => $button['type'] == Constant::MENU_TYPE_MINIAPP && $button['difference'] == Constant::TRUE_ONE ? $button['mini_path_female'] : null,
-            ],
+            ]],
             'reply_rule' => 1,
         ];
 
