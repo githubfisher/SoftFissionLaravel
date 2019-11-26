@@ -44,14 +44,13 @@ class MenuController extends Controller
         $this->authorize('create', WeMenu::class);
 
         $params            = $request->all();
-        $params['user_id'] = $this->user()->id;
+        $params['appInfo'] = current_weapp();
         $weBtns            = $this->repository->store($params);
         if (is_array($weBtns)) {
             Log::debug(__FUNCTION__ . ' we_btn_setting: ' . json_encode($weBtns));
 
             try {
-                $appInfo         = current_weapp();
-                $officialAccount = Factory::openPlatform(config('wechat.open_platform.default'))->officialAccount($appInfo['app_id'], $appInfo['refresh_token']);
+                $officialAccount = Factory::openPlatform(config('wechat.open_platform.default'))->officialAccount($params['appInfo']['app_id'], $params['appInfo']['refresh_token']);
                 //$res             = $officialAccount->menu->create($weBtns);
                 $res['errcode'] = 0;
                 if ($res['errcode'] == Constant::FLASE_ZERO) {

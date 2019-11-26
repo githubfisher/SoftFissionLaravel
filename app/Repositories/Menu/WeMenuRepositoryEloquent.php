@@ -48,7 +48,7 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
         return 'App\\Validators\\Menu\\MenuValidator';
     }
 
-    private function getRuleParams($button, $appId)
+    private function getRuleParams($appId, $button)
     {
         $params = [
             'app_id'     => $appId,
@@ -114,9 +114,9 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
 
                 // 创建自定义菜单 // 个性化菜单 | type
                 $theMenu = $this->create([
-                    'app_id' => $params['app_id'],
+                    'app_id' => $params['appInfo']['app_id'],
                     'type'   => $menu['type'],
-                    'filter' => isset($menu['filter']) ? $menu['filter'] : null,
+                    'filter' => $menu['type'] == 2 ? $menu['filter'] : null,
                 ]);
 
                 // 创建菜单
@@ -133,12 +133,11 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                         $button['id'] = $theDetail->id;
 
                         // 微信设置
-                        $weBtns[$key]['type'] = Constant::WECHAT_MSG_TYPE[$button['type']];
-                        $weBtnSetting         = $this->getWeBtnSetting($params['app_id'], $button);
-                        $weBtns[$key]         = array_merge($weBtns[$key], $weBtnSetting);
+                        $weBtnSetting = $this->getWeBtnSetting($params['appInfo']['app_id'], $button);
+                        $weBtns[$key] = array_merge($weBtns[$key], $weBtnSetting);
 
                         if (in_array($button['type'], Constant::MENU_NEED_EVENT_TYPES)) {
-                            $ruleId = $ruleRepository->store($this->getRuleParams($button, $params['app_id']));
+                            $ruleId = $ruleRepository->store($this->getRuleParams($params['appInfo']['app_id'], $button));
                             $detailRepository->update(['rule_id' => $ruleId], $theDetail->id);
                         }
                     } else {
@@ -159,11 +158,11 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                             $sub['id'] = $theDetail->id;
 
                             // 微信设置
-                            $weBtns[$key]['sub_button'][$k]         = $this->getWeBtnSetting($params['app_id'], $sub);
+                            $weBtns[$key]['sub_button'][$k]         = $this->getWeBtnSetting($params['appInfo']['app_id'], $sub);
                             $weBtns[$key]['sub_button'][$k]['name'] = $sub['name'];
 
                             if (in_array($sub['type'], Constant::MENU_NEED_EVENT_TYPES)) {
-                                $ruleId = $ruleRepository->store($this->getRuleParams($sub, $params['app_id']));
+                                $ruleId = $ruleRepository->store($this->getRuleParams($params['appInfo']['app_id'], $sub));
                                 $detailRepository->update(['rule_id' => $ruleId], $theDetail->id);
                             }
                         }
