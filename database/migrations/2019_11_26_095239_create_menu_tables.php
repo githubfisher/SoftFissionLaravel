@@ -17,7 +17,7 @@ class CreateMenuTables extends Migration
             $table->bigIncrements('id');
             $table->string('app_id', 20)->default('');
             $table->unsignedTinyInteger('type')->default(0)->comment('菜单类型: 1默认 2个性化');
-            $table->json('filter')->nullable()->comment('个性化筛选设置');
+            $table->string('filter')->nullable()->comment('个性化筛选设置');
             $table->timestamps();
         });
 
