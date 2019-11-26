@@ -53,6 +53,7 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
         $params = [
             'app_id'     => $appId,
             'title'      => '自定义菜单',
+            'scene'      => Constant::REPLY_RULE_SCENE_CLICK,
             'keywords'   => [],
             'replies'    => [
                 'difference'         => $button['difference'],
@@ -137,8 +138,7 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                         $weBtns[$key] = array_merge($weBtns[$key], $weBtnSetting);
 
                         if (in_array($button['type'], Constant::MENU_NEED_EVENT_TYPES)) {
-                            $button['scene'] = Constant::REPLY_RULE_SCENE_CLICK;
-                            $ruleId          = $ruleRepository->store($this->getRuleParams($params['appInfo']['app_id'], $button));
+                            $ruleId = $ruleRepository->store($this->getRuleParams($params['appInfo']['app_id'], $button));
                             $detailRepository->update(['rule_id' => $ruleId], $theDetail->id);
                         }
                     } else {
@@ -163,8 +163,7 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                             $weBtns[$key]['sub_button'][$k]['name'] = $sub['name'];
 
                             if (in_array($sub['type'], Constant::MENU_NEED_EVENT_TYPES)) {
-                                $sub['scene'] = Constant::REPLY_RULE_SCENE_CLICK;
-                                $ruleId       = $ruleRepository->store($this->getRuleParams($params['appInfo']['app_id'], $sub));
+                                $ruleId = $ruleRepository->store($this->getRuleParams($params['appInfo']['app_id'], $sub));
                                 $detailRepository->update(['rule_id' => $ruleId], $theDetail->id);
                             }
                         }
