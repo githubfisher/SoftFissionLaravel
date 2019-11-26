@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories\Menu;
 
+use App\Repositories\Reply\WeRuleRepositoryEloquent;
 use DB;
 use Log;
 use App\Utilities\Constant;
@@ -109,7 +110,7 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
 
         try {
             foreach ($params['menus'] as $menu) {
-                $ruleRepository   = app()->make(WeReplyRepositoryEloquent::class);
+                $ruleRepository   = app()->make(WeRuleRepositoryEloquent::class);
                 $detailRepository = app()->make(WeMenuDetailRepositoryEloquent::class);
 
                 // 创建自定义菜单 // 个性化菜单 | type
