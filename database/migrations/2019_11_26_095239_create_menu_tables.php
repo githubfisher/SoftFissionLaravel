@@ -25,7 +25,7 @@ class CreateMenuTables extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('menu_id');
             $table->unsignedBigInteger('pid')->default(0);
-            $table->unsignedBigInteger('rule_id');
+            $table->unsignedBigInteger('rule_id')->default(0);
             $table->string('name');
             $table->timestamps();
 

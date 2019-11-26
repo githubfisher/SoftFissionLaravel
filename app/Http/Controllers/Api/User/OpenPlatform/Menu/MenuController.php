@@ -1,6 +1,9 @@
 <?php
 namespace App\Http\Controllers\Api\User\OpenPlatform\Menu;
 
+use Log;
+use EasyWeChat\Factory;
+use App\Utilities\Constant;
 use App\Utilities\FeedBack;
 use App\Entities\Menu\WeMenu;
 use App\Http\Controllers\Controller;
@@ -33,6 +36,7 @@ class MenuController extends Controller
      * @param CreateMenuRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(CreateMenuRequest $request)
@@ -41,10 +45,27 @@ class MenuController extends Controller
 
         $params            = $request->all();
         $params['user_id'] = $this->user()->id;
-        $res               = $this->repository->store($params);
-        if (is_numeric($res)) {
-            return $this->suc(['id' => $res]);
+        $weBtns            = $this->repository->store($params);
+        if (is_array($weBtns)) {
+            Log::debug(__FUNCTION__ . ' we_btn_setting: ' . json_encode($weBtns));
+
+            try {
+                $appInfo         = current_weapp();
+                $officialAccount = Factory::openPlatform(config('wechat.open_platform.default'))->officialAccount($appInfo['app_id'], $appInfo['refresh_token']);
+                //$res             = $officialAccount->menu->create($weBtns);
+                $res['errcode'] = 0;
+                if ($res['errcode'] == Constant::FLASE_ZERO) {
+                    return $this->suc();
+                }
+
+                Log::error(__FUNCTION__ . ' ' . $res['errmsg']);
+            } catch (\Exception $e) {
+                Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+
+                return $this->err(FeedBack::CREATE_FAIL);
+            }
         }
+        Log::error(__FUNCTION__ . ' wrong we_btn_setting form ');
 
         return $this->err(FeedBack::CREATE_FAIL);
     }

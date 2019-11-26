@@ -52,4 +52,48 @@ class Constant
     // 临时二维码到期计算方式
     const QR_CODE_SHORT_TERM_BY_EXPIRE = 1;
     const QR_CODE_SHORT_TERM_BY_DATE   = 2;
+    // 自定义菜单-回复类型
+    const MENU_TYPE_TEXT     = 1;
+    const MENU_TYPE_NEWS     = 2;
+    const MENU_TYPE_IMAGE    = 3;
+    const MENU_TYPE_VOICE    = 4;
+    const MENU_TYPE_VIDEO    = 5;
+    const MENU_TYPE_LOCATION = 6;
+    const MENU_TYPE_LINK     = 7;
+    const MENU_TYPE_MINIAPP  = 8;
+    const MENU_TYPE_RWB      = 9;
+    const MENU_TYPE_PIN      = 10;
+    const MENU_TYPE_FEN      = 11;
+    const MENU_TYPE_QUAN     = 12;
+    const MENU_TYPE_CUSTOM   = 13;
+    const WECHAT_MSG_TYPE    = [
+        self::MENU_TYPE_TEXT => 'text',
+        self::MENU_TYPE_NEWS => 'news',
+        self::MENU_TYPE_IMAGE => 'image',
+        self::MENU_TYPE_VOICE => 'voice',
+        self::MENU_TYPE_VIDEO => 'video',
+        self::MENU_TYPE_LOCATION => 'location',
+        self::MENU_TYPE_LINK => 'view',
+        self::MENU_TYPE_MINIAPP => 'miniprogram',
+        self::MENU_TYPE_RWB => 'rwb',
+        self::MENU_TYPE_PIN => 'pin',
+        self::MENU_TYPE_FEN => 'fen',
+        self::MENU_TYPE_QUAN => 'quan',
+        self::MENU_TYPE_CUSTOM => 'click_event',
+    ];
+    const MENU_NEED_EVENT_TYPES = [
+        self::MENU_TYPE_TEXT,
+        self::MENU_TYPE_NEWS,
+        self::MENU_TYPE_IMAGE,
+        self::MENU_TYPE_VIDEO,
+        self::MENU_TYPE_VOICE,
+        self::MENU_TYPE_LOCATION,
+        self::MENU_TYPE_RWB,
+        self::MENU_TYPE_PIN,
+        self::MENU_TYPE_FEN,
+        self::MENU_TYPE_QUAN,
+        self::MENU_TYPE_CUSTOM,
+    ];
+    // app_id // type // id
+    const MENU_EVENT_KEY = 'sf:menu:event_key:%s:%d:%d';
 }

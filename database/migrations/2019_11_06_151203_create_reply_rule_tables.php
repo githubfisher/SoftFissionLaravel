@@ -45,17 +45,13 @@ class CreateReplyRuleTables extends Migration
         Schema::create('we_reply', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rule_id')->default(0);
-            $table->unsignedTinyInteger('difference')->default(1)->comment('是否区分男女: 1不区分 2区分');
+            $table->unsignedTinyInteger('difference')->default(0)->comment('是否区分男女: 0否 1是');
             $table->unsignedTinyInteger('reply_type')->nullable()->default(1)->comment('回复消息类型: 1文本 2图文 3图片 4音频 5视频 6位置 7链接 8小程序 9任务宝 10拼团 11分销 12优惠券');
             $table->unsignedTinyInteger('reply_type_female')->nullable()->default(1);
-            $table->text('content')->nullable();
+            $table->text('content')->nullable()->comment('文本或链接或素材ID或活动ID等');
             $table->text('content_female')->nullable();
-            $table->unsignedInteger('material_id')->nullable()->default(0)->comment('素材ID或活动ID');
-            $table->unsignedInteger('material_id_female')->nullable()->default(0);
-            $table->string('mini_app_id')->nullable()->comment('小程序APPID');
-            $table->string('mini_app_id_female')->nullable();
-            $table->string('url')->nullable()->comment('URL或小程序页面地址');
-            $table->string('url_female')->nullable();
+            $table->string('mini_appid')->nullable()->comment('小程序APPID');
+            $table->string('pagepath')->nullable()->comment('小程序页面路径');
             $table->timestamps();
 
             $table->foreign('rule_id')
