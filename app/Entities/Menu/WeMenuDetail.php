@@ -30,6 +30,6 @@ class WeMenuDetail extends Model implements Transformable
 
     public function rule()
     {
-        return $this->hasOne('App\Entities\Reply\WeRule', 'rule_id');
+        return $this->hasOne('App\Entities\Reply\WeRule', 'id', 'rule_id');
     }
 }
