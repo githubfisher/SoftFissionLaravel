@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
             // 开发所用扩展包在这里注册
             app()->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             app()->register(\Mnabialek\LaravelSqlLogger\Providers\ServiceProvider::class);
+            app()->register(\BeyondCode\QueryDetector\QueryDetectorServiceProvider::class);
         }
     }
 
