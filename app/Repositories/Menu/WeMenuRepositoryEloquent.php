@@ -114,7 +114,7 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                     $parents[$button['id']] = $key;
                 }
             }
-            $menus[$k] = array_merge($menus[$k]['details']);
+            $menus[$k]['details'] = array_merge($menus[$k]['details']);
         }
 
         return $menus;
