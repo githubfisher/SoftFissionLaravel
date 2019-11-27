@@ -251,7 +251,7 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                     }
 
                     // 无子按钮
-                    if (empty($button['subs'])) {
+                    if ( ! isset($button['subs']) || empty($button['subs'])) {
                         // 微信菜单配置项
                         $weBtnSetting = $this->getWeBtnSetting($params['appInfo']['app_id'], $button);
                         $weBtns[$key] = array_merge($weBtns[$key], $weBtnSetting);
