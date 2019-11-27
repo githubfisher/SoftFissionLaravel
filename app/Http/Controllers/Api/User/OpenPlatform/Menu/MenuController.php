@@ -27,7 +27,8 @@ class MenuController extends Controller
     {
         $this->authorize('view', WeMenu::class);
 
-        $list  = $this->repository->app(current_weapp()['app_id'])->with(['details', 'details.rule', 'details.rule.replies'])->get();
+        $list          = $this->repository->app(current_weapp()['app_id'])->with(['details', 'details.rule', 'details.rule.replies'])->get();
+        $list && $list = $this->repository->sortBtns($list);
 
         return $this->suc(compact('list'));
     }
@@ -36,7 +37,6 @@ class MenuController extends Controller
      * @param CreateMenuRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
-     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(CreateMenuRequest $request)
