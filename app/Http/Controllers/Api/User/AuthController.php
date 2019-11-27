@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api\User;
 
+use App\Notifications\ActivateMail;
 use Auth;
 use Carbon\Carbon;
 use App\Services\Sms;
@@ -39,6 +40,7 @@ class AuthController extends Controller
             $user = $repository->create(['email' => $request->get('email')]);
             if ($user) {
                 // 发送激活邮件
+                $user->notify(new ActivateMail($user));
 
                 return $this->suc();
             }
