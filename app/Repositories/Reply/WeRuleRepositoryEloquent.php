@@ -131,6 +131,7 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
                         $still[] = $keyword['id'];
                         $diff    = array_diff_assoc($keyword, Arr::only($ks[$keyword['id']], ['keyword', 'match_type']));
                         if ( ! empty($diff)) {
+                            Log::debug(__FUNCTION__ . ' ' . json_encode($keyword));
                             $keywordRepository->update($keyword, $keyword['id']);
                         }
                     } else {
@@ -202,7 +203,6 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
 
         return $this->store($params);
     }
-
 
     /**
      * 存储-关注回复
