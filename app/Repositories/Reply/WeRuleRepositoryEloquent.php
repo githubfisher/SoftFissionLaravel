@@ -132,6 +132,8 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
                 foreach ($keywords as $k => $keyword) {
                     if (isset($keyword['id']) && $keyword['id']) {
                         $still[] = $keyword['id'];
+                        Log::debug(__FUNCTION__ . ' keyword: ' . json_encode($keyword));
+                        Log::debug(__FUNCTION__ . ' old_keyword:' . json_encode($ks[$keyword['id']]));
                         $diff    = array_diff_assoc(Arr::only($keyword, $keywordCol), Arr::only($ks[$keyword['id']], $keywordCol));
                         if ( ! empty($diff)) {
                             Log::debug(__FUNCTION__ . ' ' . json_encode($diff));
