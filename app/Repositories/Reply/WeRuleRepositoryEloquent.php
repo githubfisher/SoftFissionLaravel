@@ -129,7 +129,7 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
                 foreach ($keywords as $k => $keyword) {
                     if (isset($keyword['id']) && $keyword['id']) {
                         $still[] = $keyword['id'];
-                        $diff    = array_diff_assoc($keyword, Arr::only($ks[$keyword['id']], ['keyword', 'match_type']));
+                        $diff    = array_diff_assoc($keyword, Arr::only($ks[$keyword['id']], ['id', 'keyword', 'match_type']));
                         if ( ! empty($diff)) {
                             Log::debug(__FUNCTION__ . ' ' . json_encode($diff));
                             $keywordRepository->update($diff, $keyword['id']);
@@ -153,7 +153,7 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
             foreach ($replies as $k => $reply) {
                 if (isset($reply['id']) && $reply['id']) {
                     $still[] = $reply['id'];
-                    $diff    = array_diff_assoc($reply, Arr::only($rp[$reply['id']], ['difference', 'reply_type', 'reply_type_female', 'content', 'content_female', 'material_id', 'material_id_female']));
+                    $diff    = array_diff_assoc($reply, Arr::only($rp[$reply['id']], ['id', 'difference', 'reply_type', 'reply_type_female', 'content', 'content_female', 'material_id', 'material_id_female']));
                     if ( ! empty($diff)) {
                         $replyRepository->update($diff, $reply['id']);
                         // 引用计数 TODO
