@@ -5,6 +5,7 @@ use App\Utilities\Constant;
 use App\Criteria\MyCriteria;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\Message\SetReadRequest;
 use App\Repositories\Message\SiteMailRepositoryEloquent;
@@ -24,13 +25,12 @@ class MailController extends Controller
      * @param PaginateRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function index(PaginateRequest $request)
     {
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $this->repository->pushCriteria(MyCriteria::class);
-        $list  = $this->repository->guard(config('auth.defaults.guard'))->simplePaginate($limit);
+        $user  = Auth::user();
+        $list  = $user->notifications()->simplePaginate($limit);
 
         return $this->suc(compact('list'));
     }
