@@ -70,10 +70,9 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
         ];
 
         if (in_array($button['type'], Constant::MENU_NEED_EVENT_TYPES)) {
-            $btnId              = ! empty($oldBtn) ? $oldBtn['id'] : isset($button['id']) ? $button['id'] : 0;
             $params['keywords'] = [[
                 'id'         => empty($oldBtn) ? Constant::FLASE_ZERO : $oldBtn['rule']['keywords'][Constant::FLASE_ZERO]['id'],
-                'keyword'    => sprintf(Constant::MENU_EVENT_KEY, $appId, $button['type'], $btnId),
+                'keyword'    => sprintf(Constant::MENU_EVENT_KEY, $appId, $button['type'], $button['id']),
                 'match_type' => Constant::TRUE_ONE,
             ]];
         }
@@ -237,7 +236,7 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                     // 父按钮
                     $update = $list && isset($list[$i]['details'][$key]) ? true : false;
                     if ($update) {
-                        $pid = $list[$i]['details'][$key]['id'];
+                        $button['id'] = $pid = $list[$i]['details'][$key]['id'];
                         $detailRepository->update(['name' => $button['name']], $pid);
                         $ruleRepository->updateRule($list[$i]['details'][$key]['rule']['id'], $this->getRuleParams($params['appInfo']['app_id'], $button, $list[$i]['details'][$key]));
                     } else {
@@ -266,7 +265,7 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                         foreach ($button['subs'] as $k =>  $sub) {
                             $update = $list && isset($list[$i]['details'][$key]['subs'][$k]) ? true : false;
                             if ($update) {
-                                $theDetailId = $list[$i]['details'][$key]['subs'][$k]['id'];
+                                $sub['id'] = $theDetailId = $list[$i]['details'][$key]['subs'][$k]['id'];
                                 $detailRepository->update(['name' => $button['name']], $theDetailId);
                                 $ruleRepository->updateRule($list[$i]['details'][$key]['subs'][$k]['rule']['id'], $this->getRuleParams($params['appInfo']['app_id'], $sub, $list[$i]['details'][$key]['subs'][$k]));
                             } else {
