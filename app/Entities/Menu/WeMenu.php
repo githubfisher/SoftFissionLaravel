@@ -18,6 +18,7 @@ class WeMenu extends Model implements Transformable
         'app_id',
         'type',
         'filter',
+        'status',
     ];
     protected $hidden  = [];
     protected $guarded = ['id'];

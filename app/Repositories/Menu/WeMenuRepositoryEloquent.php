@@ -48,14 +48,16 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
         return 'App\\Validators\\Menu\\MenuValidator';
     }
 
-    private function getRuleParams($appId, $button)
+    private function getRuleParams(string $appId, array $button, array $oldBtn = [])
     {
         $params = [
+            'id'         => empty($oldBtn) ? 0 : $oldBtn['rule']['id'],
             'app_id'     => $appId,
-            'title'      => '自定义菜单',
+            'title'      => Constant::MENU_RULE_TITLE,
             'scene'      => Constant::REPLY_RULE_SCENE_CLICK,
-            'keywords'   => [],
+            'keywords'   => [['keyword' => Constant::MENU_RULE_KEYWORD, 'match_type' => Constant::TRUE_ONE]],
             'replies'    => [[
+                'id'                => empty($oldBtn) ? Constant::FLASE_ZERO : $oldBtn['rule']['replies'][Constant::FLASE_ZERO]['id'],
                 'difference'        => $button['difference'],
                 'reply_type'        => $button['type'],
                 'reply_type_female' => $button['type'],
@@ -68,7 +70,8 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
         ];
 
         if (in_array($button['type'], Constant::MENU_NEED_EVENT_TYPES)) {
-            $params['keywords'][] = [
+            $params['keywords'][Constant::FLASE_ZERO] = [
+                'id'         => empty($oldBtn) ? Constant::FLASE_ZERO : $oldBtn['rule']['keywords'][Constant::FLASE_ZERO]['id'],
                 'keyword'    => sprintf(Constant::MENU_EVENT_KEY, $appId, $button['type'], $button['id']),
                 'match_type' => Constant::TRUE_ONE,
             ];
@@ -77,7 +80,7 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
         return $params;
     }
 
-    private function getWeBtnSetting($appId, $button)
+    private function getWeBtnSetting(string $appId, array $button)
     {
         $setting = [];
         $type    = Constant::WECHAT_MSG_TYPE[$button['type']];
@@ -99,6 +102,97 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
         return $setting;
     }
 
+    public function sortBtns(array $menus)
+    {
+        foreach ($menus as $k => $menu) {
+            $parents = [];
+            foreach ($menu as $key => $button) {
+                if ($button['pid'] != 0) {
+                    $menus[$k][$parents[$button['pid']]]['subs'][] = $button;
+                    unset($menus[$k][$key]);
+                } else {
+                    $parents[$button['id']] = $key;
+                }
+            }
+        }
+
+        return $menus;
+    }
+
+    private function getEmptyBtn()
+    {
+        return [
+            'difference' => Constant::FLASE_ZERO,
+            'type'       => Constant::MENU_TYPE_LINK,
+            'content'    => '',
+        ];
+    }
+
+    private function coverSonPlace(string $appId, int $menuId, int $pid, int $detLen, $list = false)
+    {
+        $ruleRepository   = app()->make(WeRuleRepositoryEloquent::class);
+        $detailRepository = app()->make(WeMenuDetailRepositoryEloquent::class);
+
+        for ($i = $detLen; $i < 5; $i++) {
+            $update = $list && isset($list[$i]) ? true : false;
+            if ($update) {
+                $detailRepository->update(['status'  => Constant::FLASE_ZERO], $list[$i]['id']);
+            } else {
+                $theDetail = $detailRepository->create([
+                    'menu_id' => $menuId,
+                    'pid'     => $pid,
+                    'rule_id' => Constant::FLASE_ZERO,
+                    'name'    => Constant::MENU_SUB_NAME,
+                    'status'  => Constant::FLASE_ZERO,
+                ]);
+
+                // 回复规则
+                $ruleId = $ruleRepository->store($this->getRuleParams($appId, $this->getEmptyBtn()));
+                $detailRepository->update(['rule_id' => $ruleId], $theDetail->id);
+            }
+        }
+    }
+
+    private function coverParentPlace($appId, $menuId, $btnLen, $list)
+    {
+        $ruleRepository   = app()->make(WeRuleRepositoryEloquent::class);
+        $detailRepository = app()->make(WeMenuDetailRepositoryEloquent::class);
+
+        for ($i = $btnLen; $i < 3; $i++) {
+            $update = $list && isset($list[$i]) ? true : false;
+            if ($update) {
+                $detailRepository->update(['status'  => Constant::FLASE_ZERO], $list[$i]['id']);
+
+                $this->coverSonPlace($appId, $menuId, $list[$i]['id'], Constant::FLASE_ZERO, $list[$i]['subs']);
+            } else {
+                $parent = $detailRepository->create([
+                    'menu_id' => $menuId,
+                    'rule_id' => Constant::FLASE_ZERO,
+                    'name'    => Constant::MENU_BTN_NAME,
+                    'status'  => Constant::FLASE_ZERO,
+                ]);
+
+                // 回复规则
+                $ruleId = $ruleRepository->store($this->getRuleParams($appId, $this->getEmptyBtn()));
+                $detailRepository->update(['rule_id' => $ruleId], $parent->id);
+
+                $this->coverSonPlace($appId, $menuId, $parent->id, Constant::FLASE_ZERO);
+            }
+        }
+    }
+
+    /**
+     * 创建|更新一体方法
+     * 自定义菜单|个性化菜单一体方法
+     * {"menus":[{"buttons":[{button},{button},{button}],"filter":{}}, {...}]}
+     * 每个menu占用3个按钮,每个按钮占用5个子菜单; menu,button,sub均有status标识启用状态
+     * 每次调用接口, 传入所有menus, 一次性创建或更新;
+     *
+     * @param array $params
+     *
+     * @return array|bool
+     * @throws \Exception
+     */
     public function store(array $params)
     {
         // 微信自定义菜单接口参数
@@ -107,66 +201,96 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
         DB::beginTransaction();
 
         try {
-            foreach ($params['menus'] as $menu) {
-                $ruleRepository   = app()->make(WeRuleRepositoryEloquent::class);
-                $detailRepository = app()->make(WeMenuDetailRepositoryEloquent::class);
+            // 取旧菜单设置
+            $list          = $this->app($params['appInfo']['app_id'])->with(['details', 'details.rule', 'details.rule.replies'])->get();
+            $list && $list = $this->sortBtns($list);
 
+            $ruleRepository   = app()->make(WeRuleRepositoryEloquent::class);
+            $detailRepository = app()->make(WeMenuDetailRepositoryEloquent::class);
+
+            foreach ($params['menus'] as $i =>  $menu) {
                 // 创建自定义菜单 // 个性化菜单 | type
-                $theMenu = $this->create([
-                    'app_id' => $params['appInfo']['app_id'],
+                $menuInfo = [
                     'type'   => $menu['type'],
                     'filter' => $menu['type'] == 2 ? $menu['filter'] : null,
-                ]);
+                    'status' => Constant::TRUE_ONE,
+                ];
 
-                // 创建菜单
+                $update = $list && isset($list[$i]) ? true : false;
+                if ($update) {
+                    $theMenuId = $list[$i]['id'];
+                    $this->update($menuInfo, $theMenuId);
+                } else {
+                    $menuInfo['app_id'] = $params['appInfo']['app_id'];
+                    $theMenu            = $this->create($menuInfo);
+                    $theMenuId          = $theMenu->id;
+                }
+
+                // 按钮创建|更新
                 foreach ($menu['buttons'] as $key => $button) {
                     $weBtns[$key]['name'] = $button['name'];
 
-                    // 无子菜单
-                    if (empty($button['subs'])) {
-                        $theDetail = $detailRepository->create([
-                            'menu_id' => $theMenu->id,
-                            'rule_id' => Constant::FLASE_ZERO,
+                    // 父按钮
+                    $update = $list && isset($list[$i][$key]) ? true : false;
+                    if ($update) {
+                        $pid = $list[$i][$key]['id'];
+                        $detailRepository->update(['name' => $button['name']], $pid);
+                        $ruleRepository->updateRule($list[$i][$key]['rule']['id'], $this->getRuleParams($params['appInfo']['app_id'], $button, $list[$i][$key]));
+                    } else {
+                        $parent = $detailRepository->create([
+                            'menu_id' => $theMenuId,
                             'name'    => $button['name'],
+                            'rule_id' => Constant::FLASE_ZERO,
                         ]);
-                        $button['id'] = $theDetail->id;
+                        $button['id'] = $pid = $parent->id;
 
-                        // 微信设置
+                        // 回复规则
+                        $ruleId = $ruleRepository->store($this->getRuleParams($params['appInfo']['app_id'], $button));
+                        $detailRepository->update(['rule_id' => $ruleId], $parent->id);
+                    }
+
+                    // 无子按钮
+                    if (empty($button['subs'])) {
+                        // 微信菜单配置项
                         $weBtnSetting = $this->getWeBtnSetting($params['appInfo']['app_id'], $button);
                         $weBtns[$key] = array_merge($weBtns[$key], $weBtnSetting);
 
-                        if (in_array($button['type'], Constant::MENU_NEED_EVENT_TYPES)) {
-                            $ruleId = $ruleRepository->store($this->getRuleParams($params['appInfo']['app_id'], $button));
-                            $detailRepository->update(['rule_id' => $ruleId], $theDetail->id);
-                        }
+                        // 子按钮占位
+                        $this->coverSonPlace($params['appInfo']['app_id'], $theMenuId, $pid, Constant::FLASE_ZERO);
                     } else {
-                        // 主菜单
-                        $theBtn = $detailRepository->create([
-                            'menu_id' => $theMenu->id,
-                            'name'    => $button['name'],
-                        ]);
-
-                        // 子菜单
+                        // 子按钮
                         foreach ($button['subs'] as $k =>  $sub) {
-                            $theDetail = $detailRepository->create([
-                                'menu_id' => $theMenu->id,
-                                'pid'     => $theBtn->id,
-                                'rule_id' => Constant::FLASE_ZERO,
-                                'name'    => $sub['name'],
-                            ]);
-                            $sub['id'] = $theDetail->id;
+                            $update = $list && isset($list[$i][$key]['subs'][$k]) ? true : false;
+                            if ($update) {
+                                $theDetailId = $list[$i][$key]['subs'][$k]['id'];
+                                $detailRepository->update(['name' => $button['name']], $theDetailId);
+                                $ruleRepository->updateRule($list[$i][$key]['subs'][$k]['rule']['id'], $this->getRuleParams($params['appInfo']['app_id'], $sub, $list[$i][$key]['subs'][$k]));
+                            } else {
+                                $theDetail = $detailRepository->create([
+                                    'menu_id' => $theMenuId,
+                                    'pid'     => $pid,
+                                    'rule_id' => Constant::FLASE_ZERO,
+                                    'name'    => $sub['name'],
+                                ]);
+                                $sub['id'] = $theDetailId = $theDetail->id;
 
-                            // 微信设置
+                                // 回复规则
+                                $ruleId = $ruleRepository->store($this->getRuleParams($params['appInfo']['app_id'], $sub));
+                                $detailRepository->update(['rule_id' => $ruleId], $theDetailId);
+                            }
+
+                            // 微信菜单配置项
                             $weBtns[$key]['sub_button'][$k]         = $this->getWeBtnSetting($params['appInfo']['app_id'], $sub);
                             $weBtns[$key]['sub_button'][$k]['name'] = $sub['name'];
-
-                            if (in_array($sub['type'], Constant::MENU_NEED_EVENT_TYPES)) {
-                                $ruleId = $ruleRepository->store($this->getRuleParams($params['appInfo']['app_id'], $sub));
-                                $detailRepository->update(['rule_id' => $ruleId], $theDetail->id);
-                            }
                         }
+
+                        // 子按钮占位
+                        $this->coverSonPlace($params['appInfo']['app_id'], $theMenuId, $pid, count($button['subs']), $list[$i][$key]['subs']);
                     }
                 }
+
+                // 父按钮占位
+                $this->coverParentPlace($params['appInfo']['app_id'], $theMenuId, count($menu['buttons']), $list);
             }
         } catch (\Exception $e) {
             DB::rollBack();

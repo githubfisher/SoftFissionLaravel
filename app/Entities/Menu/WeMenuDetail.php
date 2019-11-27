@@ -19,6 +19,7 @@ class WeMenuDetail extends Model implements Transformable
         'pid',
         'rule_id',
         'name',
+        'status',
     ];
     protected $hidden  = [];
     protected $guarded = ['id'];
