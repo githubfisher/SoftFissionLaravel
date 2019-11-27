@@ -51,7 +51,7 @@ class MenuController extends Controller
             Log::debug(__FUNCTION__ . ' we_btn_setting: ' . json_encode($weBtns));
 
             try {
-                $officialAccount = Factory::openPlatform(config('wechat.open_platform.default'))->officialAccount($params['appInfo']['app_id'], $params['appInfo']['refresh_token']);
+                //$officialAccount = Factory::openPlatform(config('wechat.open_platform.default'))->officialAccount($params['appInfo']['app_id'], $params['appInfo']['refresh_token']);
                 //$res             = $officialAccount->menu->create($weBtns);
                 $res['errcode'] = 0;
                 if ($res['errcode'] == Constant::FLASE_ZERO) {
