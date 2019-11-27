@@ -103,11 +103,7 @@ $api->version('v1', [
         });
 
         // 站内信
-        $api->group(['prefix' => '/mail'], function (\Dingo\Api\Routing\Router $api) {
-            $api->get('', 'Message\MailController@index');
-            $api->get('unread', 'Message\MailController@unread');
-            $api->put('read', 'Message\MailController@setRead');
-        });
+        $api->resource('mail', 'Message\MailController');
 
         // 关键词回复规则
         $api->resource('open/rule', 'User\OpenPlatform\AutoReply\RuleController');
@@ -132,7 +128,6 @@ $api->version('v1', [
         $api->resource('open/material/voice', 'User\OpenPlatform\Material\VoiceController');
         $api->resource('open/material/video', 'User\OpenPlatform\Material\VideoController');
         $api->resource('open/material/thumb', 'User\OpenPlatform\Material\ThumbController');
-
     });
 
     // 管理后台

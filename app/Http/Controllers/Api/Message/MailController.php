@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Message;
 use App\Utilities\Constant;
 use App\Criteria\MyCriteria;
 use Illuminate\Http\Request;
+use App\Notifications\welcome;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PaginateRequest;
@@ -63,5 +64,38 @@ class MailController extends Controller
         $this->repository->guard(config('auth.defaults.guard'))->updateWhere(['id', $request->input('ids')], ['status' => Constant::TRUE_ONE]);
 
         return $this->suc();
+    }
+
+    public function create()
+    {
+        //
+    }
+
+    public function store()
+    {
+        $user = Auth::user();
+        $user->notify(new Welcome($user));
+
+        return $this->suc();
+    }
+
+    public function show($id)
+    {
+        //
+    }
+
+    public function edit($id)
+    {
+        //
+    }
+
+    public function update($id)
+    {
+        //
+    }
+
+    public function destroy($id)
+    {
+        //
     }
 }
