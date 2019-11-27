@@ -129,13 +129,13 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
         ];
     }
 
-    private function coverSonPlace(string $appId, int $menuId, int $pid, int $detLen, $list = false)
+    private function coverSonPlace(string $appId, int $menuId, int $pid, int $detLen, array $list = [])
     {
         $ruleRepository   = app()->make(WeRuleRepositoryEloquent::class);
         $detailRepository = app()->make(WeMenuDetailRepositoryEloquent::class);
 
         for ($i = $detLen; $i < 5; $i++) {
-            $update = $list && isset($list[$i]) ? true : false;
+            $update = isset($list[$i]) ? true : false;
             if ($update) {
                 $detailRepository->update(['status'  => Constant::FLASE_ZERO], $list[$i]['id']);
             } else {
@@ -259,7 +259,8 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                         $weBtns[$key] = array_merge($weBtns[$key], $weBtnSetting);
 
                         // 子按钮占位
-                        $this->coverSonPlace($params['appInfo']['app_id'], $theMenuId, $pid, Constant::FLASE_ZERO);
+                        $oldSubs = $list && isset($list[$i]['details'][$key]['subs']) ? $list[$i]['details'][$key]['subs'] : [];
+                        $this->coverSonPlace($params['appInfo']['app_id'], $theMenuId, $pid, Constant::FLASE_ZERO, $oldSubs);
                     } else {
                         // 子按钮
                         foreach ($button['subs'] as $k =>  $sub) {
@@ -288,7 +289,8 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                         }
 
                         // 子按钮占位
-                        $this->coverSonPlace($params['appInfo']['app_id'], $theMenuId, $pid, count($button['subs']), $list[$i]['details'][$key]['subs']);
+                        $oldSubs = $list && isset($list[$i]['details'][$key]['subs']) ? $list[$i]['details'][$key]['subs'] : [];
+                        $this->coverSonPlace($params['appInfo']['app_id'], $theMenuId, $pid, count($button['subs']), $oldSubs);
                     }
                 }
 
