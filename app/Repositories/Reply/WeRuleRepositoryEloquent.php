@@ -54,6 +54,7 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
      * @param $params
      *
      * @return bool
+     * @throws \Exception
      */
     public function store($params)
     {
@@ -99,6 +100,7 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
      * @param $params
      *
      * @return bool
+     * @throws \Exception
      */
     public function updateRule($id, $params)
     {
@@ -197,6 +199,7 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
      * @param $params
      *
      * @return bool
+     * @throws \Exception
      */
     public function storeAnyRule($params)
     {
@@ -212,6 +215,7 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
      * @param $params
      *
      * @return bool
+     * @throws \Exception
      */
     public function storeSubscribeRule($params)
     {
