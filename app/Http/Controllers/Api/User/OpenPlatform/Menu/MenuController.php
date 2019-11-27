@@ -31,7 +31,7 @@ class MenuController extends Controller
         $list                   = $list->toArray();
         ! empty($list) && $list = $this->repository->sortBtns($list);
 
-        return $this->suc(compact('list'));
+        return $this->suc($list);
     }
 
     /**

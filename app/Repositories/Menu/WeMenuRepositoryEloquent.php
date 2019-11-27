@@ -202,8 +202,9 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
 
         try {
             // 取旧菜单设置
-            $list          = $this->app($params['appInfo']['app_id'])->with(['details', 'details.rule', 'details.rule.replies'])->get();
-            $list && $list = $this->sortBtns($list);
+            $list                   = $this->app($params['appInfo']['app_id'])->with(['details', 'details.rule', 'details.rule.replies'])->get();
+            $list                   = $list->toArray();
+            ! empty($list) && $list = $this->repository->sortBtns($list);
 
             $ruleRepository   = app()->make(WeRuleRepositoryEloquent::class);
             $detailRepository = app()->make(WeMenuDetailRepositoryEloquent::class);
