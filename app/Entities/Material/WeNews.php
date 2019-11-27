@@ -15,7 +15,6 @@ class WeNews extends Model implements Transformable
     use TransformableTrait;
 
     protected $fillable = [
-        'user_id',
         'app_id',
         'media_id',
     ];

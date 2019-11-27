@@ -1,16 +1,11 @@
 <?php
 namespace App\Http\Controllers\Api\User\OpenPlatform\Material;
 
-use DB;
-use Log;
 use App\Utilities\Constant;
-use App\Utilities\FeedBack;
-use App\Criteria\MyCriteria;
+use App\Entities\Material\WeNews;
 use App\Http\Controllers\Controller;
-use App\Models\User\Material\News as Material;
+use App\Http\Requests\PaginateRequest;
 use App\Repositories\Material\NewsRepositoryEloquent;
-use App\Repositories\Material\NewsDetailRepositoryEloquent;
-use App\Http\Requests\User\OpenPlatform\Material\NewsRequest;
 use App\Http\Requests\User\OpenPlatform\Material\CreateNewsRequest;
 
 /**
@@ -27,15 +22,18 @@ class NewsController extends Controller
         $this->repository = $repository;
     }
 
-    public function index(NewsRequest $request)
+    /**
+     * @param PaginateRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function index(PaginateRequest $request)
     {
-        $this->authorize('view', Material::class);
+        $this->authorize('view', WeNews::class);
 
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $this->repository->pushCriteria(MyCriteria::class);
-        $list = $this->repository->with(['details'])->scopeQuery(function ($query) use ($request) {
-            return $query->where('app_id', $request->input('app_id'));
-        })->paginate($limit);
+        $list  = $this->repository->app(current_weapp()['app_id'])->with(['details'])->paginate($limit);
 
         return $this->suc(compact('list'));
     }
@@ -45,47 +43,34 @@ class NewsController extends Controller
         //
     }
 
-    public function store(CreateNewsRequest $request, NewsDetailRepositoryEloquent $repository)
+    /**
+     * @param CreateNewsRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function store(CreateNewsRequest $request)
     {
-        $this->authorize('create', Material::class);
+        $this->authorize('create', WeNews::class);
 
-        $params            = $request->all();
-        $params['user_id'] = $this->user()->id;
+        $params           = $request->all();
+        $params['app_id'] = current_weapp()['app_id'];
+        $id               = $this->repository->store($params);
 
-        DB::beginTransaction();
-
-        try {
-            $data = [
-                'user_id' => $params['user_id'],
-                'app_id'  => $params['app_id'],
-            ];
-            $news = $this->repository->create($data);
-
-            foreach ($params['details'] as $key => $detail) {
-                $detail['news_id'] = $news->id;
-                $detail['sort']    = $key;
-                $repository->create($detail);
-            }
-
-            // 关联海报, 图片 TODO
-        } catch (\Exception $e) {
-            Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
-            DB::rollBack();
-
-            return $this->err(FeedBack::CREATE_FAIL);
-        }
-
-        DB::commit();
-
-        return $this->suc(['id' => $news->id]);
+        return $this->suc(compact('id'));
     }
 
-    public function show(NewsRequest $request, $id)
+    /**
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function show($id)
     {
-        $this->authorize('view', Material::class);
+        $this->authorize('view', WeNews::class);
 
-        $this->repository->pushCriteria(MyCriteria::class);
-        $data = $this->repository->app($request->input('app_id'))->with('details')->findOrFail($id);
+        $data = $this->repository->app(current_weapp()['app_id'])->with('details')->findOrFail($id);
 
         return $this->suc(compact('data'));
     }
@@ -104,11 +89,11 @@ class NewsController extends Controller
      */
     public function update(CreateNewsRequest $request, $id)
     {
-        $this->authorize('update', Material::class);
+        $this->authorize('update', WeNews::class);
 
-        $params            = $request->all();
-        $params['user_id'] = $this->user()->id;
-        $res               = $this->repository->update($id, $params);
+        $params           = $request->all();
+        $params['app_id'] = current_weapp()['app_id'];
+        $res              = $this->repository->updateNews($params, $id);
         if ($res === true) {
             return $this->suc();
         }
@@ -117,17 +102,16 @@ class NewsController extends Controller
     }
 
     /**
-     * @param NewsRequest $request
-     * @param             $id
+     * @param $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy(NewsRequest $request, $id)
+    public function destroy($id)
     {
-        $this->authorize('delete', Material::class);
+        $this->authorize('delete', WeNews::class);
 
-        $res = $this->repository->destory($id, $this->user()->id, $request->input('app_id'));
+        $res = $this->repository->destory($id, current_weapp()['app_id']);
         if ($res === true) {
             return $this->suc();
         }
