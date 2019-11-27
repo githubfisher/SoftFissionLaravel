@@ -70,9 +70,10 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
         ];
 
         if (in_array($button['type'], Constant::MENU_NEED_EVENT_TYPES)) {
+            $btnId              = ! empty($oldBtn) ? $oldBtn['id'] : isset($button['id']) ? $button['id'] : 0;
             $params['keywords'] = [[
                 'id'         => empty($oldBtn) ? Constant::FLASE_ZERO : $oldBtn['rule']['keywords'][Constant::FLASE_ZERO]['id'],
-                'keyword'    => sprintf(Constant::MENU_EVENT_KEY, $appId, $button['type'], $button['id']),
+                'keyword'    => sprintf(Constant::MENU_EVENT_KEY, $appId, $button['type'], $btnId),
                 'match_type' => Constant::TRUE_ONE,
             ]];
         }
