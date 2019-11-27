@@ -99,5 +99,5 @@ class Constant
     const MENU_BTN_NAME = '菜单名称';
     const MENU_SUB_NAME = '子菜单名称';
     const MENU_RULE_TITLE = '自定义菜单';
-    const MENU_RULE_KEYWORD = '自定义菜单-keyword';
+    const MENU_RULE_KEYWORD = '自定义菜单关键词';
 }
