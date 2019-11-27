@@ -36,7 +36,7 @@ class CreateWeQrcodeRequest extends FormRequest
     {
         return [
             'app_id'                       => ['required', new AppIdRule],
-            'title'                        => 'sometimes|required|string',
+            'title'                        => ['sometimes', 'required', 'string'],
             'replies'                      => ['required', new RepliesRule],
             'replies.*.difference'         => ['required', new DifferenceRule],
             'replies.*.reply_type'         => ['sometimes', 'nullable', new ReplyTypeRule],
@@ -52,7 +52,7 @@ class CreateWeQrcodeRequest extends FormRequest
             'type'                         => ['required', new TypeRule],
             'expire_type'                  => ['required_if:type,1', new ExpireTypeRule],
             'expire_in'                    => ['required_if:expire_type,1', new ExpireInRule],
-            'expire_at'                    => 'required_if:expire_type,2|date',
+            'expire_at'                    => ['required_if:expire_type,2', 'date'],
         ];
     }
 }

@@ -23,7 +23,7 @@ class PermissionValidator extends LaravelValidator
         ],
         ValidatorInterface::RULE_UPDATE => [
             'name'       => ['required', 'string', 'max:64', 'alpha_dash'],
-            'guard_name' => ['sometimes|required', 'string', 'max:64', 'alpha_num'],
+            'guard_name' => ['sometimes', 'required', 'string', 'max:64', 'alpha_num'],
         ],
     ];
 }
