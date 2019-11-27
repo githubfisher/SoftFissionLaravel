@@ -1,10 +1,9 @@
 <?php
 namespace App\Http\Controllers\Api\Message;
-
+    
 use App\Utilities\Constant;
 use App\Criteria\MyCriteria;
-use Illuminate\Http\Request;
-use App\Notifications\welcome;
+use App\Notifications\Welcome;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PaginateRequest;
