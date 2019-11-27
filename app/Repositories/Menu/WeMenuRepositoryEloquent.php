@@ -187,6 +187,7 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
      * 自定义菜单|个性化菜单一体方法
      * {"menus":[{"buttons":[{button},{button},{button}],"filter":{}}, {...}]}
      * 每个menu占用3个按钮,每个按钮占用5个子菜单; menu,button,sub均有status标识启用状态
+     * 顺序: 自定义菜单, 个性化菜单, 个性化菜单, ...
      * 每次调用接口, 传入所有menus, 一次性创建或更新;
      *
      * @param array $params
@@ -213,7 +214,7 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
             foreach ($params['menus'] as $i =>  $menu) {
                 // 创建自定义菜单 // 个性化菜单 | type
                 $menuInfo = [
-                    'type'   => $menu['type'],
+                    'type'   => $i == Constant::FLASE_ZERO ? Constant::TRUE_ONE : $menu['type'],
                     'filter' => $menu['type'] == 2 ? $menu['filter'] : null,
                     'status' => Constant::TRUE_ONE,
                 ];
@@ -233,11 +234,11 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                     $weBtns[$key]['name'] = $button['name'];
 
                     // 父按钮
-                    $update = $list && isset($list[$i][$key]) ? true : false;
+                    $update = $list && isset($list[$i]['details'][$key]) ? true : false;
                     if ($update) {
-                        $pid = $list[$i][$key]['id'];
+                        $pid = $list[$i]['details'][$key]['id'];
                         $detailRepository->update(['name' => $button['name']], $pid);
-                        $ruleRepository->updateRule($list[$i][$key]['rule']['id'], $this->getRuleParams($params['appInfo']['app_id'], $button, $list[$i][$key]));
+                        $ruleRepository->updateRule($list[$i]['details'][$key]['rule']['id'], $this->getRuleParams($params['appInfo']['app_id'], $button, $list[$i]['details'][$key]));
                     } else {
                         $parent = $detailRepository->create([
                             'menu_id' => $theMenuId,
@@ -262,11 +263,11 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                     } else {
                         // 子按钮
                         foreach ($button['subs'] as $k =>  $sub) {
-                            $update = $list && isset($list[$i][$key]['subs'][$k]) ? true : false;
+                            $update = $list && isset($list[$i]['details'][$key]['subs'][$k]) ? true : false;
                             if ($update) {
-                                $theDetailId = $list[$i][$key]['subs'][$k]['id'];
+                                $theDetailId = $list[$i]['details'][$key]['subs'][$k]['id'];
                                 $detailRepository->update(['name' => $button['name']], $theDetailId);
-                                $ruleRepository->updateRule($list[$i][$key]['subs'][$k]['rule']['id'], $this->getRuleParams($params['appInfo']['app_id'], $sub, $list[$i][$key]['subs'][$k]));
+                                $ruleRepository->updateRule($list[$i]['details'][$key]['subs'][$k]['rule']['id'], $this->getRuleParams($params['appInfo']['app_id'], $sub, $list[$i]['details'][$key]['subs'][$k]));
                             } else {
                                 $theDetail = $detailRepository->create([
                                     'menu_id' => $theMenuId,
@@ -287,12 +288,12 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
                         }
 
                         // 子按钮占位
-                        $this->coverSonPlace($params['appInfo']['app_id'], $theMenuId, $pid, count($button['subs']), $list[$i][$key]['subs']);
+                        $this->coverSonPlace($params['appInfo']['app_id'], $theMenuId, $pid, count($button['subs']), $list[$i]['details'][$key]['subs']);
                     }
                 }
 
                 // 父按钮占位
-                $this->coverParentPlace($params['appInfo']['app_id'], $theMenuId, count($menu['buttons']), $list);
+                $this->coverParentPlace($params['appInfo']['app_id'], $theMenuId, count($menu['buttons']), $list[$i]['details']);
             }
         } catch (\Exception $e) {
             DB::rollBack();
