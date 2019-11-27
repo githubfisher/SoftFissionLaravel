@@ -131,8 +131,8 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
                         $still[] = $keyword['id'];
                         $diff    = array_diff_assoc($keyword, Arr::only($ks[$keyword['id']], ['keyword', 'match_type']));
                         if ( ! empty($diff)) {
-                            Log::debug(__FUNCTION__ . ' ' . json_encode($keyword));
-                            $keywordRepository->update($keyword, $keyword['id']);
+                            Log::debug(__FUNCTION__ . ' ' . json_encode($diff));
+                            $keywordRepository->update($diff, $keyword['id']);
                         }
                     } else {
                         $keyword['rule_id'] = $id;
@@ -155,7 +155,7 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
                     $still[] = $reply['id'];
                     $diff    = array_diff_assoc($reply, Arr::only($rp[$reply['id']], ['difference', 'reply_type', 'reply_type_female', 'content', 'content_female', 'material_id', 'material_id_female']));
                     if ( ! empty($diff)) {
-                        $replyRepository->update($reply, $reply['id']);
+                        $replyRepository->update($diff, $reply['id']);
                         // 引用计数 TODO
                     }
                 } else {

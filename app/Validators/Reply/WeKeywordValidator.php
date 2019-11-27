@@ -22,8 +22,8 @@ class WeKeywordValidator extends LaravelValidator
             'match_type' => ['required', 'integer', 'in:1,2'],
         ],
         ValidatorInterface::RULE_UPDATE => [
-            'keyword'    => ['sometimes', 'required', 'string', 'max:64', 'alpha_dash'],
-            'match_type' => ['sometimes', 'required', 'integer', 'in:1,2'],
+            'keyword'    => ['sometimes', 'string', 'max:64', 'alpha_dash'],
+            'match_type' => ['sometimes', 'integer', 'in:1,2'],
         ],
     ];
 }
