@@ -104,13 +104,12 @@ class WeMenuRepositoryEloquent extends BaseRepository implements CacheableInterf
 
     public function sortBtns(array $menus)
     {
-        dd($menus);
         foreach ($menus as $k => $menu) {
             $parents = [];
-            foreach ($menu as $key => $button) {
+            foreach ($menu['details'] as $key => $button) {
                 if ($button['pid'] != 0) {
-                    $menus[$k][$parents[$button['pid']]]['subs'][] = $button;
-                    unset($menus[$k][$key]);
+                    $menus[$k]['details'][$parents[$button['pid']]]['subs'][] = $button;
+                    unset($menus[$k]['details'][$key]);
                 } else {
                     $parents[$button['id']] = $key;
                 }
