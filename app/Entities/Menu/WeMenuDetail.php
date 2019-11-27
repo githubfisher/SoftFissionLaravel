@@ -1,7 +1,7 @@
 <?php
 namespace App\Entities\Menu;
 
-use App\Models\Model;
+use App\Entities\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 

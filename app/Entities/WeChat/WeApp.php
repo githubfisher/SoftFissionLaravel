@@ -1,7 +1,7 @@
 <?php
 namespace App\Entities\WeChat;
 
-use App\Models\Model;
+use App\Entities\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
