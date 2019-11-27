@@ -3,9 +3,7 @@ namespace App\Http\Controllers\Api\User\OpenPlatform\Material;
 
 use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\Material\Video;
-use App\Models\User\Material\Video as Videos;
-use App\Http\Requests\User\OpenPlatform\Material\VideoRequest;
+use App\Repositories\Material\VideoRepositoryEloquent;
 use App\Http\Requests\User\OpenPlatform\Material\CreateVideoRequest;
 
 /**
@@ -17,7 +15,7 @@ class VideoController extends Controller
 {
     protected $videos;
 
-    public function __construct(Video $videos)
+    public function __construct(VideoRepositoryEloquent $videos)
     {
         $this->videos = $videos;
     }

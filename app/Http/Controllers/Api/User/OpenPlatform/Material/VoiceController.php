@@ -3,9 +3,7 @@ namespace App\Http\Controllers\Api\User\OpenPlatform\Material;
 
 use App\Utilities\Constant;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\Material\Voice;
-use App\Models\User\Material\Voice as Voices;
-use App\Http\Requests\User\OpenPlatform\Material\VoiceRequest;
+use App\Repositories\Material\VoiceRepositoryEloquent;
 use App\Http\Requests\User\OpenPlatform\Material\CreateVoiceRequest;
 
 /**
@@ -17,7 +15,7 @@ class VoiceController extends Controller
 {
     protected $voice;
 
-    public function __construct(Voice $voice)
+    public function __construct(VoiceRepositoryEloquent $voice)
     {
         $this->voice = $voice;
     }

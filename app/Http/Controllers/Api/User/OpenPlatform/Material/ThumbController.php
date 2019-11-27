@@ -2,10 +2,10 @@
 namespace App\Http\Controllers\Api\User\OpenPlatform\Material;
 
 use App\Utilities\Constant;
+use App\Entities\Material\WeThumb;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\Material\Thumb;
-use App\Models\User\Material\Thumb as Thumbs;
-use App\Http\Requests\User\OpenPlatform\Material\ThumbsRequest;
+use App\Http\Requests\PaginateRequest;
+use App\Repositories\Material\ThumbRepositoryEloquent;
 use App\Http\Requests\User\OpenPlatform\Material\CreateThumbsRequest;
 
 /**
@@ -17,20 +17,20 @@ class ThumbController extends Controller
 {
     protected $thumbs;
 
-    public function __construct(Thumb $thumbs)
+    public function __construct(ThumbRepositoryEloquent $thumbs)
     {
         $this->thumbs = $thumbs;
     }
 
     /**
-     * @param ThumbsRequest $request
+     * @param PaginateRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(ThumbsRequest $request)
+    public function index(PaginateRequest $request)
     {
-        $this->authorize('view', Thumbs::class);
+        $this->authorize('view', WeThumb::class);
 
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
         $list  = $this->thumbs->list($this->user()->id, $request->input('app_id'), $limit);
@@ -64,13 +64,12 @@ class ThumbController extends Controller
     }
 
     /**
-     * @param ThumbsRequest $request
      * @param             $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(ThumbsRequest $request, $id)
+    public function show($id)
     {
         $this->authorize('view', Thumbs::class);
 
@@ -106,13 +105,12 @@ class ThumbController extends Controller
     }
 
     /**
-     * @param ThumbsRequest $request
      * @param             $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy(ThumbsRequest $request, $id)
+    public function destroy($id)
     {
         $this->authorize('delete', Thumbs::class);
 
