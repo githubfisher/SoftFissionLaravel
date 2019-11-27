@@ -1,29 +1,36 @@
 <?php
 namespace App\Http\Controllers\Api\Message;
 
+use App\Utilities\Constant;
+use App\Criteria\MyCriteria;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\Message\Mail;
+use App\Http\Requests\PaginateRequest;
+use App\Http\Requests\Message\SetReadRequest;
+use App\Repositories\Message\SiteMailRepositoryEloquent;
 
 class MailController extends Controller
 {
-    protected $guard;
+    protected $repository;
 
-    public function __construct()
+    public function __construct(SiteMailRepositoryEloquent $repository)
     {
-        $this->guard = config('auth.defaults.guard');
+        $this->repository = $repository;
     }
 
     /**
      * 消息列表 - 分页
      *
-     * @param Mail $mail
+     * @param PaginateRequest $request
      *
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
-    public function index(Mail $mail)
+    public function index(PaginateRequest $request)
     {
-        $list  = $mail->list($this->user()->id, $this->guard);
+        $limit = $request->input('limit', Constant::PAGINATE_MIN);
+        $this->repository->pushCriteria(MyCriteria::class);
+        $list  = $this->repository->guard(config('auth.defaults.guard'))->simplePaginate($limit);
 
         return $this->suc(compact('list'));
     }
@@ -31,13 +38,13 @@ class MailController extends Controller
     /**
      * 获取未读消息的数量
      *
-     * @param Mail $mail
-     *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
-    public function unread(Mail $mail)
+    public function unread()
     {
-        $unread = $mail->unread($this->user()->id, $this->guard);
+        $this->repository->pushCriteria(MyCriteria::class);
+        $unread = $this->repository->guard(config('auth.defaults.guard'))->unread()->count();
 
         return $this->suc(compact('unread'));
     }
@@ -45,14 +52,15 @@ class MailController extends Controller
     /**
      * "全部"置已读
      *
-     * @param Request $request
-     * @param Mail    $mail
+     * @param SetReadRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
-    public function setRead(Request $request, Mail $mail)
+    public function setRead(SetReadRequest $request)
     {
-        $mail->setRead($this->user()->id, $this->guard, $request->input('ids', []));
+        $this->repository->pushCriteria(MyCriteria::class);
+        $this->repository->guard(config('auth.defaults.guard'))->updateWhere(['id', $request->input('ids')], ['status' => Constant::TRUE_ONE]);
 
         return $this->suc();
     }
