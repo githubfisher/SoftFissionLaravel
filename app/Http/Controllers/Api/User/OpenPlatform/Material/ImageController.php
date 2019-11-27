@@ -2,10 +2,11 @@
 namespace App\Http\Controllers\Api\User\OpenPlatform\Material;
 
 use App\Utilities\Constant;
+use App\Utilities\FeedBack;
+use App\Entities\Material\WeImage;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\Material\Image;
-use App\Models\User\Material\Image as Images;
-use App\Http\Requests\User\OpenPlatform\Material\ImagesRequest;
+use App\Http\Requests\PaginateRequest;
+use App\Repositories\Material\ImageRepositoryEloquent;
 use App\Http\Requests\User\OpenPlatform\Material\CreateImagesRequest;
 
 /**
@@ -15,25 +16,25 @@ use App\Http\Requests\User\OpenPlatform\Material\CreateImagesRequest;
  */
 class ImageController extends Controller
 {
-    protected $images;
+    protected $repository;
 
-    public function __construct(Image $images)
+    public function __construct(ImageRepositoryEloquent $repository)
     {
-        $this->images = $images;
+        $this->repository = $repository;
     }
 
     /**
-     * @param ImagesRequest $request
+     * @param PaginateRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(ImagesRequest $request)
+    public function index(PaginateRequest $request)
     {
-        $this->authorize('view', Images::class);
+        $this->authorize('view', WeImage::class);
 
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $list  = $this->images->list($this->user()->id, $request->input('app_id'), $limit);
+        $list  = $this->repository->app(current_weapp()['app_id'])->simplePaginate($limit);
 
         return $this->suc(compact('list'));
     }
@@ -48,35 +49,35 @@ class ImageController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(CreateImagesRequest $request)
     {
-        $this->authorize('create', Images::class);
+        $this->authorize('create', WeImage::class);
 
-        $params            = $request->all();
-        $params['user_id'] = $this->user()->id;
-        $res               = $this->images->store($params);
-        if (is_numeric($res)) {
-            return $this->suc(['id' => $res]);
+        $params           = $request->all();
+        $params['app_id'] = current_weapp()['app_id'];
+        $image            = $this->repository->create($params);
+        if ($image) {
+            return $this->suc(['id' => $image->id]);
         }
 
-        return $this->err($res);
+        return $this->err(FeedBack::CREATE_FAIL);
     }
 
     /**
-     * @param ImagesRequest $request
-     * @param               $id
+     * @param $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(ImagesRequest $request, $id)
+    public function show($id)
     {
-        $this->authorize('view', Images::class);
+        $this->authorize('view', WeImage::class);
 
-        $data = $this->images->get($id, $this->user()->id, $request->input('app_id'));
+        $image = $this->repository->app(current_weapp()['app_id'])->findOrFail($id);
 
-        return $this->suc(compact('data'));
+        return $this->suc(compact('image'));
     }
 
     public function edit($id)
@@ -90,37 +91,38 @@ class ImageController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update(CreateImagesRequest $request, $id)
     {
-        $this->authorize('update', Images::class);
+        $this->authorize('update', WeImage::class);
 
-        $params            = $request->all();
-        $params['user_id'] = $this->user()->id;
-        $res               = $this->images->update($id, $params);
-        if ($res === true) {
+        $params = $request->all();
+        $image  = $this->repository->update($params, $id);
+        if ($image) {
             return $this->suc();
         }
 
-        return $this->err($res);
+        return $this->err(FeedBack::UPDATE_FAIL);
     }
 
     /**
-     * @param ImagesRequest $request
-     * @param               $id
+     * @param $id
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy(ImagesRequest $request, $id)
+    public function destroy($id)
     {
-        $this->authorize('delete', Images::class);
+        $this->authorize('delete', WeImage::class);
 
-        $res = $this->images->destroy($this->user()->id, $request->input('app_id'), $id);
-        if ($res === true) {
-            return $this->suc();
+        $image = $this->repository->app(current_weapp()['app_id'])->findOrFail($id);
+        if ($image) {
+            if ($res = $this->repository->delete($id)) {
+                return $this->suc();
+            }
         }
 
-        return $this->err();
+        return $this->err(FeedBack::DELETE_FAIL);
     }
 }
