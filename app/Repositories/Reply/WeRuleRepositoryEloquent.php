@@ -125,11 +125,12 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
             $keywordRepository = app()->make(WeKeywordRepositoryEloquent::class);
             $ks                = array_column($rule['keywords'], null, 'id');
             if (count($keywords)) {
-                $still             = [];
+                $still      = [];
+                $keywordCol = ['keyword', 'match_type'];
                 foreach ($keywords as $k => $keyword) {
                     if (isset($keyword['id']) && $keyword['id']) {
                         $still[] = $keyword['id'];
-                        $diff    = array_diff_assoc($keyword, Arr::only($ks[$keyword['id']], ['id', 'keyword', 'match_type']));
+                        $diff    = array_diff_assoc(Arr::only($keyword, $keywordCol), Arr::only($ks[$keyword['id']], $keywordCol));
                         if ( ! empty($diff)) {
                             Log::debug(__FUNCTION__ . ' ' . json_encode($diff));
                             $keywordRepository->update($diff, $keyword['id']);
@@ -150,10 +151,11 @@ class WeRuleRepositoryEloquent extends BaseRepository implements CacheableInterf
             $replyRepository = app()->make(WeReplyRepositoryEloquent::class);
             $rp              = array_column($rule['replies'], null, 'id');
             $still           = [];
+            $replyCol        = ['difference', 'reply_type', 'reply_type_female', 'content', 'content_female', 'material_id', 'material_id_female'];
             foreach ($replies as $k => $reply) {
                 if (isset($reply['id']) && $reply['id']) {
                     $still[] = $reply['id'];
-                    $diff    = array_diff_assoc($reply, Arr::only($rp[$reply['id']], ['id', 'difference', 'reply_type', 'reply_type_female', 'content', 'content_female', 'material_id', 'material_id_female']));
+                    $diff    = array_diff_assoc(Arr::only($reply, $replyCol), Arr::only($rp[$reply['id']], $replyCol));
                     if ( ! empty($diff)) {
                         $replyRepository->update($diff, $reply['id']);
                         // 引用计数 TODO
