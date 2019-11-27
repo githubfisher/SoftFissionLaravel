@@ -18,11 +18,11 @@ class WeKeywordValidator extends LaravelValidator
      */
     protected $rules = [
         ValidatorInterface::RULE_CREATE => [
-            'keyword'    => ['required', 'string', 'max:64', 'alpha_dash'],
+            'keyword'    => ['required', 'string', 'max:64'],
             'match_type' => ['required', 'integer', 'in:1,2'],
         ],
         ValidatorInterface::RULE_UPDATE => [
-            'keyword'    => ['sometimes', 'string', 'max:64', 'alpha_dash'],
+            'keyword'    => ['sometimes', 'string', 'max:64'],
             'match_type' => ['sometimes', 'integer', 'in:1,2'],
         ],
     ];
