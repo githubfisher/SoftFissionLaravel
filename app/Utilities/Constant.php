@@ -52,6 +52,8 @@ class Constant
     // 临时二维码到期计算方式
     const QR_CODE_SHORT_TERM_BY_EXPIRE = 1;
     const QR_CODE_SHORT_TERM_BY_DATE   = 2;
+    // 参数二维码key模板
+    const QRCODE_SCENE = 'sf:qrcode:scene:%s';
     // 自定义菜单-回复类型
     const MENU_TYPE_TEXT     = 1;
     const MENU_TYPE_NEWS     = 2;

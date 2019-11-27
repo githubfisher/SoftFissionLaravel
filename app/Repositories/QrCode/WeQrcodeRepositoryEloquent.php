@@ -7,10 +7,10 @@ use App\Utilities\Constant;
 use App\Utilities\FeedBack;
 use Illuminate\Support\Arr;
 use App\Entities\QrCode\WeQrcode;
-use App\Jobs\User\SuperQrCode\DetailCreateJob;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\Reply\WeReplyRepositoryEloquent;
+use App\Jobs\User\OpenPlatform\QrCode\WeQrCodeDetailCreateJob;
 
 /**
  * Class QrCodeRepositoryEloquent.
@@ -76,7 +76,8 @@ class WeQrcodeRepositoryEloquent extends BaseRepository
             ]);
 
             // 发布任务-生成微信二维码
-            dispatch(new DetailCreateJob([
+            dispatch(new WeQrCodeDetailCreateJob([
+                'appInfo'     => current_weapp(),
                 'id'          => $qrCode->id,
                 'type'        => $params['type'],
                 'target_num'  => $params['target_num'],
