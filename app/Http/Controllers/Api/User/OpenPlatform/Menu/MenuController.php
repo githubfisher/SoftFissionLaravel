@@ -28,6 +28,7 @@ class MenuController extends Controller
         $this->authorize('view', WeMenu::class);
 
         $list          = $this->repository->app(current_weapp()['app_id'])->with(['details', 'details.rule', 'details.rule.replies'])->get();
+        dd($list);
         //$list && $list = $this->repository->sortBtns($list);
 
         return $this->suc(compact('list'));
