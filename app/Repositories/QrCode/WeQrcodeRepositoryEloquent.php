@@ -118,7 +118,7 @@ class WeQrcodeRepositoryEloquent extends BaseRepository
 
             // 更新回复规则
             $params['keywords'] = [];
-            app()->make(WeReplyRepositoryEloquent::class)->update($qrCode['rule_id'], $params);
+            app()->make(WeReplyRepositoryEloquent::class)->update($params, $qrCode['rule_id']);
 
             // 更新二维码头表
             $col               = ['title', 'target_num', 'expire_type'];
