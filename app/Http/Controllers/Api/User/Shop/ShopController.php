@@ -121,12 +121,12 @@ class ShopController extends Controller
 
         $this->repository->pushCriteria(MyCriteria::class);
         $shop = $this->repository->with(['projects', 'brands'])->findOrFail($id);
-        Log::debug(__FUNCTION__ . ' shop:' . var_export($shop, true));
 
         DB::beginTransaction();
 
         try {
             $shop = $shop->toArray();
+            Log::debug(__FUNCTION__ . ' shop:' . var_export($shop, true));
             $diff = array_diff_assoc(Arr::only($shop, $this->columns), $request->only($this->columns));
             if ( ! empty($diff)) {
                 $this->repository->update($diff, $id);
