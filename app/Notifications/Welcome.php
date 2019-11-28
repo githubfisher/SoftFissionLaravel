@@ -33,7 +33,7 @@ class Welcome extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['datebase'];
+        return ['database'];
     }
 
     /**
