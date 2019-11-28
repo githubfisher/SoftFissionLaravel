@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entities\QrCode;
 
 use App\Entities\Model;
@@ -28,6 +27,28 @@ class WeQrcode extends Model implements Transformable
     ];
     protected $hidden  = [];
     protected $guarded = ['id'];
+
+    /**
+     *  模型的默认属性值。
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'rule_id'   => 0,
+        'type'      => 1,
+        'num'       => 0,
+        'expire_in' => 0,
+        'status'    => 0,
+    ];
+
+    /**
+     * 这个属性应该被转换为原生类型.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => 'boolean',
+    ];
 
     public function details()
     {

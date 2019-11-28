@@ -15,16 +15,16 @@ class CreateQrCodeTables extends Migration
     {
         Schema::create('we_qrcodes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('app_id', 20)->default('');
-            $table->unsignedBigInteger('rule_id')->default(0);
-            $table->string('title')->default('');
-            $table->unsignedTinyInteger('type')->default(1)->comment('类型: 1临时 2永久');
-            $table->unsignedInteger('target_num')->default(0)->comment('目标数量');
-            $table->unsignedInteger('num')->default(0)->comment('实际数量');
-            $table->unsignedTinyInteger('expire_type')->default(1)->comment('过期时间计算方式 1时长 2时间点');
+            $table->string('app_id', 20);
+            $table->unsignedBigInteger('rule_id');
+            $table->string('title');
+            $table->unsignedTinyInteger('type')->comment('类型: 1临时 2永久');
+            $table->unsignedInteger('target_num')->comment('目标数量');
+            $table->unsignedInteger('num')->comment('实际数量');
+            $table->unsignedTinyInteger('expire_type')->comment('过期时间计算方式 1时长 2时间点');
             $table->dateTime('expire_at')->nullable()->comment('到期时间点');
-            $table->integer('expire_in')->default(0)->comment('有效时长');
-            $table->unsignedTinyInteger('status')->default(0)->comment('状态: 0生成中 1完成');
+            $table->integer('expire_in')->comment('有效时长');
+            $table->unsignedTinyInteger('status')->comment('状态: 0生成中 1完成');
             $table->timestamps();
 
             $table->index(['app_id', 'rule_id']);
@@ -32,13 +32,13 @@ class CreateQrCodeTables extends Migration
 
         Schema::create('we_qrcode_details', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('qrcode_id')->default(0)->comment('二维码ID');
-            $table->string('batch', 12)->default('')->comment('批次号: ymdHi');
-            $table->string('scene_str')->default('')->comment('二维码信息');
-            $table->unsignedInteger('scan_num')->default(0)->comment('扫码数量统计');
-            $table->unsignedInteger('subscribe_num')->default(0)->comment('扫码关注数量统计');
-            $table->string('url')->default('')->comment('微信二维码URL');
-            $table->string('ticket')->default('')->comment('到期前兑换新二维码的票据');
+            $table->unsignedBigInteger('qrcode_id')->comment('二维码ID');
+            $table->string('batch', 12)->comment('批次号: ymdHi');
+            $table->string('scene_str')->comment('二维码信息');
+            $table->unsignedInteger('scan_num')->comment('扫码数量统计');
+            $table->unsignedInteger('subscribe_num')->comment('扫码关注数量统计');
+            $table->string('url')->comment('微信二维码URL');
+            $table->string('ticket')->comment('到期前兑换新二维码的票据');
             $table->dateTime('expire_at')->nullable()->comment('到期时间点');
             $table->timestamps();
 

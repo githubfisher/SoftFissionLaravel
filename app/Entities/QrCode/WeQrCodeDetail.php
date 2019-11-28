@@ -27,6 +27,19 @@ class WeQrcodeDetail extends Model implements Transformable
     protected $hidden  = [];
     protected $guarded = ['id'];
 
+    /**
+     *  模型的默认属性值。
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'scene_str'     => '',
+        'url'           => '',
+        'ticket'        => '',
+        'scan_num'      => 0,
+        'subscribe_num' => 0,
+    ];
+
     public function code()
     {
         return $this->belongsTo('App\Entities\QrCode\WeQrcode', 'qrcode_id');
