@@ -99,7 +99,7 @@ class Shop extends Model implements Transformable
      */
     public function brands(): BelongsToMany
     {
-        return $this->belongsToMany('App\Entities\Shop\Brand', 'shops_projects', 'shop_id', 'brand_id');
+        return $this->belongsToMany('App\Entities\Shop\Brand', 'shops_brands', 'shop_id', 'brand_id');
     }
 
     /**
