@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Entities\Shop;
 
 use App\Entities\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Shop.
@@ -23,8 +22,24 @@ class Shop extends Model implements Transformable
      */
     protected $fillable = [
         'user_id',
-        'keyword',
-        'match_type',
+        'name',
+        'introduction',
+        'headimgurl',
+        'mobile',
+        'telephone',
+        'qrcode_url',
+        'wechat',
+        'weibo',
+        'douyin',
+        'location_x',
+        'location_y',
+        'country',
+        'province',
+        'city',
+        'address',
+        'start_at',
+        'end_at',
+        'details',
     ];
     protected $hidden  = [];
     protected $guarded = ['id'];
@@ -33,5 +48,4 @@ class Shop extends Model implements Transformable
     {
         return $this->belongsTo('App\Entities\User\User', 'user_id');
     }
-
 }
