@@ -67,7 +67,7 @@ class ShopController extends Controller
 
         try {
             $shopInfo            = $request->only($this->columns);
-            $shopInfp['user_id'] = $this->user->id;
+            $shopInfo['user_id'] = $this->user->id;
             $shop                = $this->repository->create($shopInfo);
 
             if ($request->has('projects')) {
