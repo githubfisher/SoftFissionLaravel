@@ -1,23 +1,14 @@
 <?php
 namespace App\Http\Controllers\Api\Message;
 
-use App\Entities\User\User;
+use Auth;
 use App\Utilities\Constant;
 use App\Notifications\Welcome;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PaginateRequest;
-use App\Repositories\Message\SiteMailRepositoryEloquent;
 
 class MailController extends Controller
 {
-    protected $repository;
-
-    public function __construct(SiteMailRepositoryEloquent $repository)
-    {
-        $this->repository = $repository;
-    }
-
     /**
      * 消息列表 - 分页
      *
