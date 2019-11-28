@@ -27,6 +27,25 @@ class WeRule extends Model implements Transformable
     protected $hidden  = [];
     protected $guarded = ['id'];
 
+    /**
+     *  模型的默认属性值。
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'reply_rule' => 1,
+        'status'     => 0,
+    ];
+
+    /**
+     * 这个属性应该被转换为原生类型.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => 'boolean',
+    ];
+
     public function keywords()
     {
         return $this->hasMany('App\Entities\Reply\WeKeyword', 'rule_id', 'id');
