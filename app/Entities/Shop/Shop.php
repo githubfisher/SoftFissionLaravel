@@ -5,6 +5,7 @@ use App\Entities\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class Shop.
@@ -47,5 +48,15 @@ class Shop extends Model implements Transformable
     public function users(): BelongsTo
     {
         return $this->belongsTo('App\Entities\User\User', 'user_id');
+    }
+
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany('App\Entities\Shop\Project', 'shops_projects', 'shop_id', 'project_id');
+    }
+
+    public function brands(): BelongsToMany
+    {
+        return $this->belongsToMany('App\Entities\Shop\Brand', 'shops_projects', 'shop_id', 'brand_id');
     }
 }
