@@ -24,6 +24,26 @@ class WeMenuDetail extends Model implements Transformable
     protected $hidden  = [];
     protected $guarded = ['id'];
 
+    /**
+     *  模型的默认属性值。
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'rule_id' => 0,
+        'status'  => 0,
+        'pid'     => 0,
+    ];
+
+    /**
+     * 这个属性应该被转换为原生类型.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => 'boolean',
+    ];
+
     public function menu()
     {
         return $this->belongsTo('App\Entities\Menu\WeMenu', 'menu_id');

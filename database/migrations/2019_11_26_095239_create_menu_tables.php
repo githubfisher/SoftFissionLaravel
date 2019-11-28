@@ -15,10 +15,10 @@ class CreateMenuTables extends Migration
     {
         Schema::create('we_menus', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('app_id', 20)->default('');
-            $table->unsignedTinyInteger('type')->default(0)->comment('菜单类型: 1默认 2个性化');
+            $table->string('app_id', 20);
+            $table->unsignedTinyInteger('type')->comment('菜单类型: 1默认 2个性化');
             $table->string('filter')->nullable()->comment('个性化筛选设置');
-            $table->unsignedTinyInteger('status')->default(0)->comment('启用状态: 1是 0否');
+            $table->unsignedTinyInteger('status')->comment('启用状态: 1是 0否');
             $table->timestamps();
 
             $table->index('app_id');
@@ -27,10 +27,10 @@ class CreateMenuTables extends Migration
         Schema::create('we_menu_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('menu_id');
-            $table->unsignedBigInteger('pid')->default(0);
-            $table->unsignedBigInteger('rule_id')->default(0);
+            $table->unsignedBigInteger('pid');
+            $table->unsignedBigInteger('rule_id');
             $table->string('name');
-            $table->unsignedTinyInteger('status')->default(0)->comment('启用状态: 1是 0否');
+            $table->unsignedTinyInteger('status')->comment('启用状态: 1是 0否');
             $table->timestamps();
 
             $table->index('menu_id');

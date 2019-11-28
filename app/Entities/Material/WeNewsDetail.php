@@ -32,6 +32,15 @@ class WeNewsDetail extends Model implements Transformable
     protected $hidden  = [];
     protected $guarded = ['id'];
 
+    /**
+     *  模型的默认属性值。
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'show_cover_pic' => 1,
+    ];
+
     public function news()
     {
         return $this->belongsTo('App\Entities\Material\WeNews', 'news_id');
