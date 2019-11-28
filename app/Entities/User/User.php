@@ -48,6 +48,15 @@ class User extends Authenticatable implements JWTSubject, Transformable
     ];
 
     /**
+     *  模型的默认属性值。
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'pid' => 0,
+    ];
+
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
