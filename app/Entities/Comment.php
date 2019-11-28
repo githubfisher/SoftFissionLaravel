@@ -3,7 +3,7 @@ namespace App\Entities;
 
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Comment.
@@ -20,7 +20,7 @@ class Comment extends Model implements Transformable
      * @var array
      */
     protected $fillable = [
-        'userid',
+        'user_id',
         'score',
         'body',
         'commentable_id',
@@ -29,30 +29,18 @@ class Comment extends Model implements Transformable
     ];
 
     /**
+     * 数组中的属性会被隐藏。
+     *
+     * @var array
+     */
+    protected $hidden  = [];
+
+    /**
      * 不可批量赋值的属性。
      *
      * @var array
      */
     protected $guarded = ['id'];
-
-    /**
-     * 数组中的属性会被隐藏。
-     *
-     * @var array
-     */
-    protected $hidden = [];
-
-    /**
-     *  模型的默认属性值。
-     *
-     * @var array
-     */
-    protected $attributes = [
-        'userid' => 0,
-        'score'  => 5.0,
-        'body'   => '',
-        'status' => 1,
-    ];
 
     /**
      * 这个属性应该被转换为原生类型.
@@ -63,8 +51,16 @@ class Comment extends Model implements Transformable
         'status' => 'boolean',
     ];
 
-    public function shops(): BelongsToMany
+    public function users(): BelongsTo
     {
-        return $this->belongsToMany('App\Entities\Shop\Shop', 'shops_brands', 'brand_id', 'shop_id');
+        return $this->belongsTo('App\Entities\User\User', 'user_id', 'id');
+    }
+
+    /**
+     * 获取拥有此评论的模型。
+     */
+    public function commentable()
+    {
+        return $this->morphTo();
     }
 }

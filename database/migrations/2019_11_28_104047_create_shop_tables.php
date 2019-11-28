@@ -16,6 +16,7 @@ class CreateShopTables extends Migration
         Schema::create('shops', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedTinyInteger('type')->comment('店铺类型');
             $table->string('name')->comment('店名');
             $table->string('introduction')->comment('简介');
             $table->string('headimgurl')->comment('店铺图标');

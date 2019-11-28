@@ -17,12 +17,13 @@ class Shop extends Model implements Transformable
     use TransformableTrait;
 
     /**
-     * The attributes that are mass assignable.
+     * 可以被批量赋值的属性。
      *
      * @var array
      */
     protected $fillable = [
         'user_id',
+        'type',
         'name',
         'introduction',
         'headimgurl',
@@ -42,7 +43,19 @@ class Shop extends Model implements Transformable
         'end_at',
         'details',
     ];
+
+    /**
+     * 数组中的属性会被隐藏。
+     *
+     * @var array
+     */
     protected $hidden  = [];
+
+    /**
+     * 不可批量赋值的属性。
+     *
+     * @var array
+     */
     protected $guarded = ['id'];
 
     public function users(): BelongsTo
@@ -58,5 +71,13 @@ class Shop extends Model implements Transformable
     public function brands(): BelongsToMany
     {
         return $this->belongsToMany('App\Entities\Shop\Brand', 'shops_projects', 'shop_id', 'brand_id');
+    }
+
+    /**
+     * 获取此文章的所有评论。
+     */
+    public function comments()
+    {
+        return $this->morphMany('App\Entities\Comment', 'commentable');
     }
 }

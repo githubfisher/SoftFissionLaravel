@@ -16,19 +16,30 @@ class Brand extends Model implements Transformable
     use TransformableTrait;
 
     /**
-     * The attributes that are mass assignable.
+     * 可以被批量赋值的属性。
      *
      * @var array
      */
     protected $fillable = [
         'name',
     ];
+
+    /**
+     * 数组中的属性会被隐藏。
+     *
+     * @var array
+     */
     protected $hidden  = [];
+
+    /**
+     * 不可批量赋值的属性。
+     *
+     * @var array
+     */
     protected $guarded = ['id'];
 
     public function shops(): BelongsToMany
     {
-        return $this->belongsToMany('App\Entities\Shop\Shop', 'shops_brands', 'brand_id', 'shop_id');
+        return $this->belongsToMany('App\Entities\Shop\Shop', 'shops_projects', 'project_id', 'shop_id');
     }
-
 }
