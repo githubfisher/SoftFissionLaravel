@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers\Api\User\Shop;
 
+use App\Utilities\Constant;
+use App\Utilities\FeedBack;
 use Illuminate\Http\Request;
 use App\Entities\Shop\Project;
 use App\Http\Controllers\Controller;
@@ -36,10 +38,15 @@ class ProjectController extends Controller
         $name    = $request->input('name');
         $project = $this->repository->findByField('name', $name);
         if ($project->isEmpty()) {
-            $project = $this->repository->insert(['name' => $name]);
+            if ($project = $this->repository->insert(['name' => $name])) {
+                $project = $this->repository->findByField('name', $name);
+            } else {
+                return $this->err(FeedBack::CREATE_FAIL);
+            }
         }
+        $project = $project->toArray();
 
-        return $this->suc(compact('project'));
+        return $this->suc($project[Constant::FLASE_ZERO]);
     }
 
     public function show($id)
