@@ -121,6 +121,7 @@ class ShopController extends Controller
 
         $this->repository->pushCriteria(MyCriteria::class);
         $shop = $this->repository->with(['projects', 'brands'])->findOrFail($id);
+        Log::debug(__FUNCTION__ . ' shop:' . var_export($shop, true));
 
         DB::beginTransaction();
 
