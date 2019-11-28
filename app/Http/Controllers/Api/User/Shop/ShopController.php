@@ -133,7 +133,7 @@ class ShopController extends Controller
             }
 
             if ($request->has('projects')) {
-                $oldProjects = array_column($shop['projects'], 'project_id');
+                $oldProjects = array_column($shop['projects'], 'id');
                 $projects    = array_unique($request->input('projects'));
                 $new         = array_diff($projects, $oldProjects);
                 if ( ! empty($new)) {
@@ -152,7 +152,7 @@ class ShopController extends Controller
             }
 
             if ($request->has('brands')) {
-                $oldBrands = array_column($shop['brands'], 'brand_id');
+                $oldBrands = array_column($shop['brands'], 'id');
                 $brands    = $request->input('brands');
                 $new       = array_diff($brands, $oldBrands);
                 if ( ! empty($new)) {
