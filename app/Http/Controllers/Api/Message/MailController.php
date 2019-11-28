@@ -88,7 +88,7 @@ class MailController extends Controller
     public function setAllRead()
     {
         $user = Auth::user();
-        $user->unreadNotifications()->markAsRead();
+        $user->unreadNotifications->markAsRead();
 
         return $this->suc();
     }
