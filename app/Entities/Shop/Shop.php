@@ -64,22 +64,22 @@ class Shop extends Model implements Transformable
      * @var array
      */
     protected $attributes = [
-        'introduction' => '',
-        'headimgurl'   => '',
-        'telephone'    => '',
-        'qrcode_url'   => '',
-        'wechat'       => '',
-        'weibo'        => '',
-        'douyin'       => '',
+        'introduction' => null,
+        'headimgurl'   => null,
+        'telephone'    => null,
+        'qrcode_url'   => null,
+        'wechat'       => null,
+        'weibo'        => null,
+        'douyin'       => null,
         'location_x'   => 0,
         'location_y'   => 0,
-        'country'      => '',
-        'province'     => '',
-        'city'         => '',
-        'address'      => '',
+        'country'      => '中国',
+        'province'     => '河北',
+        'city'         => '保定',
+        'address'      => null,
         'start_at'     => '00:00',
         'end_at'       => '00:00',
-        'details'      => '',
+        'details'      => null,
     ];
 
     public function users(): BelongsTo
