@@ -126,8 +126,6 @@ class ShopController extends Controller
 
         try {
             $shop = $shop->toArray();
-            Log::debug(__FUNCTION__ . ' shop1:' . var_export(Arr::only($shop, $this->columns), true));
-            Log::debug(__FUNCTION__ . ' shop2:' . var_export($request->only($this->columns), true));
             $diff = array_diff_assoc($request->only($this->columns), Arr::only($shop, $this->columns));
             if ( ! empty($diff)) {
                 $this->repository->update($diff, $id);
