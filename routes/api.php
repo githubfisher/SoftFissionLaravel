@@ -130,6 +130,9 @@ $api->version('v1', [
         $api->resource('open/material/voice', 'User\OpenPlatform\Material\VoiceController');
         $api->resource('open/material/video', 'User\OpenPlatform\Material\VideoController');
         $api->resource('open/material/thumb', 'User\OpenPlatform\Material\ThumbController');
+
+        // 实体店铺管理
+        $api->resource('shop', 'User\Shop\ShopController');
     });
 
     // 管理后台
