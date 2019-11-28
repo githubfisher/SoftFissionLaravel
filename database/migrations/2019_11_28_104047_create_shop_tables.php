@@ -49,6 +49,8 @@ class CreateShopTables extends Migration
         Schema::create('shops_projects', function (Blueprint $table) {
             $table->unsignedBigInteger('shop_id');
             $table->unsignedBigInteger('project_id');
+
+            $table->index('shop_id');
         });
 
         Schema::create('brands', function (Blueprint $table) {
@@ -59,6 +61,8 @@ class CreateShopTables extends Migration
         Schema::create('shops_brands', function (Blueprint $table) {
             $table->unsignedBigInteger('shop_id');
             $table->unsignedBigInteger('brand_id');
+
+            $table->index('shop_id');
         });
     }
 

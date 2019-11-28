@@ -20,6 +20,8 @@ class CreateMenuTables extends Migration
             $table->string('filter')->nullable()->comment('个性化筛选设置');
             $table->unsignedTinyInteger('status')->default(0)->comment('启用状态: 1是 0否');
             $table->timestamps();
+
+            $table->index('app_id');
         });
 
         Schema::create('we_menu_details', function (Blueprint $table) {
@@ -30,6 +32,8 @@ class CreateMenuTables extends Migration
             $table->string('name');
             $table->unsignedTinyInteger('status')->default(0)->comment('启用状态: 1是 0否');
             $table->timestamps();
+
+            $table->index('menu_id');
 
             $table->foreign('menu_id')->references('id')->on('we_menus')->onDelete('cascade');
         });
