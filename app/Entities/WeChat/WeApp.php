@@ -39,6 +39,17 @@ class WeApp extends Model implements Transformable
     protected $guarded = ['id'];
     protected $dates   = ['deleted_at'];
 
+    /**
+     *  模型的默认属性值。
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'keyword_reply'   => 0,
+        'anytype_reply'   => 0,
+        'subscribe_reply' => 0,
+    ];
+
     public function users(): BelongsTo
     {
         return $this->belongsTo('App\Entities\User\User', 'user_id');
