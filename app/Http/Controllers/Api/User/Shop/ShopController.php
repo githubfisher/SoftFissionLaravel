@@ -73,7 +73,7 @@ class ShopController extends Controller
             if ($request->has('projects')) {
                 $projects = array_unique($request->input('projects'));
                 foreach ($projects as $project) {
-                    ShopsProjects::create([
+                    ShopsProjects::insert([
                         'project_id' => $project,
                         'shop_id'    => $shop->id,
                     ]);
@@ -83,7 +83,7 @@ class ShopController extends Controller
             if ($request->has('brands')) {
                 $brands = array_unique($request->input('brands'));
                 foreach ($brands as $brand) {
-                    ShopsBrands::create([
+                    ShopsBrands::insert([
                         'brand_id' => $brand,
                         'shop_id'  => $shop->id,
                     ]);
@@ -137,7 +137,7 @@ class ShopController extends Controller
                 $new         = array_diff($projects, $oldProjects);
                 if ( ! empty($new)) {
                     foreach ($new as $project) {
-                        ShopsProjects::create([
+                        ShopsProjects::insert([
                             'project_id' => $project,
                             'shop_id'    => $id,
                         ]);
@@ -156,7 +156,7 @@ class ShopController extends Controller
                 $new       = array_diff($brands, $oldBrands);
                 if ( ! empty($new)) {
                     foreach ($brands as $brand) {
-                        ShopsBrands::create([
+                        ShopsBrands::insert([
                             'brand_id' => $brand,
                             'shop_id'  => $id,
                         ]);
