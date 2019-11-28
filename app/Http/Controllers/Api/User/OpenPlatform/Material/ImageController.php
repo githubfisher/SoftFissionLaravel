@@ -33,8 +33,7 @@ class ImageController extends Controller
     {
         $this->authorize('view', WeImage::class);
 
-        $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $list  = $this->repository->app(current_weapp()['app_id'])->simplePaginate($limit);
+        $list  = $this->repository->app(current_weapp()['app_id'])->paginate($request->input('limit', Constant::PAGINATE_MIN));
 
         return $this->suc(compact('list'));
     }

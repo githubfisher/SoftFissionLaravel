@@ -32,7 +32,7 @@ class RuleController extends Controller
 
         $list  = $this->repository->app(current_weapp()['app_id'])
             ->scene(Constant::REPLY_RULE_SCENE_KEYWORD)
-            ->simplePaginate($request->input('limit', Constant::PAGINATE_MIN));
+            ->paginate($request->input('limit', Constant::PAGINATE_MIN));
 
         return $this->suc(compact('list'));
     }

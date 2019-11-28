@@ -32,8 +32,7 @@ class NewsController extends Controller
     {
         $this->authorize('view', WeNews::class);
 
-        $limit = $request->input('limit', Constant::PAGINATE_MIN);
-        $list  = $this->repository->app(current_weapp()['app_id'])->with(['details'])->paginate($limit);
+        $list  = $this->repository->app(current_weapp()['app_id'])->with(['details'])->paginate($request->input('limit', Constant::PAGINATE_MIN));
 
         return $this->suc(compact('list'));
     }
