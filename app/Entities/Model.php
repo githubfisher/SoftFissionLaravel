@@ -54,4 +54,12 @@ class Model extends EloquentModel
 
         return DB::table($this->getTable())->insert($data);
     }
+
+    /*
+     * 批量插入
+     */
+    public function addAllWithoutDataTime(array $data)
+    {
+        return DB::table($this->getTable())->insert($data);
+    }
 }

@@ -134,7 +134,7 @@ class ShopController extends Controller
                 if ( ! empty($new)) {
                     $new = array_fill_keys($new, 'project_id');
                     $new = data_fill($new, 'shop_id', $id);
-                    (new ShopsProjects)->addAll($new);
+                    (new ShopsProjects)->addAllWithoutDataTime($new);
                 }
 
                 $del = array_diff($oldProjects, $projects);
@@ -150,7 +150,7 @@ class ShopController extends Controller
                 if ( ! empty($new)) {
                     $new = array_fill_keys($new, 'brand_id');
                     $new = data_fill($new, 'shop_id', $id);
-                    (new ShopsBrands)->addAll($new);
+                    (new ShopsBrands)->addAllWithoutDataTime($new);
                 }
 
                 $del = array_diff($oldBrands, $brands);
