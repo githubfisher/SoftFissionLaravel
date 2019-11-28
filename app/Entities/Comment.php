@@ -43,6 +43,16 @@ class Comment extends Model implements Transformable
     protected $guarded = ['id'];
 
     /**
+     *  模型的默认属性值。
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'score'  => 5,
+        'status' => 0,
+    ];
+
+    /**
      * 这个属性应该被转换为原生类型.
      *
      * @var array
