@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Controllers\Api\Message;
-    
+
 use App\Utilities\Constant;
 use App\Criteria\MyCriteria;
 use App\Notifications\Welcome;
