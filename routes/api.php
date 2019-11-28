@@ -134,6 +134,7 @@ $api->version('v1', [
         // 实体店铺管理
         $api->resource('shop', 'User\Shop\ShopController');
         $api->resource('project', 'User\Shop\ProjectController');
+        $api->resource('brand', 'User\Shop\BrandController');
     });
 
     // 管理后台

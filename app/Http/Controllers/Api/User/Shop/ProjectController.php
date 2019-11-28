@@ -6,6 +6,7 @@ use App\Utilities\FeedBack;
 use Illuminate\Http\Request;
 use App\Entities\Shop\Project;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Shop\CreateProjectRequest;
 use App\Repositories\Shop\ProjectRepositoryEloquent;
 
 class ProjectController extends Controller
@@ -31,7 +32,7 @@ class ProjectController extends Controller
         //
     }
 
-    public function store(Request $request)
+    public function store(CreateProjectRequest $request)
     {
         $this->authorize('create', Project::class);
 
