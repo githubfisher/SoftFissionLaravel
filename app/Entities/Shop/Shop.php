@@ -58,6 +58,30 @@ class Shop extends Model implements Transformable
      */
     protected $guarded = ['id'];
 
+    /**
+     *  模型的默认属性值。
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'introduction' => '',
+        'headimgurl'   => '',
+        'telephone'    => '',
+        'qrcode_url'   => '',
+        'wechat'       => '',
+        'weibo'        => '',
+        'douyin'       => '',
+        'location_x'   => 0,
+        'location_y'   => 0,
+        'country'      => '',
+        'province'     => '',
+        'city'         => '',
+        'address'      => '',
+        'start_at'     => '00:00',
+        'end_at'       => '00:00',
+        'details'      => '',
+    ];
+
     public function users(): BelongsTo
     {
         return $this->belongsTo('App\Entities\User\User', 'user_id');
