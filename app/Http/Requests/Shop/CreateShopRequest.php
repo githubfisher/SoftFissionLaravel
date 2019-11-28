@@ -25,8 +25,8 @@ class CreateShopRequest extends FormRequest
         return [
             'type'         => ['required', 'integer', 'in:1,2'],
             'name'         => ['required', 'string', 'alpha_dash', 'max:64'],
-            'introduction' => ['required', 'string', 'alpha_dash'],
             'mobile'       => ['required', 'mobile'],
+            'introduction' => ['sometimes', 'string', 'alpha_dash'],
             'telephone'    => ['sometimes', 'required', 'string', 'alpha_dash'],
             'headimgurl'   => ['sometimes', 'required', 'string', 'alpha_dash'],
             'qrcode_url'   => ['sometimes', 'required', 'string', 'alpha_dash'],
