@@ -41,7 +41,7 @@ class ProjectController extends Controller
             ]);
         }
 
-        return $this->suc(['id' => $project->id]);
+        return $this->suc(compact('project'));
     }
 
     public function show($id)
