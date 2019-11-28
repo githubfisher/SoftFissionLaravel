@@ -73,23 +73,37 @@ class Shop extends Model implements Transformable
         'end_at'       => '00:00',
     ];
 
+    /**
+     * 获取店铺所有者
+     * @return BelongsTo
+     */
     public function users(): BelongsTo
     {
         return $this->belongsTo('App\Entities\User\User', 'user_id');
     }
 
+    /**
+     * 获取店铺经营的项目
+     *
+     * @return BelongsToMany
+     */
     public function projects(): BelongsToMany
     {
         return $this->belongsToMany('App\Entities\Shop\Project', 'shops_projects', 'shop_id', 'project_id');
     }
 
+    /**
+     * 获取店铺经营的品牌
+     *
+     * @return BelongsToMany
+     */
     public function brands(): BelongsToMany
     {
         return $this->belongsToMany('App\Entities\Shop\Brand', 'shops_projects', 'shop_id', 'brand_id');
     }
 
     /**
-     * 获取此文章的所有评论。
+     * 获取店铺的所有评论。
      */
     public function comments()
     {
