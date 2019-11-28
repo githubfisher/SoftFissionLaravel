@@ -133,6 +133,7 @@ $api->version('v1', [
 
         // 实体店铺管理
         $api->resource('shop', 'User\Shop\ShopController');
+        $api->resource('project', 'User\Shop\ProjectController');
     });
 
     // 管理后台
