@@ -36,7 +36,7 @@ class ProjectController extends Controller
         $name    = $request->input('name');
         $project = $this->repository->findByField('name', $name);
         if ($project->isEmpty()) {
-            $project = $this->repository->create(['name' => $name]);
+            $project = $this->repository->insert(['name' => $name]);
         }
 
         return $this->suc(compact('project'));
