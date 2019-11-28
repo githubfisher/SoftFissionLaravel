@@ -104,6 +104,8 @@ $api->version('v1', [
 
         // 站内信
         $api->resource('mail', 'Message\MailController');
+        $api->get('mail/unread/count', 'Message\MailController@unreadCount');
+        $api->get('mail/unread/allread', 'Message\MailController@setAllRead');
 
         // 关键词回复规则
         $api->resource('open/rule', 'User\OpenPlatform\AutoReply\RuleController');
