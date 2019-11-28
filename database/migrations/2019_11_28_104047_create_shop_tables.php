@@ -28,9 +28,9 @@ class CreateShopTables extends Migration
             $table->string('douyin')->nullable()->comment('抖音号');
             $table->decimal('location_x', 9, 6);
             $table->decimal('location_y', 9, 6);
-            $table->string('country')->default('中国');
-            $table->string('province')->nullable()->default('河北');
-            $table->string('city')->nullable()->default('保定');
+            $table->string('country')->nullable();
+            $table->string('province')->nullable();
+            $table->string('city')->nullable();
             $table->string('address')->nullable()->comment('详细地址');
             $table->string('start_at')->comment('开始营业时间');
             $table->string('end_at')->comment('结束营业时间');
