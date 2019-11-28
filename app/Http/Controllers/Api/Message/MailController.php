@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api\Message;
 
+use App\Entities\User\User;
 use App\Utilities\Constant;
 use App\Criteria\MyCriteria;
 use App\Notifications\Welcome;
@@ -30,7 +31,7 @@ class MailController extends Controller
     {
         $limit = $request->input('limit', Constant::PAGINATE_MIN);
         $user  = Auth::user();
-        $list  = $user->notifications()->simplePaginate($limit);
+        $list  = $user->notifications()->paginate($limit);
 
         return $this->suc(compact('list'));
     }
