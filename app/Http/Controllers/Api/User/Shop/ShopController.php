@@ -71,19 +71,23 @@ class ShopController extends Controller
             $shop                = $this->repository->create($shopInfo);
 
             if ($request->has('projects')) {
-                $projects = $request->input('projects');
-                $projects = array_fill_keys($projects, 'project_id');
-                $projects = data_fill($projects, 'shop_id', $shop->id);
-
-                (new ShopsProjects)->addAll($projects);
+                $projects = array_unique($request->input('projects'));
+                foreach ($projects as $project) {
+                    ShopsProjects::create([
+                        'project_id' => $project,
+                        'shop_id'    => $shop->id,
+                    ]);
+                }
             }
 
             if ($request->has('brands')) {
-                $brands = $request->input('brands');
-                $brands = array_fill_keys($brands, 'brand_id');
-                $brands = data_fill($brands, 'shop_id', $shop->id);
-
-                (new ShopsProjects)->addAll($brands);
+                $brands = array_unique($request->input('brands'));
+                foreach ($brands as $brand) {
+                    ShopsBrands::create([
+                        'brand_id' => $brand,
+                        'shop_id'  => $shop->id,
+                    ]);
+                }
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -129,12 +133,15 @@ class ShopController extends Controller
 
             if ($request->has('projects')) {
                 $oldProjects = array_column($shop['projects'], 'project_id');
-                $projects    = $request->input('projects');
+                $projects    = array_unique($request->input('projects'));
                 $new         = array_diff($projects, $oldProjects);
                 if ( ! empty($new)) {
-                    $new = array_fill_keys($new, 'project_id');
-                    $new = data_fill($new, 'shop_id', $id);
-                    (new ShopsProjects)->addAllWithoutDataTime($new);
+                    foreach ($new as $project) {
+                        ShopsProjects::create([
+                            'project_id' => $project,
+                            'shop_id'    => $id,
+                        ]);
+                    }
                 }
 
                 $del = array_diff($oldProjects, $projects);
@@ -148,9 +155,12 @@ class ShopController extends Controller
                 $brands    = $request->input('brands');
                 $new       = array_diff($brands, $oldBrands);
                 if ( ! empty($new)) {
-                    $new = array_fill_keys($new, 'brand_id');
-                    $new = data_fill($new, 'shop_id', $id);
-                    (new ShopsBrands)->addAllWithoutDataTime($new);
+                    foreach ($brands as $brand) {
+                        ShopsBrands::create([
+                            'brand_id' => $brand,
+                            'shop_id'  => $id,
+                        ]);
+                    }
                 }
 
                 $del = array_diff($oldBrands, $brands);
