@@ -45,8 +45,9 @@ class ProjectController extends Controller
             }
         }
         $project = $project->toArray();
+        $project = $project[Constant::FLASE_ZERO];
 
-        return $this->suc($project[Constant::FLASE_ZERO]);
+        return $this->suc(compact('project'));
     }
 
     public function show($id)
