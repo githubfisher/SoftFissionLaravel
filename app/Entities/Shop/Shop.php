@@ -38,6 +38,7 @@ class Shop extends Model implements Transformable
         'country',
         'province',
         'city',
+        'county',
         'address',
         'start_at',
         'end_at',
@@ -69,6 +70,7 @@ class Shop extends Model implements Transformable
         'country'      => '中国',
         'province'     => '河北',
         'city'         => '保定',
+        'county'       => '高碑店',
         'start_at'     => '00:00',
         'end_at'       => '00:00',
     ];

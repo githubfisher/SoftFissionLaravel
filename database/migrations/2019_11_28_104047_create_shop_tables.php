@@ -31,6 +31,7 @@ class CreateShopTables extends Migration
             $table->string('country')->nullable();
             $table->string('province')->nullable();
             $table->string('city')->nullable();
+            $table->string('county')->nullable();
             $table->string('address')->nullable()->comment('详细地址');
             $table->string('start_at')->comment('开始营业时间');
             $table->string('end_at')->comment('结束营业时间');
