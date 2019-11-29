@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Policies\User\Shop;
 
 use App\Entities\User\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class GoodsPolicy
+class PromotionPolicy
 {
     use HandlesAuthorization;
 
@@ -22,7 +21,7 @@ class GoodsPolicy
             return false;
         }
 
-        if ($user->can('view-own-goods')) {
+        if ($user->can('view-promotion')) {
             return true;
         }
 
@@ -42,7 +41,7 @@ class GoodsPolicy
             return false;
         }
 
-        if ($user->can('create-goods')) {
+        if ($user->can('create-promotion')) {
             return true;
         }
 
@@ -62,7 +61,7 @@ class GoodsPolicy
             return false;
         }
 
-        if ($user->can('edit-own-goods')) {
+        if ($user->can('edit-own_promotion')) {
             return true;
         }
 
@@ -82,7 +81,7 @@ class GoodsPolicy
             return false;
         }
 
-        if ($user->can('delete-own-goods')) {
+        if ($user->can('delete-own_promotion')) {
             return true;
         }
 
