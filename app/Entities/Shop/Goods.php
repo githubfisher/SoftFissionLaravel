@@ -78,4 +78,6 @@ class Goods extends Model implements Transformable
     protected $casts = [
         'status' => 'boolean',
     ];
+
+
 }

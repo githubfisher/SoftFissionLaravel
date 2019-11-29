@@ -8,7 +8,7 @@ use App\Entities\Model;
  *
  * @package namespace App\Entities\Shop;
  */
-class ShopsBrands extends Model
+class GoodsPromotions extends Model
 {
     /**
      * 可以被批量赋值的属性。
@@ -16,14 +16,7 @@ class ShopsBrands extends Model
      * @var array
      */
     protected $fillable = [
-        'shop_id',
-        'brand_id',
+        'goods_id',
+        'promotions_id',
     ];
-
-    /**
-     * 不可批量赋值的属性。
-     *
-     * @var array
-     */
-    protected $guarded = ['id'];
 }

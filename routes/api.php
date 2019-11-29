@@ -136,6 +136,7 @@ $api->version('v1', [
         $api->resource('project', 'User\Shop\ProjectController');
         $api->resource('brand', 'User\Shop\BrandController');
         $api->resource('goods', 'User\Shop\GoodsController');
+        $api->resource('promotion', 'User\Shop\PromotionController');
     });
 
     // 管理后台

@@ -22,26 +22,10 @@ class ShopsProjects extends Model
     ];
 
     /**
-     * 数组中的属性会被隐藏。
-     *
-     * @var array
-     */
-    protected $hidden  = [];
-
-    /**
      * 不可批量赋值的属性。
      *
      * @var array
      */
     protected $guarded = ['id'];
 
-    /**
-     * 获取店铺
-     *
-     * @return BelongsToMany
-     */
-    public function shops(): BelongsToMany
-    {
-        return $this->belongsToMany('App\Entities\Shop\Shop', 'shops_projects', 'project_id', 'shop_id');
-    }
 }
