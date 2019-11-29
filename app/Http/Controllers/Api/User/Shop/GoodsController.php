@@ -85,6 +85,8 @@ class GoodsController extends Controller
         } catch (ValidatorException $e) {
             DB::rollBack();
             Log::warning(__FUNCTION__ . ' ' . $e->getMessageBag()->toJson());
+
+            return $this->err(FeedBack::CREATE_FAIL);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
