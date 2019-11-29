@@ -35,8 +35,6 @@ class GoodsValidator extends LaravelValidator
             'sold'            => ['sometimes', 'integer'],
             'expire_start'    => ['sometimes', 'date'],
             'expire_end'      => ['sometimes', 'date'],
-            'banners'         => ['required', 'array', 'min:1'],
-            'promotions'      => ['sometimes', 'array', 'min:1'],
         ],
         ValidatorInterface::RULE_UPDATE => [
             'name'            => ['sometimes', 'string'],
@@ -56,8 +54,6 @@ class GoodsValidator extends LaravelValidator
             'sold'            => ['sometimes', 'integer'],
             'expire_start'    => ['sometimes', 'date'],
             'expire_end'      => ['sometimes', 'date'],
-            'banners'         => ['sometimes', 'array', 'min:1'],
-            'promotions'      => ['sometimes', 'array', 'min:1'],
         ],
     ];
 }
