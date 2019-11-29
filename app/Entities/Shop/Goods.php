@@ -79,4 +79,34 @@ class Goods extends Model implements Transformable
     protected $casts = [
         'status' => 'boolean',
     ];
+
+    public function getRecommendPriceAttribute($value)
+    {
+        return $value / 100;
+    }
+
+    public function getPriceAttribute($value)
+    {
+        return $value / 100;
+    }
+
+    public function getCostAttribute($value)
+    {
+        return $value / 100;
+    }
+
+    public function setRecommendPriceAttribute($value)
+    {
+        return $value * 100;
+    }
+
+    public function setPriceAttribute($value)
+    {
+        return $value * 100;
+    }
+
+    public function setCostAttribute($value)
+    {
+        return $value * 100;
+    }
 }
