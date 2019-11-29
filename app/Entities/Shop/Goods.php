@@ -59,16 +59,10 @@ class Goods extends Model implements Transformable
      * @var array
      */
     protected $attributes = [
-        'cost'            => 0,
-        'type'            => 1,
-        'verificate_type' => 1,
-        'delivery_type'   => 1,
-        'pay_type'        => 1,
-        'status'          => 0,
-        'stock'           => 1000000,
-        'sold'            => 0,
-        'expire_start'    => null,
-        'expire_end'      => null,
+        'cost'   => 0,
+        'status' => 0,
+        'stock'  => 1000000,
+        'sold'   => 0,
     ];
 
     /**
