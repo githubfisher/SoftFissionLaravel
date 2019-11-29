@@ -91,16 +91,16 @@ class Goods extends Model implements Transformable
 
     public function setRecommendPriceAttribute($value)
     {
-        return $value * 100;
+        $this->attributes['recommend_price'] = $value * 100;
     }
 
     public function setPriceAttribute($value)
     {
-        return $value * 100;
+        $this->attributes['price'] = $value * 100;
     }
 
     public function setCostAttribute($value)
     {
-        return $value * 100;
+        $this->attributes['cost'] = $value * 100;
     }
 }
