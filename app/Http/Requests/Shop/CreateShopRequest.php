@@ -38,6 +38,7 @@ class CreateShopRequest extends FormRequest
             'country'      => ['sometimes', 'required', 'string', 'alpha_dash'],
             'province'     => ['sometimes', 'required', 'string', 'alpha_dash'],
             'city'         => ['sometimes', 'required', 'string', 'alpha_dash'],
+            'county'       => ['sometimes', 'required', 'string', 'alpha_dash'],
             'address'      => ['sometimes', 'required', 'string', 'alpha_dash'],
             'start_at'     => ['sometimes', 'required', 'date_format:H:i'],
             'end_at'       => ['sometimes', 'required', 'date_format:H:i'],

@@ -18,7 +18,11 @@ class ProjectValidator extends LaravelValidator
      * @var array
      */
     protected $rules = [
-        ValidatorInterface::RULE_CREATE => [],
-        ValidatorInterface::RULE_UPDATE => [],
+        ValidatorInterface::RULE_CREATE => [
+            'name' => ['required', 'string', 'alpha_dash', 'max:64'],
+        ],
+        ValidatorInterface::RULE_UPDATE => [
+            'name' => ['required', 'string', 'alpha_dash', 'max:64'],
+        ],
     ];
 }
