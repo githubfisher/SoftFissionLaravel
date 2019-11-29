@@ -24,7 +24,6 @@ class CreateGoodsRequest extends FormRequest
     {
         return [
             'name'            => ['required', 'string'],
-            'user_id'         => ['required', 'integer'],
             'shop_id'         => ['required', 'integer'],
             'recommend_price' => ['required', 'integer'],
             'price'           => ['required', 'integer'],
