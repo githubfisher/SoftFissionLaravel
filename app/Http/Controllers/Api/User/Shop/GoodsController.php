@@ -13,6 +13,7 @@ use App\Entities\Shop\GoodsPromotions;
 use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\Shop\CreateGoodsRequest;
 use App\Repositories\Shop\GoodsRepositoryEloquent;
+use Prettus\Validator\Exceptions\ValidatorException;
 
 class GoodsController extends Controller
 {
@@ -83,7 +84,11 @@ class GoodsController extends Controller
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+            if ($e instanceof ValidatorException) {
+                Log::warning(__FUNCTION__ . ' ' . $e->getMessageBag()->toJson());
+            } else {
+                Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+            }
 
             return $this->err(FeedBack::CREATE_FAIL);
         }
