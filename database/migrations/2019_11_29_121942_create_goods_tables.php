@@ -40,14 +40,12 @@ class CreateGoodsTables extends Migration
         });
 
         Schema::create('goods_banners', function (Blueprint $table) {
-            $table->increments('id');
             $table->unsignedInteger('goods_id');
             $table->unsignedInteger('banner_id');
             $table->string('banner_type');
             $table->unsignedTinyInteger('sort');
-            $table->timestamps();
 
-            $table->index(['shop_id', 'banner_id', 'banner_type']);
+            $table->primary(['shop_id', 'banner_id', 'banner_type'], 'goods_has_banners_primary');
         });
 
         Schema::create('goods_promotions', function (Blueprint $table) {
