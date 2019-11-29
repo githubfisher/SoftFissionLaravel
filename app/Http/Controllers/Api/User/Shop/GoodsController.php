@@ -82,13 +82,12 @@ class GoodsController extends Controller
                     ]);
                 }
             }
+        } catch (ValidatorException $e) {
+            DB::rollBack();
+            Log::warning(__FUNCTION__ . ' ' . $e->getMessageBag()->toJson());
         } catch (\Exception $e) {
             DB::rollBack();
-            if ($e instanceof ValidatorException) {
-                Log::warning(__FUNCTION__ . ' ' . $e->getMessageBag()->toJson());
-            } else {
-                Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
-            }
+            Log::error(__FUNCTION__ . ' ' . $e->getMessage() . "\n" . $e->getTraceAsString());
 
             return $this->err(FeedBack::CREATE_FAIL);
         }
