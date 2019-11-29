@@ -18,7 +18,7 @@ class CreateGoodsTables extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('shop_id');
             $table->string('name');
-            $table->string('introduction')->comment('简介');
+            $table->string('introduction')->nullable()->comment('简介');
             $table->integer('recommend_price')->comment('建议零售价/划线价');
             $table->integer('price')->comment('售价/优惠价');
             $table->integer('cost')->comment('商品实际价值, 用于到店付计算');
@@ -31,7 +31,7 @@ class CreateGoodsTables extends Migration
             $table->integer('sold')->comment('累计售出');
             $table->dateTime('expire_start')->nullable()->comment('商品/服务兑换有效期');
             $table->dateTime('expire_end')->nullable()->comment('商品/服务兑换有效期');
-            $table->text('details')->comment('商品详情');
+            $table->text('details')->comment('商品详情')->nullable();
             $table->timestamps();
 
             $table->index('shop_id');
