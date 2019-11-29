@@ -15,6 +15,7 @@ class CreateGoodsTables extends Migration
     {
         Schema::create('goods', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('shop_id');
             $table->string('name');
             $table->string('introduction')->comment('简介');

@@ -20,6 +20,7 @@ class Goods extends Model implements Transformable
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'shop_id',
         'name',
         'recommend_price',
@@ -78,6 +79,4 @@ class Goods extends Model implements Transformable
     protected $casts = [
         'status' => 'boolean',
     ];
-
-
 }
