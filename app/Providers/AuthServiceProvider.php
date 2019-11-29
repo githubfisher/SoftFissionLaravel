@@ -3,6 +3,7 @@ namespace App\Providers;
 
 use App\Entities\Shop\Shop;
 use App\Entities\Shop\Brand;
+use App\Entities\Shop\Goods;
 use App\Entities\Menu\WeMenu;
 use App\Entities\Reply\WeRule;
 use App\Entities\Shop\Project;
@@ -10,6 +11,7 @@ use App\Entities\Material\WeNews;
 use App\Entities\QrCode\WeQrcode;
 use App\Policies\User\Shop\ShopPolicy;
 use App\Policies\User\Shop\BrandPolicy;
+use App\Policies\User\Shop\GoodsPolicy;
 use App\Policies\User\Shop\ProjectPolicy;
 use App\Policies\User\OpenPlatform\Menu\WeMenuPolicy;
 use App\Policies\User\OpenPlatform\Reply\WeRulePolicy;
@@ -33,6 +35,7 @@ class AuthServiceProvider extends ServiceProvider
         Shop::class     => ShopPolicy::class,
         Project::class  => ProjectPolicy::class,
         Brand::class    => BrandPolicy::class,
+        Goods::class    => GoodsPolicy::class,
     ];
 
     /**
