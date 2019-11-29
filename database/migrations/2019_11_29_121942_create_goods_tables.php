@@ -41,7 +41,7 @@ class CreateGoodsTables extends Migration
 
         Schema::create('goods_banners', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('shop_id');
+            $table->unsignedInteger('goods_id');
             $table->unsignedInteger('banner_id');
             $table->string('banner_type');
             $table->unsignedTinyInteger('sort');
@@ -51,7 +51,7 @@ class CreateGoodsTables extends Migration
         });
 
         Schema::create('goods_promotions', function (Blueprint $table) {
-            $table->unsignedInteger('shop_id');
+            $table->unsignedInteger('goods_id');
             $table->unsignedInteger('promotion_id');
 
             $table->primary(['shop_id', 'promotion_id']);
@@ -59,6 +59,7 @@ class CreateGoodsTables extends Migration
 
         Schema::create('promotions', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('shop_id');
             $table->unsignedTinyInteger('group_id')->comment('促销类型分组');
             $table->unsignedTinyInteger('sort')->comment('排序 0起, 序号越大优先级越大');
