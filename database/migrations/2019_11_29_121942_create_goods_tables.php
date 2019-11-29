@@ -14,9 +14,9 @@ class CreateGoodsTables extends Migration
     public function up()
     {
         Schema::create('goods', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('shop_id');
+            $table->increments('id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('shop_id');
             $table->string('name');
             $table->string('introduction')->comment('简介');
             $table->integer('recommend_price')->comment('建议零售价/划线价');
@@ -40,9 +40,9 @@ class CreateGoodsTables extends Migration
         });
 
         Schema::create('goods_banners', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('shop_id');
-            $table->unsignedBigInteger('banner_id');
+            $table->increments('id');
+            $table->unsignedInteger('shop_id');
+            $table->unsignedInteger('banner_id');
             $table->string('banner_type');
             $table->unsignedTinyInteger('sort');
             $table->timestamps();
@@ -51,15 +51,15 @@ class CreateGoodsTables extends Migration
         });
 
         Schema::create('goods_promotions', function (Blueprint $table) {
-            $table->unsignedBigInteger('shop_id');
-            $table->unsignedBigInteger('promotion_id');
+            $table->unsignedInteger('shop_id');
+            $table->unsignedInteger('promotion_id');
 
             $table->primary(['shop_id', 'promotion_id']);
         });
 
         Schema::create('promotions', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('shop_id');
+            $table->increments('id');
+            $table->unsignedInteger('shop_id');
             $table->unsignedTinyInteger('group_id')->comment('促销类型分组');
             $table->unsignedTinyInteger('sort')->comment('排序 0起, 序号越大优先级越大');
             $table->unsignedTinyInteger('min_count')->comment('最小数量');

@@ -14,8 +14,8 @@ class CreateWechatAppTable extends Migration
     public function up()
     {
         Schema::create('we_apps', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->increments('id');
+            $table->unsignedInteger('user_id');
             $table->string('app_id', 20);
             $table->string('nick_name', 32);
             $table->string('head_img');

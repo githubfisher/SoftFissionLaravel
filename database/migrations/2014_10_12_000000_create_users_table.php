@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->unsignedInteger('pid');
             $table->string('name', 64)->nullable();
             $table->char('mobile', 11)->unique()->nullable();
@@ -30,7 +30,7 @@ class CreateUsersTable extends Migration
         });
 
         Schema::create('operations', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->unsignedInteger('pid')->default(0);
             $table->string('name', 64)->default('');
             $table->char('mobile', 11)->unique()->nullable();
@@ -46,7 +46,7 @@ class CreateUsersTable extends Migration
         });
 
         Schema::create('admins', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->unsignedInteger('pid')->default(0);
             $table->string('name', 64)->default('');
             $table->char('mobile', 11)->unique()->nullable();

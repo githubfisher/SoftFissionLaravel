@@ -14,7 +14,7 @@ class CreateMaterialNewsTables extends Migration
     public function up()
     {
         Schema::create('we_news', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('app_id', 20);
             $table->string('media_id', 64)->nullable();
             $table->timestamps();
@@ -23,8 +23,8 @@ class CreateMaterialNewsTables extends Migration
         });
 
         Schema::create('we_news_detail', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('news_id');
+            $table->increments('id');
+            $table->unsignedInteger('news_id');
             $table->string('thumb_media_id', 64)->nullable()->comment('图文消息的封面图片素材id（必须是永久mediaID）');
             $table->unsignedTinyInteger('sort');
             $table->unsignedTinyInteger('show_cover_pic')->comment('是否显示封面，0为false，即不显示，1为true，即显示');
@@ -35,8 +35,8 @@ class CreateMaterialNewsTables extends Migration
             $table->string('url')->nullable()->comment('图文页的URL');
             $table->string('content_source_url')->nullable()->comment('图文消息的原文地址，即点击“阅读原文”后的URL');
             $table->text('content')->nullable()->comment('图文消息的具体内容，支持HTML标签，必须少于2万字符，小于1M，且此处会去除JS');
-            $table->unsignedBigInteger('poster_id')->nullable()->comment('趣味封面ID');
-            $table->unsignedBigInteger('image_id')->comment('图片ID');
+            $table->unsignedInteger('poster_id')->nullable()->comment('趣味封面ID');
+            $table->unsignedInteger('image_id')->comment('图片ID');
             $table->timestamps();
 
             $table->foreign('news_id')
@@ -48,7 +48,7 @@ class CreateMaterialNewsTables extends Migration
         });
 
         Schema::create('we_image', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('app_id', 20)->default('');
             $table->string('scene', 9)->nullable()->default('');
             $table->string('name', 64)->nullable()->default('');
@@ -62,7 +62,7 @@ class CreateMaterialNewsTables extends Migration
         });
 
         Schema::create('we_video', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('app_id', 20)->default('');
             $table->string('scene', 9)->nullable()->default('');
             $table->string('name', 64)->nullable()->default('');
@@ -77,7 +77,7 @@ class CreateMaterialNewsTables extends Migration
         });
 
         Schema::create('we_voice', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('app_id', 20)->default('');
             $table->string('scene', 9)->nullable()->default('');
             $table->string('name', 64)->nullable()->default('');
@@ -91,7 +91,7 @@ class CreateMaterialNewsTables extends Migration
         });
 
         Schema::create('we_thumb', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('app_id', 20)->default('');
             $table->string('scene', 9)->nullable()->default('');
             $table->string('name', 64)->nullable()->default('');

@@ -14,9 +14,9 @@ class CreateQrCodeTables extends Migration
     public function up()
     {
         Schema::create('we_qrcodes', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('app_id', 20);
-            $table->unsignedBigInteger('rule_id');
+            $table->unsignedInteger('rule_id');
             $table->string('title');
             $table->unsignedTinyInteger('type')->comment('类型: 1临时 2永久');
             $table->unsignedInteger('target_num')->comment('目标数量');
@@ -31,8 +31,8 @@ class CreateQrCodeTables extends Migration
         });
 
         Schema::create('we_qrcode_details', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('qrcode_id')->comment('二维码ID');
+            $table->increments('id');
+            $table->unsignedInteger('qrcode_id')->comment('二维码ID');
             $table->string('batch', 12)->comment('批次号: ymdHi');
             $table->string('scene_str')->comment('二维码信息');
             $table->unsignedInteger('scan_num')->comment('扫码数量统计');

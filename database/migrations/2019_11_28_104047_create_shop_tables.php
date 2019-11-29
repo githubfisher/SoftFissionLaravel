@@ -14,11 +14,11 @@ class CreateShopTables extends Migration
     public function up()
     {
         Schema::create('shops', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->increments('id');
+            $table->unsignedInteger('user_id');
             $table->unsignedTinyInteger('type')->comment('店铺类型');
             $table->string('name')->comment('店名');
-            $table->unsignedBigInteger('mobile');
+            $table->unsignedInteger('mobile');
             $table->string('introduction')->nullable()->comment('简介');
             $table->string('headimgurl')->nullable()->comment('店铺图标');
             $table->string('telephone')->nullable();
@@ -44,25 +44,25 @@ class CreateShopTables extends Migration
         });
 
         Schema::create('projects', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('name')->comment('经营项目名称');
         });
 
         Schema::create('shops_projects', function (Blueprint $table) {
-            $table->unsignedBigInteger('shop_id');
-            $table->unsignedBigInteger('project_id');
+            $table->unsignedInteger('shop_id');
+            $table->unsignedInteger('project_id');
 
             $table->primary(['shop_id', 'project_id'], 'shop_has_projects_shop_id_project_id_primary');
         });
 
         Schema::create('brands', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('name')->comment('品牌/品种名称');
         });
 
         Schema::create('shops_brands', function (Blueprint $table) {
-            $table->unsignedBigInteger('shop_id');
-            $table->unsignedBigInteger('brand_id');
+            $table->unsignedInteger('shop_id');
+            $table->unsignedInteger('brand_id');
 
             $table->primary(['shop_id', 'brand_id'], 'shop_has_brands_shop_id_brand_id_primary');
         });
