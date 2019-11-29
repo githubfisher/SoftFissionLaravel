@@ -61,6 +61,7 @@ class GoodsController extends Controller
             $params            = $request->all();
             $columns           = app()->make(Goods::class)->getFillable();
             $params['user_id'] = $this->user->id;
+            dd(Arr::only($params, $columns));
             $goods             = $this->repository->create(Arr::only($params, $columns));
 
             foreach ($request->input('banners') as $key => $banner) {
