@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Auth\ResetNameRequest;
 use App\Repositories\User\UserRepositoryEloquent;
 use App\Http\Requests\User\Auth\ResetMobileRequest;
+use App\Http\Requests\User\Auth\SetPasswordRequest;
 use App\Http\Requests\User\Auth\ResetPasswordRequest;
 
 class UserController extends Controller
@@ -83,5 +84,22 @@ class UserController extends Controller
         }
 
         return $this->err(FeedBack::PASSWORD_INCORRECT);
+    }
+
+    /**
+     * 设置密码
+     *
+     * @param SetPasswordRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function setPassword(SetPasswordRequest $request)
+    {
+        if ($res = $this->repository->update(['password' => Hash::make($request->get('password'))], $this->user()->id)) {
+            return $this->suc();
+        }
+
+        return $this->err(FeedBack::PASSWORD_RESET_FAIL);
     }
 }
