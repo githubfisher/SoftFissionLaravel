@@ -76,7 +76,7 @@ $api->version('v1', [
             $api->get('sms-code', 'Auth\SmsCodeController@getCodeByCode');
             $api->put('remobile', 'User\UserController@resetMobile');
             $api->put('repwd', 'User\UserController@resetPassword');
-            $api->put('set-pwd', 'User\UserController@setPassword');
+            $api->post('set-pwd', 'User\UserController@setPassword');
         });
 
         // 权限
