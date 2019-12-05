@@ -22,7 +22,7 @@ class Controller extends BaseController
      */
     public function suc($data = [], $status = 200, $headers = [])
     {
-        return response()->json(array_merge(['code' => 0, 'message' => 'success'], $data), $status, $headers);
+        return response()->json(['code' => 0, 'message' => 'success', 'data' => $data], $status, $headers);
     }
 
     /**
