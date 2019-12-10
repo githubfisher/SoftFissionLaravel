@@ -23,7 +23,7 @@ class PermissionController extends Controller
 
     public function index(PaginateRequest $request)
     {
-        $list = $this->permission->guard($this->guard)->paginate($request->input('limit', Constant::PAGINATE_MIN));
+        $list = $this->permission->guardOf($this->guard)->paginate($request->input('limit', Constant::PAGINATE_MIN));
 
         return $this->suc(compact('list'));
     }
