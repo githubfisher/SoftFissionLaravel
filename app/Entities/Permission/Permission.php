@@ -9,4 +9,9 @@ class Permission extends \Spatie\Permission\Models\Permission
     {
         return $query->where('guard_name', $guard);
     }
+
+    public function scopeRecent(Builder $query)
+    {
+        return $query->orderBy('id', 'desc');
+    }
 }
