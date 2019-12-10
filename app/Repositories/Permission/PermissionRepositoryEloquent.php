@@ -1,7 +1,7 @@
 <?php
 namespace App\Repositories\Permission;
 
-use Spatie\Permission\Models\Permission;
+use App\Entities\Permission\Permission;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Traits\CacheableRepository;

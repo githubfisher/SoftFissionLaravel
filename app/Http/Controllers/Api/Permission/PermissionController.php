@@ -1,8 +1,10 @@
 <?php
 namespace App\Http\Controllers\Api\Permission;
 
+use App\Utilities\Constant;
 use App\Utilities\FeedBack;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\Permission\CreateRequest;
 use App\Repositories\User\UserRepositoryEloquent;
 use App\Repositories\Permission\RoleRepositoryEloquent;
@@ -19,9 +21,9 @@ class PermissionController extends Controller
         $this->guard      = Config('auth.defaults.guard');
     }
 
-    public function index()
+    public function index(PaginateRequest $request)
     {
-        $list = $this->permission->findWhere(['guard_name' => $this->guard]);
+        $list = $this->permission->guard($this->guard)->paginate($request->input('limit', Constant::PAGINATE_MIN));
 
         return $this->suc(compact('list'));
     }
